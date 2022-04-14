@@ -2,6 +2,15 @@
 
 UW CSE 403 Spring 2022 Group Project
 
+## Project Structure
+
+- Shared: The main SwiftUI codebase for FunGen.
+- macOS: SwiftUI allows running code on macOS at the same time.
+    Any macOS specific code or resources files will be in this directory.
+- reports: weekly reports for communicating with our TA/project manager.
+- Configuration: to support building the project using different Apple IDs
+- BuildTools: for running Swift Format automatically, ensuring consistent style
+
 ## Academic Integrity
 
 While the Allen School institutes an academic misconduct policy where
