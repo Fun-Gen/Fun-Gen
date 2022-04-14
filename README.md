@@ -2,7 +2,13 @@
 
 UW CSE 403 Spring 2022 Group Project
 
-## Project Structure
+## Get Started
+
+Follow the [setup guide](https://github.com/Fun-Gen/Fun-Gen/wiki/Setup) to build the project.
+If you are new to SwiftUI, you can follow UWAppDev's guide on
+[getting started with SwiftUI](https://uwdev.app/resources/getting-started/swiftui).
+
+### Project Structure
 
 - Shared: The main SwiftUI codebase for FunGen.
 - macOS: SwiftUI allows running code on macOS at the same time.
