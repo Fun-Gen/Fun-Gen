@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var _test: Bool = true
-    
     var body: some View {
         Text("Hello, Fun Gen!")
             .padding()
