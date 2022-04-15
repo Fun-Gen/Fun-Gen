@@ -15,7 +15,6 @@ If you are new to SwiftUI, you can follow UWAppDev's guide on
     Any macOS specific code or resources files will be in this directory.
 - reports: weekly reports for communicating with our TA/project manager.
 - Configuration: to support building the project using different Apple IDs
-- BuildTools: for running Swift Format automatically, ensuring consistent style
 
 ## Academic Integrity
 

@@ -23,7 +23,7 @@
 		DB3CA95D2808BD4E004094F4 /* Fun Gen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fun Gen.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB3CA95F2808BD4E004094F4 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		DB3CA9702808C104004094F4 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SampleCode.xcconfig; sourceTree = "<group>"; };
-		DB3CA97A2808E039004094F4 /* BuildTools */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = BuildTools; sourceTree = "<group>"; };
+		DBD075D8280A2C2A00B813D2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,10 +47,10 @@
 		DB3CA94A2808BD4C004094F4 = {
 			isa = PBXGroup;
 			children = (
+				DBD075D8280A2C2A00B813D2 /* README.md */,
 				DB3CA94F2808BD4C004094F4 /* Shared */,
 				DB3CA95E2808BD4E004094F4 /* macOS */,
 				DB3CA96E2808BDC8004094F4 /* Configuration */,
-				DB3CA97A2808E039004094F4 /* BuildTools */,
 				DB3CA9582808BD4E004094F4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,7 +98,7 @@
 			buildConfigurationList = DB3CA9682808BD4E004094F4 /* Build configuration list for PBXNativeTarget "Fun Gen (iOS)" */;
 			buildPhases = (
 				DB3CA9532808BD4E004094F4 /* Sources */,
-				DB3CA97B2808E04C004094F4 /* Swift Format */,
+				DB3CA97B2808E04C004094F4 /* Swift Lint */,
 				DB3CA9542808BD4E004094F4 /* Frameworks */,
 				DB3CA9552808BD4E004094F4 /* Resources */,
 			);
@@ -116,7 +116,7 @@
 			buildConfigurationList = DB3CA96B2808BD4E004094F4 /* Build configuration list for PBXNativeTarget "Fun Gen (macOS)" */;
 			buildPhases = (
 				DB3CA9592808BD4E004094F4 /* Sources */,
-				DB3CA97C2808E06F004094F4 /* Swift Format */,
+				DB3CA97C2808E06F004094F4 /* Swift Lint */,
 				DB3CA95A2808BD4E004094F4 /* Frameworks */,
 				DB3CA95B2808BD4E004094F4 /* Resources */,
 			);
@@ -186,7 +186,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		DB3CA97B2808E04C004094F4 /* Swift Format */ = {
+		DB3CA97B2808E04C004094F4 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -195,16 +195,16 @@
 			);
 			inputPaths = (
 			);
-			name = "Swift Format";
+			name = "Swift Lint";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\n#swift package update #Uncomment this line temporarily to update the version used to the latest matching your BuildTools/Package.swift file\nswift run -c release swiftformat \"$SRCROOT\"\n";
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		DB3CA97C2808E06F004094F4 /* Swift Format */ = {
+		DB3CA97C2808E06F004094F4 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -213,14 +213,14 @@
 			);
 			inputPaths = (
 			);
-			name = "Swift Format";
+			name = "Swift Lint";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\n#swift package update #Uncomment this line temporarily to update the version used to the latest matching your BuildTools/Package.swift file\nswift run -c release swiftformat \"$SRCROOT\"\n";
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
