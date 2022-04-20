@@ -37,13 +37,13 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    func signUp(email: String, firstName: String, lastName: String, password: String) {
+    func signUp(email: String, username: String, password: String) {
         auth.createUser(withEmail: email, password: password) { [weak self] result, error in
             guard result != nil, error == nil else {
                 return
             }
             DispatchQueue.main.async {
-                self?.add(User(firstName: firstName, lastName: lastName))
+                self?.add(User(username: username))
                 self?.sync()
             }
         }
@@ -59,7 +59,7 @@ class UserViewModel: ObservableObject {
     }
     
     // Firestore Functions for User Data
-    // Note: try using snapshot listener instead of calling sync function
+    // FIXME: try using snapshot listener instead of calling sync function
     private func sync() {
         guard userIsAuthenticated, let uuid = uuid else { return }
         database.collection("users").document(uuid).getDocument { document, error in

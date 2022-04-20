@@ -16,18 +16,19 @@ struct Fun_GenApp: App {
     
     var body: some Scene {
         WindowGroup {
-            let user = UserViewModel()
             ContentView()
-                .environmentObject(user)
+                .environmentObject(UserViewModel())
         }
     }
 }
 
 // firebase init
 class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    FirebaseApp.configure()
-    return true
+  func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+        ) -> Bool {
+            FirebaseApp.configure()
+            return true
   }
 }

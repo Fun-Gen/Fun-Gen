@@ -8,7 +8,6 @@
 import Foundation
 
 struct User: Codable {
-    let firstName: String
-    let lastName: String
+    let username: String
     var signUpDate = Date.now
 }

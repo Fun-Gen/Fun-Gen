@@ -42,13 +42,11 @@ struct SignUpView: View {
     @EnvironmentObject var user: UserViewModel
     @State private var email = ""
     @State private var password = ""
-    @State private var firstName = ""
-    @State private var lastName = ""
+    @State private var username = ""
     
     var body: some View {
         VStack {
-            TextField("First Name", text: $firstName)
-            TextField("Last Name", text: $lastName)
+            TextField("Username", text: $username)
             TextField("Email", text: $email)
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
@@ -56,7 +54,7 @@ struct SignUpView: View {
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
             Button {
-                user.signUp(email: email, firstName: firstName, lastName: lastName, password: password)
+                user.signUp(email: email, username: username, password: password)
             } label: {
                 Text("Sign Up")
             }

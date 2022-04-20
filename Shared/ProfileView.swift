@@ -12,7 +12,7 @@ struct ProfileView: View {
     
     var body: some View {
         VStack {
-            Text("Successfully authenticated \(user.user?.firstName ?? "") \(user.user?.lastName ?? "")")
+            Text("Successfully authenticated \(user.user?.username ?? "")")
             Button {
                 user.signOut()
             } label: {
@@ -25,6 +25,6 @@ struct ProfileView: View {
  struct ProfileView_Previews: PreviewProvider {
      static var previews: some View {
          ProfileView()
-        .environmentObject(UserViewModel())
+             .environmentObject(UserViewModel())
      }
  }
