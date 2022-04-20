@@ -29,11 +29,13 @@ If you are new to SwiftUI, you can follow UWAppDev's guide on
 
 ### Project Structure
 
-- Shared: The main SwiftUI codebase for FunGen.
-- macOS: SwiftUI allows running code on macOS at the same time.
+- `Fun Gen.xcodeproj`: Xcode project file.
+- `Shared`: The main SwiftUI codebase for Fun Gen.
+- `macOS`: SwiftUI allows running code on macOS at the same time.
     Any macOS specific code or resources files will be in this directory.
-- reports: weekly reports for communicating with our TA/project manager.
-- Configuration: to support building the project using different Apple IDs
+- `reports`: weekly reports for communicating with our TA/project manager.
+- `Configuration`: to support building the project using different Apple IDs.
+- `.github`: configuration files for GitHub related settings.
 
 ## Academic Integrity
 
