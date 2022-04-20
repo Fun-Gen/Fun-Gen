@@ -12,7 +12,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            if user.userIsAuthenticatedAndSynced {
+            if user.userIsAuthenticated {
                 ProfileView()
             } else {
                 AuthenticationView()
