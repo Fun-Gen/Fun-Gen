@@ -24,11 +24,11 @@ struct Fun_GenApp: App {
 
 // firebase init
 class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(
+    func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-        ) -> Bool {
-            FirebaseApp.configure()
-            return true
-  }
+    ) -> Bool {
+        FirebaseApp.configure()
+        return true
+    }
 }
