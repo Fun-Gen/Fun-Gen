@@ -102,13 +102,10 @@
 		DB3CA94F2808BD4C004094F4 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				DB3CA9502808BD4C004094F4 /* Fun_GenApp.swift */,
-				DB3CA9512808BD4C004094F4 /* ContentView.swift */,
-				843ADA8C280E3E3400ABE3DB /* ProfileView.swift */,
-				843ADA8F280E3E9D00ABE3DB /* AuthenticationView.swift */,
+				DB5A8BB528128735001D22D2 /* Model */,
+				DB5A8BB42812872B001D22D2 /* View */,
+				DB5A8BB628128741001D22D2 /* ViewModel */,
 				DB3CA9522808BD4E004094F4 /* Assets.xcassets */,
-				843ADA80280E31E100ABE3DB /* User.swift */,
-				843ADA83280E32B100ABE3DB /* UserViewModel.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -137,6 +134,33 @@
 			);
 			path = Configuration;
 			sourceTree = SOURCE_ROOT;
+		};
+		DB5A8BB42812872B001D22D2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DB3CA9502808BD4C004094F4 /* Fun_GenApp.swift */,
+				DB3CA9512808BD4C004094F4 /* ContentView.swift */,
+				843ADA8C280E3E3400ABE3DB /* ProfileView.swift */,
+				843ADA8F280E3E9D00ABE3DB /* AuthenticationView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DB5A8BB528128735001D22D2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				843ADA80280E31E100ABE3DB /* User.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		DB5A8BB628128741001D22D2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				843ADA83280E32B100ABE3DB /* UserViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 

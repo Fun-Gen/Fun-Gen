@@ -31,6 +31,9 @@ If you are new to SwiftUI, you can follow UWAppDev's guide on
 
 - `Fun Gen.xcodeproj`: Xcode project file.
 - `Shared`: The main SwiftUI codebase for Fun Gen.
+    - `Model`: data structure definitions.
+    - `View`: user interface.
+    - `ViewModel`: bindings and operations for model, interfacing with Firebase.
 - `macOS`: SwiftUI allows running code on macOS at the same time.
     Any macOS specific code or resources files will be in this directory.
 - `reports`: weekly reports for communicating with our TA/project manager.
