@@ -2,7 +2,7 @@
 //  UserViewModel.swift
 //  Fun Gen
 //
-//  Created by jules on 4/18/22.
+//  Created by Julian Burrington on 4/18/22.
 //
 
 import Foundation
@@ -42,8 +42,11 @@ class UserViewModel: ObservableObject {
             guard result != nil, error == nil else {
                 return
             }
+            // constants for retrieving newly generated Firebase user ID
+            let getUser = Auth.auth().currentUser
+            let userID: String = getUser?.uid ?? ""
             DispatchQueue.main.async {
-                self?.add(User(username: username))
+                self?.add(User(id: userID, username: username, email: email))
                 self?.sync()
             }
         }

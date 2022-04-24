@@ -2,12 +2,14 @@
 //  User.swift
 //  Fun Gen
 //
-//  Created by jules on 4/18/22.
+//  Created by Julian Burrington on 4/18/22.
 //
 
 import Foundation
 
 struct User: Codable {
-    let username: String
-    var signUpDate = Date.now
+    var id: String
+    var username: String
+    var email: String
+    var activities: [Activity] = []
 }

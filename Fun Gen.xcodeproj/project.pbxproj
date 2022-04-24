@@ -26,6 +26,12 @@
 		DB3CA9632808BD4E004094F4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3CA9512808BD4C004094F4 /* ContentView.swift */; };
 		DB3CA9642808BD4E004094F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB3CA9522808BD4E004094F4 /* Assets.xcassets */; };
 		DB3CA9652808BD4E004094F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB3CA9522808BD4E004094F4 /* Assets.xcassets */; };
+		E376A3042814E5D00071825F /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376A3032814E5D00071825F /* Activity.swift */; };
+		E376A3052814E5D00071825F /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376A3032814E5D00071825F /* Activity.swift */; };
+		E376A3072814E5ED0071825F /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376A3062814E5ED0071825F /* Option.swift */; };
+		E376A3082814E5ED0071825F /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376A3062814E5ED0071825F /* Option.swift */; };
+		E376A30A2814E6140071825F /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376A3092814E6140071825F /* Category.swift */; };
+		E376A30B2814E6140071825F /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376A3092814E6140071825F /* Category.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +50,9 @@
 		DB3CA95F2808BD4E004094F4 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		DB3CA9702808C104004094F4 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SampleCode.xcconfig; sourceTree = "<group>"; };
 		DBD075D8280A2C2A00B813D2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E376A3032814E5D00071825F /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		E376A3062814E5ED0071825F /* Option.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Option.swift; sourceTree = "<group>"; };
+		E376A3092814E6140071825F /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +141,9 @@
 			isa = PBXGroup;
 			children = (
 				843ADA80280E31E100ABE3DB /* User.swift */,
+				E376A3032814E5D00071825F /* Activity.swift */,
+				E376A3062814E5ED0071825F /* Option.swift */,
+				E376A3092814E6140071825F /* Category.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -294,9 +306,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E376A3072814E5ED0071825F /* Option.swift in Sources */,
 				DB3CA9622808BD4E004094F4 /* ContentView.swift in Sources */,
 				843ADA84280E32B100ABE3DB /* UserViewModel.swift in Sources */,
+				E376A3042814E5D00071825F /* Activity.swift in Sources */,
 				843ADA90280E3E9D00ABE3DB /* AuthenticationView.swift in Sources */,
+				E376A30A2814E6140071825F /* Category.swift in Sources */,
 				843ADA8D280E3E3400ABE3DB /* ProfileView.swift in Sources */,
 				DB3CA9602808BD4E004094F4 /* Fun_GenApp.swift in Sources */,
 				843ADA81280E31E100ABE3DB /* User.swift in Sources */,
@@ -307,9 +322,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E376A3082814E5ED0071825F /* Option.swift in Sources */,
 				DB3CA9632808BD4E004094F4 /* ContentView.swift in Sources */,
 				843ADA85280E32B100ABE3DB /* UserViewModel.swift in Sources */,
+				E376A3052814E5D00071825F /* Activity.swift in Sources */,
 				843ADA91280E3E9D00ABE3DB /* AuthenticationView.swift in Sources */,
+				E376A30B2814E6140071825F /* Category.swift in Sources */,
 				843ADA8E280E3E3400ABE3DB /* ProfileView.swift in Sources */,
 				DB3CA9612808BD4E004094F4 /* Fun_GenApp.swift in Sources */,
 				843ADA82280E31E100ABE3DB /* User.swift in Sources */,

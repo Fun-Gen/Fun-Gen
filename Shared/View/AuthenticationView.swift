@@ -2,7 +2,7 @@
 //  AuthenticationView.swift
 //  Fun Gen
 //
-//  Created by jules on 4/18/22.
+//  Created by Julian Burrington on 4/18/22.
 //
 
 import SwiftUI
