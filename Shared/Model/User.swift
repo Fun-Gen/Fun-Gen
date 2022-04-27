@@ -7,9 +7,15 @@
 
 import Foundation
 
+/// Stores information to identify the **User** and each **Activity** they are subscribed to
 struct User: Codable {
+    /// Unique database ID
     var id: String
+    
+    /// Entered during **User** signup
     var username: String
     var email: String
-    var activities: [Activity] = []
+    
+    /// Array of *Activity.id*
+    var activities: [String] = []
 }

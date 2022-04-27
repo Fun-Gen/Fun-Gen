@@ -7,6 +7,15 @@
 
 import Foundation
 
+/// Broadly categorizes an **Activity** for future Fun Gen features (e.g. recently used **Options**)
 enum Category: Codable {
-    case outdoor, game, destination, movie, tvShow, food, drinking, custom
+    case outdoor
+    case game
+    case destination
+    case movie
+    case tvShow
+    case food
+    case drinking
+    case shopping
+    case other
 }
