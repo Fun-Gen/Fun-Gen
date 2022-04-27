@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Stores information to identify the **User** and each **Activity** they are subscribed to
+/// Stores information to identify the **User** and references each **Activity** they are subscribed to
 struct User: Codable {
     /// Unique database ID
     var id: String
