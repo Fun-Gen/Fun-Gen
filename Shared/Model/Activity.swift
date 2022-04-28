@@ -27,6 +27,6 @@ struct Activity: Codable {
     /// Array of *Option.id*
     var options: [String] = []
     
-    /// Sum votes for this **Activity**
+    /// Sum of votes for this **Activity**
     var voteCount: Int
 }
