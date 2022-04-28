@@ -7,26 +7,29 @@
 
 import Foundation
 
-/// An **Activity** is the overall event that a **User** can suggest an **Option** for
+/// An ``Activity`` is the overall event that a ``User`` can suggest an ``Option`` for.
 ///
-/// Stores references to all **Options** and **Users** for this **Activity**
-struct Activity: Codable {
-    /// Unique database ID
-    var id: String
+/// Stores references to all ``Option``s and ``User``s for this ``Activity``
+struct Activity: Codable, Identifiable {
+    typealias ID = String
     
-    /// Entered during **Activity** creation
+    /// Unique database ID
+    var id: ID
+    
+    /// Entered during ``Activity`` creation
     var title: String
     var category: Category
     
-    /// *User.id*
-    var author: String
+    /// Original creator of this ``Activity``
+    var author: User.ID
     
-    /// Array of *User.id*
-    var members: [String] = []
+    /// Contains all ``User``s that are participating in this ``Activity``
+    var members: [User.ID] = []
     
-    /// Array of *Option.id*
-    var options: [String] = []
+    /// FIXME: Make this a tuple of (Option.ID, [User.ID])
+    /// Contains all ``Option``s suggested by ``members``
+    var options: [Option.ID] = []
     
-    /// Sum of votes for this **Activity**
+    /// Sum of votes for this ``Activity``
     var voteCount: Int
 }

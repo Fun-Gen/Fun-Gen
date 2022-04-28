@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// Broadly categorizes an **Activity** for future Fun Gen features (e.g. recently used **Options**)
-enum Category: Codable {
+/// Broadly categorizes an ``Activity`` for future Fun Gen features (e.g. recently used ``Option``s)
+enum Category: String, Codable, CaseIterable {
     case outdoor
     case game
     case destination
@@ -17,5 +17,4 @@ enum Category: Codable {
     case food
     case drinking
     case shopping
-    case other
 }

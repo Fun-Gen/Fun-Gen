@@ -7,15 +7,17 @@
 
 import Foundation
 
-/// Stores information to identify the **User** and references each **Activity** they are subscribed to
-struct User: Codable {
-    /// Unique database ID
-    var id: String
+/// Stores information to identify the ``User`` and references each ``Activity`` they are subscribed to
+struct User: Codable, Identifiable {
+    typealias ID = String
     
-    /// Entered during **User** signup
+    /// Unique database ID
+    var id: ID
+    
+    /// Entered during ``User`` signup
     var username: String
     var email: String
     
-    /// Array of *Activity.id*
-    var activities: [String] = []
+    /// Contains all ``Activity`` a ``User`` is participating in
+    var activities: [Activity.ID] = []
 }

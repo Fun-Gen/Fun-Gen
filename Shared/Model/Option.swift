@@ -7,22 +7,26 @@
 
 import Foundation
 
-/// An **Option** is what a **User** suggests for the **Activity** which will be voted on or randomly selected
+/// An ``Option`` is what a ``User`` suggests for the ``Activity`` which will be voted on or randomly selected
 ///
-/// Stores reference to all **Users** who vote for this **Option**
-struct Option: Codable {
-    /// Unique database ID
-    var id: String
+/// Stores reference to all ``User``s who vote for this ``Option``
+struct Option: Codable, Identifiable {
+    typealias ID = String
     
-    /// Entered during **Option** creation
+    /// Unique database ID
+    var id: ID
+    
+    /// Entered during ``Option`` creation
     var title: String
     
-    /// *User.id*
-    var author: String
+    /// Original creator of this ``Option``
+    var author: User.ID
     
-    /// Array of *User.id*
-    var members: [String] = []
+    /// Users who voted on this ``Option``
+    var members: [User.ID] = []
     
-    /// Sum of votes for this **Option**
-    var voteCount: Int
+    /// Sum of votes for this ``Option``
+    var voteCount: Int {
+        members.count
+    }
 }

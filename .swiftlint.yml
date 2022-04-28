@@ -65,6 +65,8 @@ trailing_whitespace:
   ignores_empty_lines: true
 type_name:
   allowed_symbols: "_"
+  excluded:
+    - ID
 unavailable_function:
   severity: error
 unused_import:
