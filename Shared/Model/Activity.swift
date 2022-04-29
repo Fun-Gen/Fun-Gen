@@ -26,9 +26,8 @@ struct Activity: Codable, Identifiable {
     /// Contains all ``User``s that are participating in this ``Activity``
     var members: [User.ID] = []
     
-    /// FIXME: Make this a tuple of (Option.ID, [User.ID])
-    /// Contains all ``Option``s suggested by ``members``
-    var options: [Option.ID] = []
+    /// Contains all ``PollOption``s suggested by ``members``
+    var options: [PollOption] = []
     
     /// Sum of votes for this ``Activity``
     var voteCount: Int

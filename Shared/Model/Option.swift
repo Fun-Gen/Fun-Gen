@@ -18,15 +18,4 @@ struct Option: Codable, Identifiable {
     
     /// Entered during ``Option`` creation
     var title: String
-    
-    /// Original creator of this ``Option``
-    var author: User.ID
-    
-    /// Users who voted on this ``Option``
-    var members: [User.ID] = []
-    
-    /// Sum of votes for this ``Option``
-    var voteCount: Int {
-        members.count
-    }
 }
