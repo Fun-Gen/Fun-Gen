@@ -11,27 +11,29 @@ struct TempCreateActivityView: View {
     @State private var selectedCategory: Category = .outdoor
 
     var body: some View {
-        VStack {
-            Text("Create Activity View")
-            // Input activity title and update the state variable
-            // Input the category and update the state variable
+        VStack(alignment: .leading) {
+            Text("Create Activity View").padding()
+            Text("Input Activity").font(.title).padding()
+            // Input activity title and update the activity variable in Activity.swift
+            TextField("Enter in activity title", text: .constant("")).padding()
+            // Once user selects the category, update the category state in Activity.swift
             HStack {
-                Text("Categories:")
+                Text("Select Category:")
                 // Loop through the category enum in Category.swift using a picker
                 Picker("Category", selection: $selectedCategory) {
                     ForEach(Category.allCases, id: \.self) { category in
                         Text(category.rawValue.capitalized)
                     }
                 }
-            }
+            }.padding()
             Spacer()
             HStack {
                 Spacer()
                 NavigationLink(destination: TempLandingView()) {
                     Text("Create")
                 }
-            }.padding()
-        }
+            }
+        }.padding()
     }
 }
 

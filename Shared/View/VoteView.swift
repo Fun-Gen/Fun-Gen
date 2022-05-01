@@ -23,6 +23,8 @@ struct VoteView: View {
             // You should just be able to scroll
             // through the options, I think
             ScrollView {
+                Text("Options").font(.title)
+                
             }
             Spacer()
             HStack {
