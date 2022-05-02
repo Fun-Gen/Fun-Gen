@@ -25,8 +25,11 @@ struct VoteView: View {
             Text(tempActivty.title).font(.title3)
             Text("Category: \(tempActivty.category.rawValue.capitalized)").foregroundColor(.secondary)
             Text("Options").font(.title).padding(.top)
+            // Option selection
             ScrollView {
                 VStack(alignment: .leading) {
+                    // TODO: UI is interactable, but does not update fields when user inputs data
+                    // TODO: update voteCount += 1 when an option is selected
                     ForEach(optionArray, id: \.self) { item in
                         Button(action: { self.isSelected = item }) {
                             Text(item)
@@ -42,12 +45,11 @@ struct VoteView: View {
                     }.padding(4)
                 }
             }
-       
             Spacer()
             HStack {
                 Spacer()
                 NavigationLink(destination: TempLandingView()) {
-                    Button("Done") { tempActivty.voteCount += 1 }
+                    Text("Done")
                 }
             }
         }.navigationTitle("Vote").padding()
