@@ -8,18 +8,16 @@
 import SwiftUI
 
 struct VoteView: View {
-    // Testing Hardcoded values
-    var tempActivty = Activity(
+    // Hardcoded values to test
+    @State private var tempActivty = Activity(
         id: "123",
         title: "What movie should we watch tonight?",
         category: Category.movie,
         author: "mightyDonut",
         voteCount: 3
     )
-    var optionArray = ["Shrek", "Wall-E", "ET"]
-    
-    @State var isSelected = ""
-    
+    @State private var optionArray = ["Shrek", "Wall-E", "ET"]
+    @State private var isSelected = ""
     var body: some View {
         VStack(alignment: .leading) {
             Text("Activity").font(.title).padding(.bottom)
@@ -38,13 +36,13 @@ struct VoteView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     ForEach(optionArray, id: \.self) { item in
-                        Button(action: {
-                            self.isSelected = item
-                        })
-                        {
+                        Button(action: { self.isSelected = item }) {
                             Text(item)
                         }.font(.body)
-                            .padding(4).padding(.trailing, 200).background(self.isSelected == item ? Color.yellow : Color.white).cornerRadius(16)
+                            .padding(4)
+                            .padding(.trailing, 200)
+                            .background(self.isSelected == item ? Color.yellow : Color.white)
+                            .cornerRadius(16)
                     }
                 }
             }
@@ -52,8 +50,9 @@ struct VoteView: View {
             HStack {
                 Spacer()
                 NavigationLink(destination: TempLandingView()) {
-                    // TODO: When user clicks Done, tallying/count the user selected option
-                    Text("Done")
+                    Button("Done") {
+                        tempActivty.voteCount += 1
+                    }
                 }
             }
         }.navigationTitle("Vote").padding()
