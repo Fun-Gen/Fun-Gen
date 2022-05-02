@@ -18,20 +18,12 @@ struct VoteView: View {
     )
     @State private var optionArray = ["Shrek", "Wall-E", "ET"]
     @State private var isSelected = ""
+    @State private var newOption = ""
     var body: some View {
         VStack(alignment: .leading) {
             Text("Activity").font(.title).padding(.bottom)
-            // Activity title should come from
-            // user entering a title from
-            // Activity Creation page
             Text(tempActivty.title).font(.title3)
-            // Category should also be grabbed
-            // from the Activity.swift as
-            // it gets inputted in from the
-            // Activity Creation page
             Text("Category: \(tempActivty.category.rawValue.capitalized)").foregroundColor(.secondary)
-            // You should just be able to scroll
-            // through the options, I think
             Text("Options").font(.title).padding(.top)
             ScrollView {
                 VStack(alignment: .leading) {
@@ -44,15 +36,18 @@ struct VoteView: View {
                             .background(self.isSelected == item ? Color.yellow : Color.white)
                             .cornerRadius(16)
                     }
+                    TextField("Suggest an option", text: $newOption) {
+                            optionArray.append(self.newOption)
+                            self.newOption = ""
+                    }.padding(4)
                 }
             }
+       
             Spacer()
             HStack {
                 Spacer()
                 NavigationLink(destination: TempLandingView()) {
-                    Button("Done") {
-                        tempActivty.voteCount += 1
-                    }
+                    Button("Done") { tempActivty.voteCount += 1 }
                 }
             }
         }.navigationTitle("Vote").padding()
