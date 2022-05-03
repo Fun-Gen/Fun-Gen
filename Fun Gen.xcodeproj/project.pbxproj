@@ -20,6 +20,9 @@
 		843ADA8E280E3E3400ABE3DB /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843ADA8C280E3E3400ABE3DB /* ProfileView.swift */; };
 		843ADA90280E3E9D00ABE3DB /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843ADA8F280E3E9D00ABE3DB /* AuthenticationView.swift */; };
 		843ADA91280E3E9D00ABE3DB /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843ADA8F280E3E9D00ABE3DB /* AuthenticationView.swift */; };
+		D22251902821C764007B0A00 /* Fun_GenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D222518F2821C764007B0A00 /* Fun_GenTests.swift */; };
+		D222519D2821C770007B0A00 /* Fun_GenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D222519C2821C770007B0A00 /* Fun_GenUITests.swift */; };
+		D222519F2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D222519E2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift */; };
 		D2EA2F4E281B97E6001E5871 /* PollOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EA2F4D281B97E6001E5871 /* PollOption.swift */; };
 		D2EA2F4F281B97E6001E5871 /* PollOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EA2F4D281B97E6001E5871 /* PollOption.swift */; };
 		DB3CA9602808BD4E004094F4 /* Fun_GenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3CA9502808BD4C004094F4 /* Fun_GenApp.swift */; };
@@ -36,6 +39,23 @@
 		E376A30B2814E6140071825F /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376A3092814E6140071825F /* Category.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D22251912821C764007B0A00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB3CA94B2808BD4C004094F4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB3CA9562808BD4E004094F4;
+			remoteInfo = "Fun Gen (iOS)";
+		};
+		D22251A02821C770007B0A00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB3CA94B2808BD4C004094F4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB3CA9562808BD4E004094F4;
+			remoteInfo = "Fun Gen (iOS)";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		843ADA63280E303C00ABE3DB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		843ADA80280E31E100ABE3DB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -44,6 +64,11 @@
 		843ADA8F280E3E9D00ABE3DB /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		843ADA92280E46D100ABE3DB /* Fun-Gen--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Fun-Gen--iOS--Info.plist"; sourceTree = "<group>"; };
 		843ADA93280E58C400ABE3DB /* Fun-Gen--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Fun-Gen--macOS--Info.plist"; sourceTree = "<group>"; };
+		D222518D2821C764007B0A00 /* Fun GenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fun GenTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D222518F2821C764007B0A00 /* Fun_GenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fun_GenTests.swift; sourceTree = "<group>"; };
+		D222519A2821C770007B0A00 /* Fun GenUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fun GenUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D222519C2821C770007B0A00 /* Fun_GenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fun_GenUITests.swift; sourceTree = "<group>"; };
+		D222519E2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fun_GenUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D2EA2F4D281B97E6001E5871 /* PollOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollOption.swift; sourceTree = "<group>"; };
 		DB3CA9502808BD4C004094F4 /* Fun_GenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fun_GenApp.swift; sourceTree = "<group>"; };
 		DB3CA9512808BD4C004094F4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -59,6 +84,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D222518A2821C764007B0A00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D22251972821C770007B0A00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DB3CA9542808BD4E004094F4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -79,6 +118,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D222518E2821C764007B0A00 /* Fun GenTests */ = {
+			isa = PBXGroup;
+			children = (
+				D222518F2821C764007B0A00 /* Fun_GenTests.swift */,
+			);
+			path = "Fun GenTests";
+			sourceTree = "<group>";
+		};
+		D222519B2821C770007B0A00 /* Fun GenUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D222519C2821C770007B0A00 /* Fun_GenUITests.swift */,
+				D222519E2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift */,
+			);
+			path = "Fun GenUITests";
+			sourceTree = "<group>";
+		};
 		DB3CA94A2808BD4C004094F4 = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +145,8 @@
 				DB3CA94F2808BD4C004094F4 /* Shared */,
 				DB3CA95E2808BD4E004094F4 /* macOS */,
 				DB3CA96E2808BDC8004094F4 /* Configuration */,
+				D222518E2821C764007B0A00 /* Fun GenTests */,
+				D222519B2821C770007B0A00 /* Fun GenUITests */,
 				DB3CA9582808BD4E004094F4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -109,6 +167,8 @@
 			children = (
 				DB3CA9572808BD4E004094F4 /* Fun Gen.app */,
 				DB3CA95D2808BD4E004094F4 /* Fun Gen.app */,
+				D222518D2821C764007B0A00 /* Fun GenTests.xctest */,
+				D222519A2821C770007B0A00 /* Fun GenUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -163,6 +223,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D222518C2821C764007B0A00 /* Fun GenTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D22251952821C764007B0A00 /* Build configuration list for PBXNativeTarget "Fun GenTests" */;
+			buildPhases = (
+				D22251892821C764007B0A00 /* Sources */,
+				D222518A2821C764007B0A00 /* Frameworks */,
+				D222518B2821C764007B0A00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D22251922821C764007B0A00 /* PBXTargetDependency */,
+			);
+			name = "Fun GenTests";
+			productName = "Fun GenTests";
+			productReference = D222518D2821C764007B0A00 /* Fun GenTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D22251992821C770007B0A00 /* Fun GenUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D22251A22821C770007B0A00 /* Build configuration list for PBXNativeTarget "Fun GenUITests" */;
+			buildPhases = (
+				D22251962821C770007B0A00 /* Sources */,
+				D22251972821C770007B0A00 /* Frameworks */,
+				D22251982821C770007B0A00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D22251A12821C770007B0A00 /* PBXTargetDependency */,
+			);
+			name = "Fun GenUITests";
+			productName = "Fun GenUITests";
+			productReference = D222519A2821C770007B0A00 /* Fun GenUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		DB3CA9562808BD4E004094F4 /* Fun Gen (iOS) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DB3CA9682808BD4E004094F4 /* Build configuration list for PBXNativeTarget "Fun Gen (iOS)" */;
@@ -214,6 +310,14 @@
 				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
+					D222518C2821C764007B0A00 = {
+						CreatedOnToolsVersion = 13.3.1;
+						TestTargetID = DB3CA9562808BD4E004094F4;
+					};
+					D22251992821C770007B0A00 = {
+						CreatedOnToolsVersion = 13.3.1;
+						TestTargetID = DB3CA9562808BD4E004094F4;
+					};
 					DB3CA9562808BD4E004094F4 = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
@@ -241,11 +345,27 @@
 			targets = (
 				DB3CA9562808BD4E004094F4 /* Fun Gen (iOS) */,
 				DB3CA95C2808BD4E004094F4 /* Fun Gen (macOS) */,
+				D222518C2821C764007B0A00 /* Fun GenTests */,
+				D22251992821C770007B0A00 /* Fun GenUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D222518B2821C764007B0A00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D22251982821C770007B0A00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DB3CA9552808BD4E004094F4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -306,6 +426,23 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D22251892821C764007B0A00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D22251902821C764007B0A00 /* Fun_GenTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D22251962821C770007B0A00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D222519D2821C770007B0A00 /* Fun_GenUITests.swift in Sources */,
+				D222519F2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DB3CA9532808BD4E004094F4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -342,7 +479,96 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D22251922821C764007B0A00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB3CA9562808BD4E004094F4 /* Fun Gen (iOS) */;
+			targetProxy = D22251912821C764007B0A00 /* PBXContainerItemProxy */;
+		};
+		D22251A12821C770007B0A00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB3CA9562808BD4E004094F4 /* Fun Gen (iOS) */;
+			targetProxy = D22251A02821C770007B0A00 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		D22251932821C764007B0A00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.uw.cs.403.Fun-GenTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fun Gen.app/Fun Gen";
+			};
+			name = Debug;
+		};
+		D22251942821C764007B0A00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.uw.cs.403.Fun-GenTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fun Gen.app/Fun Gen";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D22251A32821C770007B0A00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.uw.cs.403.Fun-GenUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Fun Gen (iOS)";
+			};
+			name = Debug;
+		};
+		D22251A42821C770007B0A00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.uw.cs.403.Fun-GenUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Fun Gen (iOS)";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		DB3CA9662808BD4E004094F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB3CA9702808C104004094F4 /* SampleCode.xcconfig */;
@@ -588,6 +814,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D22251952821C764007B0A00 /* Build configuration list for PBXNativeTarget "Fun GenTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D22251932821C764007B0A00 /* Debug */,
+				D22251942821C764007B0A00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D22251A22821C770007B0A00 /* Build configuration list for PBXNativeTarget "Fun GenUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D22251A32821C770007B0A00 /* Debug */,
+				D22251A42821C770007B0A00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DB3CA94E2808BD4C004094F4 /* Build configuration list for PBXProject "Fun Gen" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
