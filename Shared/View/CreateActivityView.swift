@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CreateActivityView: View {
     @State private var selectedCategory: Category = .outdoor
-
+    
     @State var optionList: [String] = []
     @State var newOption = ""
     
@@ -30,29 +30,27 @@ struct CreateActivityView: View {
                     }
                 }
             }.padding()
-            
             Group {
                 Text("Options")
                     .font(.title).padding()
-               ForEach(optionList, id: \.self) { item in
-                   Text(item).padding(.leading).padding(.bottom, 4)
-               }
-               TextField("Suggest an option", text: $newOption) {
-                   self.optionList.append(self.newOption)
-                   self.newOption = ""
-               }.padding()
-           }
-
-           Text("Friends Tagged")
-               .font(.system(.title2))
-               .padding()
-           ForEach(friendList, id: \.self) { item in
-               Text(item).padding(.leading).padding(.bottom, 4)
-           }
-           TextField("Name", text: $newFriend) {
-               self.friendList.append(self.newFriend)
-               self.newFriend = ""
-           }.padding()
+                ForEach(optionList, id: \.self) { item in
+                    Text(item).padding(.leading).padding(.bottom, 4)
+                }
+                TextField("Suggest an option", text: $newOption) {
+                    self.optionList.append(self.newOption)
+                    self.newOption = ""
+                }.padding()
+            }
+            Text("Friends Tagged")
+                .font(.system(.title2))
+                .padding()
+            ForEach(friendList, id: \.self) { item in
+                Text(item).padding(.leading).padding(.bottom, 4)
+            }
+            TextField("Name", text: $newFriend) {
+                self.friendList.append(self.newFriend)
+                self.newFriend = ""
+            }.padding()
             Spacer()
             HStack {
                 Spacer()

@@ -31,7 +31,9 @@ struct VoteView: View {
                     // TODO: Correctly update fields from Model files when user inputs data
                     // TODO: Update voteCount += 1 when an option is selected
                     ForEach(optionArray, id: \.self) { item in
-                        Button(action: { self.isSelected = item }) {
+                        Button {
+                            self.isSelected = item
+                        } label: {
                             Text(item)
                         }.font(.body)
                             .padding(4)
