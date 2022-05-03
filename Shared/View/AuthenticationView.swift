@@ -16,6 +16,8 @@ struct AuthenticationView: View {
     }
 }
 
+// test123@gmail.com
+// 123123
 struct SignInView: View {
     @EnvironmentObject var user: UserViewModel
     @State private var email = ""
