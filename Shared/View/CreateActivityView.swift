@@ -56,7 +56,7 @@ struct CreateActivityView: View {
             Spacer()
             HStack {
                 Spacer()
-                NavigationLink(destination: TempHomeView()) {
+                NavigationLink(destination: VoteView()) {
                     Text("Create")
                 }
             }
