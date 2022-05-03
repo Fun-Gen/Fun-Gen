@@ -13,6 +13,9 @@ struct ProfileView: View {
     var body: some View {
         VStack {
             Text("Successfully authenticated \(user.user?.username ?? "")")
+            // When user successfully logins they
+            // shoud see landing page
+            TempHomeView()
             Button {
                 user.signOut()
             } label: {
