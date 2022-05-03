@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
-    
     var activities: [Activity] = []
     
     var body: some View {
-        
         NavigationView {
             List {
                 ForEach(activities) { activity in
@@ -31,7 +29,6 @@ struct HomeView: View {
             }
         }
     }
-    
 }
 
 struct HomeView_Previews: PreviewProvider {
