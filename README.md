@@ -36,6 +36,13 @@ If you are new to SwiftUI, you can follow UWAppDev's guide on
     - `ViewModel`: bindings and operations for model, interfacing with Firebase.
 - `macOS`: SwiftUI allows running code on macOS at the same time.
     Any macOS specific code or resources files will be in this directory.
+- `Fun GenTests`: unit tests for Fun Gen backend. 
+    See [XCTest documentation](https://developer.apple.com/documentation/xctest) 
+    on how to use and create unit tests.
+- `Fun GenUITests`: UI tests for Fun Gen frontend.
+    See [User Interface Tests](https://developer.apple.com/documentation/xctest/user_interface_tests)
+    and [UI Testing in Xcode](https://developer.apple.com/videos/play/wwdc2015/406/) 
+    on how to use and create UI tests.
 - `reports`: weekly reports for communicating with our TA/project manager.
 - `Configuration`: to support building the project using different Apple IDs.
 - `.github`: configuration files for GitHub related settings.
