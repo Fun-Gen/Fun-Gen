@@ -7,10 +7,14 @@
 
 import Foundation
 import FirebaseAuth
+import FirebaseAuthCombineSwift
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Combine
+import CodableFirebase
 
 class UserViewModel: ObservableObject {
+    /// The current user logged in, if any
     @Published var user: User?
     
     private let auth = Auth.auth()
@@ -25,14 +29,41 @@ class UserViewModel: ObservableObject {
         user != nil && userIsAuthenticated
     }
     
+    private var userObserverHandler: AnyCancellable?
+    
+    init() {
+        setupAutoUpdate()
+    }
+    
+    func setupAutoUpdate() {
+        auth.addStateDidChangeListener { [weak self] _, authUser in
+            guard let self = self else { return }
+            if authUser?.uid != self.user?.id {
+                self.userObserverHandler?.cancel()
+                self.userObserverHandler = nil
+                if let newID = authUser?.uid {
+                    self.userObserverHandler = self.database
+                        .collection("users")
+                        .document(newID)
+                        .snapshotPublisher()
+                        .compactMap { $0.data() }
+                        .tryMap { try FirebaseDecoder().decode(User.self, from: $0) }
+                        .sink { _ in
+                            // ignore completion
+                        } receiveValue: { user in
+                            self.user = user
+                        }
+                }
+            }
+        }
+    }
+    
     // Firebase Auth Functions
     func signIn(email: String, password: String) {
-        auth.signIn(withEmail: email, password: password) { [weak self] result, error in
+        auth.signIn(withEmail: email, password: password) { result, error in
             guard result != nil, error == nil else {
+                print(error?.localizedDescription ?? "Unknown error")
                 return
-            }
-            DispatchQueue.main.async {
-                self?.sync()
             }
         }
     }
@@ -47,7 +78,6 @@ class UserViewModel: ObservableObject {
             let userID: String = getUser?.uid ?? ""
             DispatchQueue.main.async {
                 self?.add(User(id: userID, username: username, email: email))
-                self?.sync()
             }
         }
     }
@@ -62,23 +92,11 @@ class UserViewModel: ObservableObject {
     }
     
     // Firestore Functions for User Data
-    // FIXME: try using snapshot listener instead of calling sync function
-    private func sync() {
-        guard userIsAuthenticated, let uuid = uuid else { return }
-        database.collection("users").document(uuid).getDocument { document, error in
-            guard let document = document, error == nil else { return }
-            do {
-                try self.user = document.data(as: User.self)
-            } catch {
-                print("Sync error: \(error)")
-            }
-        }
-    }
     
     private func add(_ user: User) {
         guard userIsAuthenticated, let uuid = uuid else { return }
         do {
-            try database.collection("users").document(uuid).setData(from: user)
+            let _: Void = try database.collection("users").document(uuid).setData(from: user)
         } catch {
             print("Error adding: \(error)")
         }
@@ -87,9 +105,34 @@ class UserViewModel: ObservableObject {
     private func update() {
         guard userIsAuthenticatedAndSynced, let uuid = uuid else { return }
         do {
-            try database.collection("users").document(uuid).setData(from: user)
+            let _: Void = try database.collection("users").document(uuid).setData(from: user)
         } catch {
             print("Error updating: \(error)")
         }
+    }
+    
+    // MARK: - Operations Speecified in Requirements
+    
+    /// Fetch user with ID.
+    func user(id: User.ID) -> User? {
+        return users(ids: [id]).first?.flatMap { $0 }
+    }
+    
+    /// Fetch users with IDs.
+    func users(ids: [User.ID]) -> [User?] {
+        // FIXME: missing implementation
+        return []
+    }
+    
+    /// Fetch Users by username (prefix/full match, maybe fuzzy match for stretch goal).
+    func users(named name: String) -> [User] {
+        // FIXME: missing implementation
+        return []
+    }
+    
+    /// Fetch User by email (match entire email).
+    func user(email: String) -> User? {
+        // FIXME: missing implementation
+        return nil
     }
 }

@@ -6,6 +6,8 @@
 //
 
 import XCTest
+import Firebase
+@testable import Fun_Gen
 
 class Fun_GenTests: XCTestCase {
     override func setUpWithError() throws {
@@ -16,13 +18,18 @@ class Fun_GenTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete.
-        // Check the results with assertions afterwards.
+    func testUserLogin() {
+        let expectation = XCTestExpectation(description: "User eventually logs in")
+        let viewModel = UserViewModel()
+        viewModel.signOut()
+        let cancellable = viewModel.$user.sink { user in
+            if user?.username == "Test123" {
+                expectation.fulfill()
+            }
+        }
+        viewModel.signIn(email: "test123@gmail.com", password: "123123")
+        wait(for: [expectation], timeout: 10)
+        cancellable.cancel()
     }
 
     func testPerformanceExample() throws {
