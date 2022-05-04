@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E68DBDE2820B4640083F221 /* TempHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E68DBDD2820B4640083F221 /* TempHomeView.swift */; };
+		3E68DBDF2820B4640083F221 /* TempHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E68DBDD2820B4640083F221 /* TempHomeView.swift */; };
+		3E68DBE12820B46D0083F221 /* VoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E68DBE02820B46D0083F221 /* VoteView.swift */; };
+		3E68DBE22820B46D0083F221 /* VoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E68DBE02820B46D0083F221 /* VoteView.swift */; };
+		3E68DBE42820B4770083F221 /* CreateActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E68DBE32820B4770083F221 /* CreateActivityView.swift */; };
+		3E68DBE52820B4770083F221 /* CreateActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E68DBE32820B4770083F221 /* CreateActivityView.swift */; };
 		843ADA64280E303C00ABE3DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 843ADA63280E303C00ABE3DB /* GoogleService-Info.plist */; };
 		843ADA65280E303C00ABE3DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 843ADA63280E303C00ABE3DB /* GoogleService-Info.plist */; };
 		843ADA6A280E30D200ABE3DB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 843ADA69280E30D200ABE3DB /* FirebaseAuth */; };
@@ -22,6 +28,16 @@
 		843ADA91280E3E9D00ABE3DB /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843ADA8F280E3E9D00ABE3DB /* AuthenticationView.swift */; };
 		946F3F09281CD9680098E348 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946F3F08281CD9680098E348 /* HomeView.swift */; };
 		946F3F0A281CD9680098E348 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946F3F08281CD9680098E348 /* HomeView.swift */; };
+		D22251902821C764007B0A00 /* Fun_GenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D222518F2821C764007B0A00 /* Fun_GenTests.swift */; };
+		D222519D2821C770007B0A00 /* Fun_GenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D222519C2821C770007B0A00 /* Fun_GenUITests.swift */; };
+		D222519F2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D222519E2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift */; };
+		D22251A62821CC39007B0A00 /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22251A52821CC39007B0A00 /* ActivityViewModel.swift */; };
+		D22251A72821CC39007B0A00 /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22251A52821CC39007B0A00 /* ActivityViewModel.swift */; };
+		D22251AA2821CC71007B0A00 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = D22251A92821CC71007B0A00 /* FirebaseAuthCombine-Community */; };
+		D22251AC2821CC71007B0A00 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = D22251AB2821CC71007B0A00 /* FirebaseFirestoreCombine-Community */; };
+		D22251AF2821CF48007B0A00 /* CodableFirebase in Frameworks */ = {isa = PBXBuildFile; productRef = D22251AE2821CF48007B0A00 /* CodableFirebase */; };
+		D22251B12821D2DD007B0A00 /* FunGenError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22251B02821D2DD007B0A00 /* FunGenError.swift */; };
+		D22251B22821D2DD007B0A00 /* FunGenError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22251B02821D2DD007B0A00 /* FunGenError.swift */; };
 		D2EA2F4E281B97E6001E5871 /* PollOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EA2F4D281B97E6001E5871 /* PollOption.swift */; };
 		D2EA2F4F281B97E6001E5871 /* PollOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EA2F4D281B97E6001E5871 /* PollOption.swift */; };
 		DB3CA9602808BD4E004094F4 /* Fun_GenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3CA9502808BD4C004094F4 /* Fun_GenApp.swift */; };
@@ -38,7 +54,27 @@
 		E376A30B2814E6140071825F /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = E376A3092814E6140071825F /* Category.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D22251912821C764007B0A00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB3CA94B2808BD4C004094F4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB3CA9562808BD4E004094F4;
+			remoteInfo = "Fun Gen (iOS)";
+		};
+		D22251A02821C770007B0A00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB3CA94B2808BD4C004094F4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB3CA9562808BD4E004094F4;
+			remoteInfo = "Fun Gen (iOS)";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		3E68DBDD2820B4640083F221 /* TempHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempHomeView.swift; sourceTree = "<group>"; };
+		3E68DBE02820B46D0083F221 /* VoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteView.swift; sourceTree = "<group>"; };
+		3E68DBE32820B4770083F221 /* CreateActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityView.swift; sourceTree = "<group>"; };
 		843ADA63280E303C00ABE3DB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		843ADA80280E31E100ABE3DB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		843ADA83280E32B100ABE3DB /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
@@ -47,6 +83,13 @@
 		843ADA92280E46D100ABE3DB /* Fun-Gen--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Fun-Gen--iOS--Info.plist"; sourceTree = "<group>"; };
 		843ADA93280E58C400ABE3DB /* Fun-Gen--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Fun-Gen--macOS--Info.plist"; sourceTree = "<group>"; };
 		946F3F08281CD9680098E348 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		D222518D2821C764007B0A00 /* Fun GenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fun GenTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D222518F2821C764007B0A00 /* Fun_GenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fun_GenTests.swift; sourceTree = "<group>"; };
+		D222519A2821C770007B0A00 /* Fun GenUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fun GenUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D222519C2821C770007B0A00 /* Fun_GenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fun_GenUITests.swift; sourceTree = "<group>"; };
+		D222519E2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fun_GenUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D22251A52821CC39007B0A00 /* ActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
+		D22251B02821D2DD007B0A00 /* FunGenError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunGenError.swift; sourceTree = "<group>"; };
 		D2EA2F4D281B97E6001E5871 /* PollOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollOption.swift; sourceTree = "<group>"; };
 		DB3CA9502808BD4C004094F4 /* Fun_GenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fun_GenApp.swift; sourceTree = "<group>"; };
 		DB3CA9512808BD4C004094F4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -62,13 +105,30 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D222518A2821C764007B0A00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D22251972821C770007B0A00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DB3CA9542808BD4E004094F4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D22251AF2821CF48007B0A00 /* CodableFirebase in Frameworks */,
 				843ADA6A280E30D200ABE3DB /* FirebaseAuth in Frameworks */,
 				843ADA88280E35C400ABE3DB /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				843ADA72280E30D200ABE3DB /* FirebaseFirestore in Frameworks */,
+				D22251AC2821CC71007B0A00 /* FirebaseFirestoreCombine-Community in Frameworks */,
+				D22251AA2821CC71007B0A00 /* FirebaseAuthCombine-Community in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +142,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D222518E2821C764007B0A00 /* Fun GenTests */ = {
+			isa = PBXGroup;
+			children = (
+				D222518F2821C764007B0A00 /* Fun_GenTests.swift */,
+			);
+			path = "Fun GenTests";
+			sourceTree = "<group>";
+		};
+		D222519B2821C770007B0A00 /* Fun GenUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D222519C2821C770007B0A00 /* Fun_GenUITests.swift */,
+				D222519E2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift */,
+			);
+			path = "Fun GenUITests";
+			sourceTree = "<group>";
+		};
+		D22251A82821CC71007B0A00 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DB3CA94A2808BD4C004094F4 = {
 			isa = PBXGroup;
 			children = (
@@ -92,7 +176,10 @@
 				DB3CA94F2808BD4C004094F4 /* Shared */,
 				DB3CA95E2808BD4E004094F4 /* macOS */,
 				DB3CA96E2808BDC8004094F4 /* Configuration */,
+				D222518E2821C764007B0A00 /* Fun GenTests */,
+				D222519B2821C770007B0A00 /* Fun GenUITests */,
 				DB3CA9582808BD4E004094F4 /* Products */,
+				D22251A82821CC71007B0A00 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,6 +199,8 @@
 			children = (
 				DB3CA9572808BD4E004094F4 /* Fun Gen.app */,
 				DB3CA95D2808BD4E004094F4 /* Fun Gen.app */,
+				D222518D2821C764007B0A00 /* Fun GenTests.xctest */,
+				D222519A2821C770007B0A00 /* Fun GenUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,6 +229,9 @@
 				843ADA8C280E3E3400ABE3DB /* ProfileView.swift */,
 				843ADA8F280E3E9D00ABE3DB /* AuthenticationView.swift */,
 				946F3F08281CD9680098E348 /* HomeView.swift */,
+				3E68DBDD2820B4640083F221 /* TempHomeView.swift */,
+				3E68DBE02820B46D0083F221 /* VoteView.swift */,
+				3E68DBE32820B4770083F221 /* CreateActivityView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -160,6 +252,8 @@
 			isa = PBXGroup;
 			children = (
 				843ADA83280E32B100ABE3DB /* UserViewModel.swift */,
+				D22251A52821CC39007B0A00 /* ActivityViewModel.swift */,
+				D22251B02821D2DD007B0A00 /* FunGenError.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -167,6 +261,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D222518C2821C764007B0A00 /* Fun GenTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D22251952821C764007B0A00 /* Build configuration list for PBXNativeTarget "Fun GenTests" */;
+			buildPhases = (
+				D22251892821C764007B0A00 /* Sources */,
+				D222518A2821C764007B0A00 /* Frameworks */,
+				D222518B2821C764007B0A00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D22251922821C764007B0A00 /* PBXTargetDependency */,
+			);
+			name = "Fun GenTests";
+			productName = "Fun GenTests";
+			productReference = D222518D2821C764007B0A00 /* Fun GenTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D22251992821C770007B0A00 /* Fun GenUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D22251A22821C770007B0A00 /* Build configuration list for PBXNativeTarget "Fun GenUITests" */;
+			buildPhases = (
+				D22251962821C770007B0A00 /* Sources */,
+				D22251972821C770007B0A00 /* Frameworks */,
+				D22251982821C770007B0A00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D22251A12821C770007B0A00 /* PBXTargetDependency */,
+			);
+			name = "Fun GenUITests";
+			productName = "Fun GenUITests";
+			productReference = D222519A2821C770007B0A00 /* Fun GenUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		DB3CA9562808BD4E004094F4 /* Fun Gen (iOS) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DB3CA9682808BD4E004094F4 /* Build configuration list for PBXNativeTarget "Fun Gen (iOS)" */;
@@ -185,6 +315,9 @@
 				843ADA69280E30D200ABE3DB /* FirebaseAuth */,
 				843ADA71280E30D200ABE3DB /* FirebaseFirestore */,
 				843ADA87280E35C400ABE3DB /* FirebaseFirestoreSwift-Beta */,
+				D22251A92821CC71007B0A00 /* FirebaseAuthCombine-Community */,
+				D22251AB2821CC71007B0A00 /* FirebaseFirestoreCombine-Community */,
+				D22251AE2821CF48007B0A00 /* CodableFirebase */,
 			);
 			productName = "Fun Gen (iOS)";
 			productReference = DB3CA9572808BD4E004094F4 /* Fun Gen.app */;
@@ -218,6 +351,14 @@
 				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
+					D222518C2821C764007B0A00 = {
+						CreatedOnToolsVersion = 13.3.1;
+						TestTargetID = DB3CA9562808BD4E004094F4;
+					};
+					D22251992821C770007B0A00 = {
+						CreatedOnToolsVersion = 13.3.1;
+						TestTargetID = DB3CA9562808BD4E004094F4;
+					};
 					DB3CA9562808BD4E004094F4 = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
@@ -237,7 +378,7 @@
 			mainGroup = DB3CA94A2808BD4C004094F4;
 			packageReferences = (
 				843ADA66280E30D200ABE3DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				843ADA86280E35C400ABE3DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				D22251AD2821CF47007B0A00 /* XCRemoteSwiftPackageReference "CodableFirebase" */,
 			);
 			productRefGroup = DB3CA9582808BD4E004094F4 /* Products */;
 			projectDirPath = "";
@@ -245,11 +386,27 @@
 			targets = (
 				DB3CA9562808BD4E004094F4 /* Fun Gen (iOS) */,
 				DB3CA95C2808BD4E004094F4 /* Fun Gen (macOS) */,
+				D222518C2821C764007B0A00 /* Fun GenTests */,
+				D22251992821C770007B0A00 /* Fun GenUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D222518B2821C764007B0A00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D22251982821C770007B0A00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DB3CA9552808BD4E004094F4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -310,18 +467,40 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D22251892821C764007B0A00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D22251902821C764007B0A00 /* Fun_GenTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D22251962821C770007B0A00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D222519D2821C770007B0A00 /* Fun_GenUITests.swift in Sources */,
+				D222519F2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DB3CA9532808BD4E004094F4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E376A3072814E5ED0071825F /* Option.swift in Sources */,
 				DB3CA9622808BD4E004094F4 /* ContentView.swift in Sources */,
+				D22251B12821D2DD007B0A00 /* FunGenError.swift in Sources */,
+				3E68DBE12820B46D0083F221 /* VoteView.swift in Sources */,
 				843ADA84280E32B100ABE3DB /* UserViewModel.swift in Sources */,
 				E376A3042814E5D00071825F /* Activity.swift in Sources */,
 				843ADA90280E3E9D00ABE3DB /* AuthenticationView.swift in Sources */,
 				946F3F09281CD9680098E348 /* HomeView.swift in Sources */,
+				3E68DBDE2820B4640083F221 /* TempHomeView.swift in Sources */,
 				E376A30A2814E6140071825F /* Category.swift in Sources */,
 				843ADA8D280E3E3400ABE3DB /* ProfileView.swift in Sources */,
+				D22251A62821CC39007B0A00 /* ActivityViewModel.swift in Sources */,
+				3E68DBE42820B4770083F221 /* CreateActivityView.swift in Sources */,
 				D2EA2F4E281B97E6001E5871 /* PollOption.swift in Sources */,
 				DB3CA9602808BD4E004094F4 /* Fun_GenApp.swift in Sources */,
 				843ADA81280E31E100ABE3DB /* User.swift in Sources */,
@@ -334,12 +513,17 @@
 			files = (
 				E376A3082814E5ED0071825F /* Option.swift in Sources */,
 				DB3CA9632808BD4E004094F4 /* ContentView.swift in Sources */,
+				D22251B22821D2DD007B0A00 /* FunGenError.swift in Sources */,
+				3E68DBE22820B46D0083F221 /* VoteView.swift in Sources */,
 				843ADA85280E32B100ABE3DB /* UserViewModel.swift in Sources */,
 				E376A3052814E5D00071825F /* Activity.swift in Sources */,
 				843ADA91280E3E9D00ABE3DB /* AuthenticationView.swift in Sources */,
 				946F3F0A281CD9680098E348 /* HomeView.swift in Sources */,
+				3E68DBDF2820B4640083F221 /* TempHomeView.swift in Sources */,
 				E376A30B2814E6140071825F /* Category.swift in Sources */,
 				843ADA8E280E3E3400ABE3DB /* ProfileView.swift in Sources */,
+				D22251A72821CC39007B0A00 /* ActivityViewModel.swift in Sources */,
+				3E68DBE52820B4770083F221 /* CreateActivityView.swift in Sources */,
 				D2EA2F4F281B97E6001E5871 /* PollOption.swift in Sources */,
 				DB3CA9612808BD4E004094F4 /* Fun_GenApp.swift in Sources */,
 				843ADA82280E31E100ABE3DB /* User.swift in Sources */,
@@ -348,7 +532,96 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D22251922821C764007B0A00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB3CA9562808BD4E004094F4 /* Fun Gen (iOS) */;
+			targetProxy = D22251912821C764007B0A00 /* PBXContainerItemProxy */;
+		};
+		D22251A12821C770007B0A00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB3CA9562808BD4E004094F4 /* Fun Gen (iOS) */;
+			targetProxy = D22251A02821C770007B0A00 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		D22251932821C764007B0A00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.uw.cs.403.Fun-GenTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fun Gen.app/Fun Gen";
+			};
+			name = Debug;
+		};
+		D22251942821C764007B0A00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.uw.cs.403.Fun-GenTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fun Gen.app/Fun Gen";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D22251A32821C770007B0A00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.uw.cs.403.Fun-GenUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Fun Gen (iOS)";
+			};
+			name = Debug;
+		};
+		D22251A42821C770007B0A00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.uw.cs.403.Fun-GenUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Fun Gen (iOS)";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		DB3CA9662808BD4E004094F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB3CA9702808C104004094F4 /* SampleCode.xcconfig */;
@@ -594,6 +867,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D22251952821C764007B0A00 /* Build configuration list for PBXNativeTarget "Fun GenTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D22251932821C764007B0A00 /* Debug */,
+				D22251942821C764007B0A00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D22251A22821C770007B0A00 /* Build configuration list for PBXNativeTarget "Fun GenUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D22251A32821C770007B0A00 /* Debug */,
+				D22251A42821C770007B0A00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DB3CA94E2808BD4C004094F4 /* Build configuration list for PBXProject "Fun Gen" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -632,12 +923,12 @@
 				minimumVersion = 8.0.0;
 			};
 		};
-		843ADA86280E35C400ABE3DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		D22251AD2821CF47007B0A00 /* XCRemoteSwiftPackageReference "CodableFirebase" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			repositoryURL = "https://github.com/alickbass/CodableFirebase.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.0.0;
+				branch = master;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -657,6 +948,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 843ADA66280E30D200ABE3DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseFirestoreSwift-Beta";
+		};
+		D22251A92821CC71007B0A00 /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 843ADA66280E30D200ABE3DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+		D22251AB2821CC71007B0A00 /* FirebaseFirestoreCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 843ADA66280E30D200ABE3DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreCombine-Community";
+		};
+		D22251AE2821CF48007B0A00 /* CodableFirebase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D22251AD2821CF47007B0A00 /* XCRemoteSwiftPackageReference "CodableFirebase" */;
+			productName = CodableFirebase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
