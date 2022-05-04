@@ -32,3 +32,9 @@ struct Activity: Codable, Identifiable {
     /// Sum of votes for this ``Activity``
     var voteCount: Int
 }
+
+let testActivities = [
+    Activity(id: "1", title: "Movie", category: Category.movie, author: "1", voteCount: 1),
+    Activity(id: "2", title: "Outdoors", category: Category.outdoor, author: "1", voteCount: 1),
+    Activity(id: "3", title: "Food", category: Category.food, author: "1", voteCount: 1)
+]
