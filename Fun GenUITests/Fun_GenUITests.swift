@@ -32,9 +32,16 @@ class Fun_GenUITests: XCTestCase {
     // UI test for frontend, adding an option on the VoteView page
     
     func testAddOption() throws {
-        let app = XCUIApplication()
+    let app = XCUIApplication()
         app.launch()
+        if app.buttons["Sign out"].exists {
+            app.buttons["Sign out"].tap()
+        }
+
         app.textFields["Email"].tap()
+        if app.buttons["continue"].exists {
+            app.buttons["continue"].tap()
+        }
         app.textFields["Email"].typeText("test123@gmail.com")
         app.keyboards.buttons["return"].tap()
 
