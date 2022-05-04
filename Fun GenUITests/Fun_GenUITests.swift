@@ -7,19 +7,6 @@
 
 import XCTest
 
-// Had an issue with Failed to scroll to visible (by AX action) Button, stackoverflow solution
-extension XCUIElement {
-    func forceTapElement() {
-        if self.isHittable {
-            self.tap()
-        }
-        else {
-            let coordinate: XCUICoordinate = self.coordinate(withNormalizedOffset: CGVector(dx:0.0, dy:0.0))
-            coordinate.tap()
-        }
-    }
-}
-
 class Fun_GenUITests: XCTestCase {
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -40,25 +27,31 @@ class Fun_GenUITests: XCTestCase {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
-        
     }
     
     // UI test for frontend, adding an option on the VoteView page
     
-   
     func testAddOption() throws {
         let app = XCUIApplication()
         app.launch()
+        app.textFields["Email"].tap()
+        app.textFields["Email"].typeText("test123@gmail.com")
+        app.keyboards.buttons["return"].tap()
+
+        app.secureTextFields["Password"].tap()
+        app.secureTextFields["Password"].typeText("123123")
+        app.keyboards.buttons["return"].tap()
+
+        app.buttons["Sign in"].tap()
+        
         app.buttons["Movie Night"].tap()
         app.scrollViews.otherElements.textFields["Suggest an option"].tap()
         app.scrollViews.otherElements.textFields["Suggest an option"].typeText("Spider Man")
-        app.buttons["return"].forceTapElement()
+        app.keyboards.buttons["return"].tap()
         XCTAssert(app.scrollViews.otherElements.buttons["Spider Man"].exists)
         app.scrollViews.otherElements.buttons["Spider Man"].tap()
     }
     
-    
-
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
             // This measures how long it takes to launch your application.
