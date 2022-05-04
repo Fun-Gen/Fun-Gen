@@ -42,19 +42,16 @@ class Fun_GenUITests: XCTestCase {
         if app.buttons["continue"].exists {
             app.buttons["continue"].tap()
         }
-        app.textFields["Email"].typeText("test123@gmail.com")
-        app.keyboards.buttons["return"].tap()
+        app.textFields["Email"].typeText("test123@gmail.com\n")
 
         app.secureTextFields["Password"].tap()
-        app.secureTextFields["Password"].typeText("123123")
-        app.keyboards.buttons["return"].tap()
+        app.secureTextFields["Password"].typeText("123123\n")
 
         app.buttons["Sign in"].tap()
         
         app.buttons["Movie Night"].tap()
         app.scrollViews.otherElements.textFields["Suggest an option"].tap()
-        app.scrollViews.otherElements.textFields["Suggest an option"].typeText("Spider Man")
-        app.keyboards.buttons["return"].tap()
+        app.scrollViews.otherElements.textFields["Suggest an option"].typeText("Spider Man\n")
         XCTAssert(app.scrollViews.otherElements.buttons["Spider Man"].exists)
         app.scrollViews.otherElements.buttons["Spider Man"].tap()
     }
