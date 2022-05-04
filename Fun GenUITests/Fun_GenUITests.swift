@@ -27,10 +27,35 @@ class Fun_GenUITests: XCTestCase {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
+    
+    // UI test for frontend, adding an option on the VoteView page
+    
+    func testAddOption() throws {
+    let app = XCUIApplication()
+        app.launch()
+        if app.buttons["Sign out"].exists {
+            app.buttons["Sign out"].tap()
+        }
 
+        app.textFields["Email"].tap()
+        if app.buttons["continue"].exists {
+            app.buttons["continue"].tap()
+        }
+        app.textFields["Email"].typeText("test123@gmail.com\n")
+
+        app.secureTextFields["Password"].tap()
+        app.secureTextFields["Password"].typeText("123123\n")
+
+        app.buttons["Sign in"].tap()
+        
+        app.buttons["Movie Night"].tap()
+        app.scrollViews.otherElements.textFields["Suggest an option"].tap()
+        app.scrollViews.otherElements.textFields["Suggest an option"].typeText("Spider Man\n")
+        XCTAssert(app.scrollViews.otherElements.buttons["Spider Man"].exists)
+        app.scrollViews.otherElements.buttons["Spider Man"].tap()
+    }
+    
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
             // This measures how long it takes to launch your application.
