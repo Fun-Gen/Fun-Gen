@@ -27,6 +27,7 @@ class Fun_GenUITests: XCTestCase {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
+        
     }
     
     // UI test for frontend, adding an option on the VoteView page
@@ -37,7 +38,7 @@ class Fun_GenUITests: XCTestCase {
         app.buttons["Movie Night"].tap()
         app.scrollViews.otherElements.textFields["Suggest an option"].tap()
         app.scrollViews.otherElements.textFields["Suggest an option"].typeText("Spider Man")
-        app/*@START_MENU_TOKEN@*/.buttons["Return"]/*[[".keyboards",".buttons[\"return\"]",".buttons[\"Return\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app/*@START_MENU_TOKEN@*/.keyboards.buttons["Return"]/*[[".keyboards",".buttons[\"return\"]",".buttons[\"Return\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[2,0]]@END_MENU_TOKEN@*/.tap()
         XCTAssert(app.scrollViews.otherElements.buttons["Spider Man"].exists)
         app.scrollViews.otherElements.buttons["Spider Man"].tap()
     }
