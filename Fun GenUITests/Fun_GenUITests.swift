@@ -22,17 +22,10 @@ class Fun_GenUITests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
-    }
     
     // UI test for frontend, adding an option on the VoteView page
-    
     func testAddOption() throws {
-    let app = XCUIApplication()
+        let app = XCUIApplication()
         app.launch()
         if app.buttons["Sign out"].exists {
             app.buttons["Sign out"].tap()
