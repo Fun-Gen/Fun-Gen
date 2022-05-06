@@ -24,6 +24,13 @@ class Fun_GenTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+    
+    private var tearDownBlocks: [() async throws -> Void] = []
+    override func tearDown() async throws {
+        for tearDownBlock in tearDownBlocks.reversed() {
+            try await tearDownBlock()
+        }
+    }
 
     func testUserLogin() async throws {
         let expectation = XCTestExpectation(description: "User eventually logs in")
@@ -55,7 +62,7 @@ class Fun_GenTests: XCTestCase {
     func testActivityViewModelCreateActivity() async throws {
         let optionID = OptionViewModel
             .createOption(title: "Test-\(#function)-init-\(UUID().uuidString)")
-        addTeardownBlock {
+        addTeardownAsync {
             try await self.deleteOptions(ids: [optionID])
         }
         
@@ -67,7 +74,7 @@ class Fun_GenTests: XCTestCase {
             options: [optionID],
             additionalMembers: [IDs.User.testTest]
         )
-        addTeardownBlock {
+        addTeardownAsync {
             try await self.deleteActivity(id: activityID,
                                           andFromUsers: [IDs.User.test123, IDs.User.testTest])
         }
@@ -89,7 +96,7 @@ class Fun_GenTests: XCTestCase {
     func testOptionViewModel() async throws {
         let randomText = "Test-\(#function)-\(UUID().uuidString)"
         let optionID = OptionViewModel.createOption(title: randomText)
-        addTeardownBlock {
+        addTeardownAsync {
             try await self.deleteOptions(ids: [optionID])
         }
         let option = try await OptionViewModel.option(id: optionID)
@@ -120,6 +127,13 @@ class Fun_GenTests: XCTestCase {
                     "activities": FieldValue.arrayRemove([activityID])
                 ])
         }
+    }
+    
+    // Normally you'd use addTeardownBlock, but there's a bug (FB10009783):
+    // Undefined symbol: (extension in XCTest):__C.XCTestCase.
+    // addTeardownBlock(() async throws -> ()) -> ()
+    func addTeardownAsync(_ block: @escaping () async throws -> Void) {
+        tearDownBlocks.append(block)
     }
     
     func testPerformanceExample() throws {
