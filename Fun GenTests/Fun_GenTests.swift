@@ -10,6 +10,7 @@ import FirebaseFirestore
 @testable import Fun_Gen
 
 class Fun_GenTests: XCTestCase {
+    /// Constants for quickly referencing known identifiers in the database.
     enum IDs {
         enum User {
             static let test123 = "eOUU1RDjcphzXd0VTUDhALy6ZB53"
@@ -25,6 +26,7 @@ class Fun_GenTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
+    // Workaround for FB10009783
     private var tearDownBlocks: [() async throws -> Void] = []
     override func tearDown() async throws {
         for tearDownBlock in tearDownBlocks.reversed() {
@@ -57,6 +59,7 @@ class Fun_GenTests: XCTestCase {
         XCTAssertNotNil(userByID)
         XCTAssertEqual(userByEmail, userByName)
         XCTAssertEqual(userByName, userByID)
+        // All equal by transitivity
     }
     
     func testActivityViewModelCreateActivity() async throws {
@@ -65,7 +68,7 @@ class Fun_GenTests: XCTestCase {
         addTeardownAsync {
             try await self.deleteOptions(ids: [optionID])
         }
-        
+        // Create new activity
         let title = "Test-\(#function)-title-\(UUID().uuidString)"
         let activityID = ActivityViewModel.createActivity(
             title: title,
@@ -78,6 +81,7 @@ class Fun_GenTests: XCTestCase {
             try await self.deleteActivity(id: activityID,
                                           andFromUsers: [IDs.User.test123, IDs.User.testTest])
         }
+        // Check activity has the correct info
         let activity = try await ActivityViewModel.activity(id: activityID)
         XCTAssertEqual(activity.id, activityID)
         XCTAssertEqual(activity.title, title)
@@ -85,13 +89,17 @@ class Fun_GenTests: XCTestCase {
         XCTAssertEqual(activity.author, IDs.User.test123)
         XCTAssert(activity.members.contains(IDs.User.test123))
         XCTAssert(activity.members.contains(IDs.User.testTest))
-        
+        // Check users' activities are updated
         let users = try await UserViewModel.users(ids: [IDs.User.test123, IDs.User.testTest])
         XCTAssertEqual(users.count, 2)
         for user in users {
             XCTAssert(user.activities.contains(activityID))
         }
     }
+    
+    // TODO: test add option to existing activity
+    
+    // TODO: test vote for existing option in activity
     
     func testOptionViewModel() async throws {
         let randomText = "Test-\(#function)-\(UUID().uuidString)"
@@ -104,6 +112,8 @@ class Fun_GenTests: XCTestCase {
         XCTAssertEqual(option?.title, randomText)
     }
     
+    // MARK: - Helpers
+    
     private func deleteOptions(ids: [Option.ID]) async throws {
         for id in ids {
             try await Firestore.firestore()
@@ -115,10 +125,12 @@ class Fun_GenTests: XCTestCase {
     
     private func deleteActivity(id activityID: Activity.ID,
                                 andFromUsers userIDs: [User.ID]) async throws {
+        // Remove activity from activities
         try await Firestore.firestore()
             .collection(ActivityViewModel.activitiesCollection)
             .document(activityID)
             .delete()
+        // Remove activity from each of its member's records
         for userID in userIDs {
             try await Firestore.firestore()
                 .collection(UserViewModel.usersCollection)
@@ -134,12 +146,5 @@ class Fun_GenTests: XCTestCase {
     // addTeardownBlock(() async throws -> ()) -> ()
     func addTeardownAsync(_ block: @escaping () async throws -> Void) {
         tearDownBlocks.append(block)
-    }
-    
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
     }
 }
