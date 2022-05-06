@@ -6,10 +6,17 @@
 //
 
 import XCTest
-import Firebase
+import FirebaseFirestore
 @testable import Fun_Gen
 
 class Fun_GenTests: XCTestCase {
+    enum IDs {
+        enum User {
+            static let test123 = "eOUU1RDjcphzXd0VTUDhALy6ZB53"
+            static let testTest = "MEXIFk2ocFZsJ6eYqab24Hj6ioQ2"
+        }
+    }
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -23,7 +30,9 @@ class Fun_GenTests: XCTestCase {
         let viewModel = UserViewModel()
         try viewModel.signOut()
         let cancellable = viewModel.$user.sink { user in
-            if user?.username == "Test123" {
+            if let user = user,
+               user.username == "Test123",
+               user.id == IDs.User.test123 {
                 expectation.fulfill()
             }
         }
@@ -35,7 +44,7 @@ class Fun_GenTests: XCTestCase {
     func testUserViewModelFetchUser() async throws {
         let userByEmail = try await UserViewModel.user(email: "test123@gmail.com")
         let userByName = try await UserViewModel.user(named: "Test123")
-        let userByID = try await UserViewModel.user(id: "eOUU1RDjcphzXd0VTUDhALy6ZB53")
+        let userByID = try await UserViewModel.user(id: IDs.User.test123)
         XCTAssertNotNil(userByEmail)
         XCTAssertNotNil(userByName)
         XCTAssertNotNil(userByID)
@@ -43,19 +52,74 @@ class Fun_GenTests: XCTestCase {
         XCTAssertEqual(userByName, userByID)
     }
     
+    func testActivityViewModelCreateActivity() async throws {
+        let optionID = OptionViewModel
+            .createOption(title: "Test-\(#function)-init-\(UUID().uuidString)")
+        addTeardownBlock {
+            try await self.deleteOptions(ids: [optionID])
+        }
+        
+        let title = "Test-\(#function)-title-\(UUID().uuidString)"
+        let activityID = ActivityViewModel.createActivity(
+            title: title,
+            category: .destination,
+            author: IDs.User.test123,
+            options: [optionID],
+            additionalMembers: [IDs.User.testTest]
+        )
+        addTeardownBlock {
+            try await self.deleteActivity(id: activityID,
+                                          andFromUsers: [IDs.User.test123, IDs.User.testTest])
+        }
+        let activity = try await ActivityViewModel.activity(id: activityID)
+        XCTAssertEqual(activity.id, activityID)
+        XCTAssertEqual(activity.title, title)
+        XCTAssertEqual(activity.category, Category.destination)
+        XCTAssertEqual(activity.author, IDs.User.test123)
+        XCTAssert(activity.members.contains(IDs.User.test123))
+        XCTAssert(activity.members.contains(IDs.User.testTest))
+        
+        let users = try await UserViewModel.users(ids: [IDs.User.test123, IDs.User.testTest])
+        XCTAssertEqual(users.count, 2)
+        for user in users {
+            XCTAssert(user.activities.contains(activityID))
+        }
+    }
+    
     func testOptionViewModel() async throws {
         let randomText = "Test-\(#function)-\(UUID().uuidString)"
         let optionID = OptionViewModel.createOption(title: randomText)
-        defer {
-            // Clean up, no existing method implemented to do so
-            Firestore.firestore()
-                .collection(OptionViewModel.optionsCollection)
-                .document(optionID)
-                .delete()
+        addTeardownBlock {
+            try await self.deleteOptions(ids: [optionID])
         }
         let option = try await OptionViewModel.option(id: optionID)
         XCTAssertNotNil(option)
         XCTAssertEqual(option?.title, randomText)
+    }
+    
+    private func deleteOptions(ids: [Option.ID]) async throws {
+        for id in ids {
+            try await Firestore.firestore()
+                .collection(OptionViewModel.optionsCollection)
+                .document(id)
+                .delete()
+        }
+    }
+    
+    private func deleteActivity(id activityID: Activity.ID,
+                                andFromUsers userIDs: [User.ID]) async throws {
+        try await Firestore.firestore()
+            .collection(ActivityViewModel.activitiesCollection)
+            .document(activityID)
+            .delete()
+        for userID in userIDs {
+            try await Firestore.firestore()
+                .collection(UserViewModel.usersCollection)
+                .document(userID)
+                .updateData([
+                    "activities": FieldValue.arrayRemove([activityID])
+                ])
+        }
     }
     
     func testPerformanceExample() throws {

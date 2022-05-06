@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 
 class ActivityViewModel: ObservableObject {
     private static let database = Firestore.firestore()
-    private static let activitiesCollection = "activities"
+    static let activitiesCollection = "activities"
     
     let activityID: Activity.ID
     @Published private(set) var activity: Activity?
@@ -29,7 +29,11 @@ class ActivityViewModel: ObservableObject {
                     print(error)
                     return
                 }
-                self?.activity = try? snapshot?.data(as: Activity.self)
+                do {
+                    self?.activity = try snapshot?.data(as: Activity.self)
+                } catch {
+                    print(error)
+                }
             }
     }
     
@@ -43,7 +47,9 @@ class ActivityViewModel: ObservableObject {
             .document(activityID)
             .updateData([
                 "options": [
-                    optionID: FieldValue.arrayUnion([userID])
+                    optionID: [
+                        "members": FieldValue.arrayUnion([userID])
+                    ]
                 ]
             ])
     }
@@ -51,12 +57,19 @@ class ActivityViewModel: ObservableObject {
     /// Add an ``Option`` specified by its ID to activity.options
     /// - Precondition: the given `optionID` points to a valid option.
     func addOption(_ optionID: Option.ID, byUser userID: User.ID) {
+        let newPollOption: [String: Any]
+        do {
+            newPollOption = try Firestore.Encoder()
+                .encode(PollOption(optionID: optionID, author: userID))
+        } catch {
+            fatalError("PollOption not encodable")
+        }
         Self.database
             .collection(Self.activitiesCollection)
             .document(activityID)
             .updateData([
                 "options": [
-                    optionID: [userID]
+                    optionID: newPollOption
                 ]
             ])
     }
@@ -72,6 +85,7 @@ class ActivityViewModel: ObservableObject {
         additionalMembers: [User.ID]
     ) -> Activity.ID {
         assert(!additionalMembers.contains(author))
+        let allMembers = additionalMembers + [author]
         let ref = database.collection(activitiesCollection).document()
         let activityID = ref.documentID
         do {
@@ -80,13 +94,16 @@ class ActivityViewModel: ObservableObject {
                 title: title,
                 category: category,
                 author: author,
-                members: additionalMembers + [author],
+                members: allMembers,
                 options: Dictionary(uniqueKeysWithValues: options.map {
                     ($0, PollOption(optionID: $0, author: author))
                 })
             ))
         } catch {
             fatalError("Activity not encodable")
+        }
+        for member in allMembers {
+            UserViewModel._addActivity(id: activityID, toUser: member)
         }
         return activityID
     }
