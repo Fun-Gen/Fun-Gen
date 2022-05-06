@@ -43,6 +43,21 @@ class Fun_GenTests: XCTestCase {
         XCTAssertEqual(userByName, userByID)
     }
     
+    func testOptionViewModel() async throws {
+        let randomText = "Test-\(#function)-\(UUID().uuidString)"
+        let optionID = OptionViewModel.createOption(title: randomText)
+        defer {
+            // Clean up, no existing method implemented to do so
+            Firestore.firestore()
+                .collection(OptionViewModel.optionsCollection)
+                .document(optionID)
+                .delete()
+        }
+        let option = try await OptionViewModel.option(id: optionID)
+        XCTAssertNotNil(option)
+        XCTAssertEqual(option?.title, randomText)
+    }
+    
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         measure {
