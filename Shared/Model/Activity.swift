@@ -26,15 +26,17 @@ struct Activity: Codable, Identifiable {
     /// Contains all ``User``s that are participating in this ``Activity``
     var members: [User.ID] = []
     
-    /// Contains all ``PollOption``s suggested by ``members``
-    var options: [PollOption] = []
+    /// Contains all ``PollOption``s suggested by ``members``, index by ``Option.ID``
+    var options: [Option.ID: PollOption] = [:]
     
     /// Sum of votes for this ``Activity``
-    var voteCount: Int
+    var voteCount: Int {
+        options.reduce(0) { $0 + $1.value.members.count }
+    }
 }
 
 let testActivities = [
-    Activity(id: "1", title: "Movie", category: Category.movie, author: "1", voteCount: 1),
-    Activity(id: "2", title: "Outdoors", category: Category.outdoor, author: "1", voteCount: 1),
-    Activity(id: "3", title: "Food", category: Category.food, author: "1", voteCount: 1)
+    Activity(id: "1", title: "Movie", category: Category.movie, author: "1"),
+    Activity(id: "2", title: "Outdoors", category: Category.outdoor, author: "1"),
+    Activity(id: "3", title: "Food", category: Category.food, author: "1")
 ]
