@@ -8,7 +8,7 @@
 import Foundation
 
 /// Stores information to identify the ``User`` and references each ``Activity`` they are subscribed to
-struct User: Codable, Identifiable {
+struct User: Codable, Identifiable, Equatable {
     typealias ID = String
     
     /// Unique database ID

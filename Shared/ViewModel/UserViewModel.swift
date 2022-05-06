@@ -15,7 +15,9 @@ class UserViewModel: ObservableObject {
     @Published private(set) var user: User?
     
     private let auth = Auth.auth()
-    private let database = Firestore.firestore()
+    private static let database = Firestore.firestore()
+    private static let usersCollection = "users"
+    
     var uuid: String? {
         auth.currentUser?.uid
     }
@@ -39,15 +41,19 @@ class UserViewModel: ObservableObject {
                 self.userObserverHandler?.remove()
                 self.userObserverHandler = nil
                 if let newID = authUser?.uid {
-                    self.userObserverHandler = self.database
-                        .collection("users")
+                    self.userObserverHandler = Self.database
+                        .collection(Self.usersCollection)
                         .document(newID)
                         .addSnapshotListener { [weak self] snapshot, error in
                             if let error = error {
                                 print(error)
                                 return
                             }
-                            self?.user = try? snapshot?.data(as: User.self)
+                            do {
+                                self?.user = try snapshot?.data(as: User.self)
+                            } catch {
+                                print(error)
+                            }
                         }
                 }
             }
@@ -76,7 +82,7 @@ class UserViewModel: ObservableObject {
     private func add(_ user: User) {
         precondition(userIsAuthenticated)
         do {
-            try database.collection("users").document(user.id).setData(from: user)
+            try Self.database.collection(Self.usersCollection).document(user.id).setData(from: user)
         } catch {
             fatalError("User not encodable")
         }
@@ -85,25 +91,47 @@ class UserViewModel: ObservableObject {
     // MARK: - Operations Specified in Requirements
     
     /// Fetch user with ID once.
-    static func user(id: User.ID) -> User? {
-        return users(ids: [id]).first?.flatMap { $0 }
+    /// - Parameter id: the ID of ``User`` to fetch.
+    /// - Returns: the ``User`` with given id if found, or nil otherwise.
+    static func user(id: User.ID) async throws -> User? {
+        return try await users(ids: [id]).first
     }
     
     /// Fetch users with IDs once.
-    static func users(ids: [User.ID]) -> [User?] {
-        // FIXME: missing implementation
-        return []
+    /// - Parameter ids: the IDs of users to fetch.
+    /// - Returns: the ``User``s matching the given ids in no specific order, and
+    /// may contain fewer users than the specified ids if some of the ids cannot be found in the database.
+    static func users(ids: [User.ID]) async throws -> [User] {
+        return try await database
+            .collection(usersCollection)
+            .whereField("id", in: ids)
+            .getDocuments()
+            .documents
+            .map { try $0.data(as: User.self) }
     }
     
     /// Fetch Users by username (prefix/full match, maybe fuzzy match for stretch goal) once.
-    static func users(named name: String) -> [User] {
-        // FIXME: missing implementation
-        return []
+    /// - Note: anything other than full username match (such as prefix or fuzzy match)
+    /// requires additional 3rd party dependencies. See Firestore's documentation for more details:
+    /// https://firebase.google.com/docs/firestore/solutions/search
+    static func user(named name: String) async throws -> User? {
+        return try await database
+            .collection(usersCollection)
+            .whereField("username", isEqualTo: name)
+            .getDocuments()
+            .documents
+            .first
+            .map { try $0.data(as: User.self) }
     }
     
     /// Fetch User by email (match entire email) once.
-    static func user(email: String) -> User? {
-        // FIXME: missing implementation
-        return nil
+    static func user(email: String) async throws -> User? {
+        return try await database
+            .collection(usersCollection)
+            .whereField("email", isEqualTo: email)
+            .getDocuments()
+            .documents
+            .first
+            .map { try $0.data(as: User.self) }
     }
 }

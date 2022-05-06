@@ -31,7 +31,18 @@ class Fun_GenTests: XCTestCase {
         wait(for: [expectation], timeout: 10)
         cancellable.cancel()
     }
-
+    
+    func testUserViewModelFetchUser() async throws {
+        let userByEmail = try await UserViewModel.user(email: "test123@gmail.com")
+        let userByName = try await UserViewModel.user(named: "Test123")
+        let userByID = try await UserViewModel.user(id: "eOUU1RDjcphzXd0VTUDhALy6ZB53")
+        XCTAssertNotNil(userByEmail)
+        XCTAssertNotNil(userByName)
+        XCTAssertNotNil(userByID)
+        XCTAssertEqual(userByEmail, userByName)
+        XCTAssertEqual(userByName, userByID)
+    }
+    
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         measure {
