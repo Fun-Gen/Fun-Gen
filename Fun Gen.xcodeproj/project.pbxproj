@@ -33,9 +33,6 @@
 		D222519F2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D222519E2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift */; };
 		D22251A62821CC39007B0A00 /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22251A52821CC39007B0A00 /* ActivityViewModel.swift */; };
 		D22251A72821CC39007B0A00 /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22251A52821CC39007B0A00 /* ActivityViewModel.swift */; };
-		D22251AA2821CC71007B0A00 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = D22251A92821CC71007B0A00 /* FirebaseAuthCombine-Community */; };
-		D22251AC2821CC71007B0A00 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = D22251AB2821CC71007B0A00 /* FirebaseFirestoreCombine-Community */; };
-		D22251AF2821CF48007B0A00 /* CodableFirebase in Frameworks */ = {isa = PBXBuildFile; productRef = D22251AE2821CF48007B0A00 /* CodableFirebase */; };
 		D22251B12821D2DD007B0A00 /* FunGenError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22251B02821D2DD007B0A00 /* FunGenError.swift */; };
 		D22251B22821D2DD007B0A00 /* FunGenError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22251B02821D2DD007B0A00 /* FunGenError.swift */; };
 		D2EA2F4E281B97E6001E5871 /* PollOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EA2F4D281B97E6001E5871 /* PollOption.swift */; };
@@ -123,12 +120,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D22251AF2821CF48007B0A00 /* CodableFirebase in Frameworks */,
 				843ADA6A280E30D200ABE3DB /* FirebaseAuth in Frameworks */,
 				843ADA88280E35C400ABE3DB /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				843ADA72280E30D200ABE3DB /* FirebaseFirestore in Frameworks */,
-				D22251AC2821CC71007B0A00 /* FirebaseFirestoreCombine-Community in Frameworks */,
-				D22251AA2821CC71007B0A00 /* FirebaseAuthCombine-Community in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,9 +309,6 @@
 				843ADA69280E30D200ABE3DB /* FirebaseAuth */,
 				843ADA71280E30D200ABE3DB /* FirebaseFirestore */,
 				843ADA87280E35C400ABE3DB /* FirebaseFirestoreSwift-Beta */,
-				D22251A92821CC71007B0A00 /* FirebaseAuthCombine-Community */,
-				D22251AB2821CC71007B0A00 /* FirebaseFirestoreCombine-Community */,
-				D22251AE2821CF48007B0A00 /* CodableFirebase */,
 			);
 			productName = "Fun Gen (iOS)";
 			productReference = DB3CA9572808BD4E004094F4 /* Fun Gen.app */;
@@ -378,7 +369,6 @@
 			mainGroup = DB3CA94A2808BD4C004094F4;
 			packageReferences = (
 				843ADA66280E30D200ABE3DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				D22251AD2821CF47007B0A00 /* XCRemoteSwiftPackageReference "CodableFirebase" */,
 			);
 			productRefGroup = DB3CA9582808BD4E004094F4 /* Products */;
 			projectDirPath = "";
@@ -923,14 +913,6 @@
 				minimumVersion = 8.0.0;
 			};
 		};
-		D22251AD2821CF47007B0A00 /* XCRemoteSwiftPackageReference "CodableFirebase" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/alickbass/CodableFirebase.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -948,21 +930,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 843ADA66280E30D200ABE3DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseFirestoreSwift-Beta";
-		};
-		D22251A92821CC71007B0A00 /* FirebaseAuthCombine-Community */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 843ADA66280E30D200ABE3DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseAuthCombine-Community";
-		};
-		D22251AB2821CC71007B0A00 /* FirebaseFirestoreCombine-Community */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 843ADA66280E30D200ABE3DB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseFirestoreCombine-Community";
-		};
-		D22251AE2821CF48007B0A00 /* CodableFirebase */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D22251AD2821CF47007B0A00 /* XCRemoteSwiftPackageReference "CodableFirebase" */;
-			productName = CodableFirebase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

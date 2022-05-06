@@ -7,15 +7,12 @@
 
 import Foundation
 import FirebaseAuth
-import FirebaseAuthCombineSwift
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-import Combine
-import CodableFirebase
 
 class UserViewModel: ObservableObject {
     /// The current user logged in, if any
-    @Published var user: User?
+    @Published private(set) var user: User?
     
     private let auth = Auth.auth()
     private let database = Firestore.firestore()
@@ -29,7 +26,7 @@ class UserViewModel: ObservableObject {
         user != nil && userIsAuthenticated
     }
     
-    private var userObserverHandler: AnyCancellable?
+    private var userObserverHandler: ListenerRegistration?
     
     init() {
         setupAutoUpdate()
@@ -39,26 +36,26 @@ class UserViewModel: ObservableObject {
         auth.addStateDidChangeListener { [weak self] _, authUser in
             guard let self = self else { return }
             if authUser?.uid != self.user?.id {
-                self.userObserverHandler?.cancel()
+                self.userObserverHandler?.remove()
                 self.userObserverHandler = nil
                 if let newID = authUser?.uid {
                     self.userObserverHandler = self.database
                         .collection("users")
                         .document(newID)
-                        .snapshotPublisher()
-                        .compactMap { $0.data() }
-                        .tryMap { try FirebaseDecoder().decode(User.self, from: $0) }
-                        .sink { _ in
-                            // ignore completion
-                        } receiveValue: { user in
-                            self.user = user
+                        .addSnapshotListener { [weak self] snapshot, error in
+                            if let error = error {
+                                print(error)
+                                return
+                            }
+                            self?.user = try? snapshot?.data(as: User.self)
                         }
                 }
             }
         }
     }
     
-    // Firebase Auth Functions
+    // MARK: - Firebase Auth Functions
+    
     func signIn(email: String, password: String) {
         auth.signIn(withEmail: email, password: password) { result, error in
             guard result != nil, error == nil else {
@@ -91,27 +88,18 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    // Firestore Functions for User Data
+    // MARK: - Firestore Functions for User Data
     
     private func add(_ user: User) {
-        guard userIsAuthenticated, let uuid = uuid else { return }
+        precondition(userIsAuthenticated)
         do {
-            let _: Void = try database.collection("users").document(uuid).setData(from: user)
+            try database.collection("users").document(user.id).setData(from: user)
         } catch {
-            print("Error adding: \(error)")
+            fatalError("User not encodable")
         }
     }
     
-    private func update() {
-        guard userIsAuthenticatedAndSynced, let uuid = uuid else { return }
-        do {
-            let _: Void = try database.collection("users").document(uuid).setData(from: user)
-        } catch {
-            print("Error updating: \(error)")
-        }
-    }
-    
-    // MARK: - Operations Speecified in Requirements
+    // MARK: - Operations Specified in Requirements
     
     /// Fetch user with ID once.
     static func user(id: User.ID) -> User? {

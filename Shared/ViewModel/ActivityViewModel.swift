@@ -8,50 +8,102 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-import FirebaseFirestoreCombineSwift
-import CodableFirebase
-import Combine
 
 class ActivityViewModel: ObservableObject {
-    private let firestore = Firestore.firestore()
-    private let activitiesCollection = "activities"
+    private static let database = Firestore.firestore()
+    private static let activitiesCollection = "activities"
     
-    // Create an Activity.
-    // TODO: confirm parameters
-    func createActivity() -> Activity.ID {
-        // FIXME: missing implementation
-        return ""
-    }
+    let activityID: Activity.ID
+    @Published private(set) var activity: Activity?
+    
+    private var activityObservation: ListenerRegistration?
     
     /// A publisher for getting the latest values of an activity specified by the activityID.
-    func activityPublisher(actvityID: Activity.ID) -> AnyPublisher<Activity, Error> {
-        firestore
-            .collection(activitiesCollection)
-            .document(actvityID)
-            .snapshotPublisher()
-            .compactMap { $0.data() }
-            .tryMap { try FirebaseDecoder().decode(Activity.self, from: $0) }
-            .eraseToAnyPublisher()
+    init(activityID: Activity.ID) {
+        self.activityID = activityID
+        activityObservation = Self.database
+            .collection(Self.activitiesCollection)
+            .document(activityID)
+            .addSnapshotListener { [weak self] snapshot, error in
+                if let error = error {
+                    print(error)
+                    return
+                }
+                self?.activity = try? snapshot?.data(as: Activity.self)
+            }
     }
     
-    // Get activity specified by ID once.
-    func activity(id: Activity.ID) async throws -> Activity {
-        let snapshot = try await firestore
-            .collection(activitiesCollection)
-            .document(id)
-            .getDocument()
-        guard let data = snapshot.data() else {
-            throw FunGenError.missingSnapshotData
+    /// Make the user specified by the user ID vote for the option specified by the option ID.
+    func vote(for optionID: Option.ID, byUser userID: User.ID) {
+        guard let activity = activity else { return }
+        precondition(activity.options.keys.contains(optionID))
+        // Add member UserID to an option in activity.options
+        Self.database
+            .collection(Self.activitiesCollection)
+            .document(activityID)
+            .updateData([
+                "options": [
+                    optionID: FieldValue.arrayUnion([userID])
+                ]
+            ])
+    }
+    
+    /// Add an ``Option`` specified by its ID to activity.options
+    /// - Precondition: the given `optionID` points to a valid option.
+    func addOption(_ optionID: Option.ID, byUser userID: User.ID) {
+        Self.database
+            .collection(Self.activitiesCollection)
+            .document(activityID)
+            .updateData([
+                "options": [
+                    optionID: [userID]
+                ]
+            ])
+    }
+    
+    // MARK: - Static Helpers
+    
+    // Create an Activity.
+    static func createActivity(
+        title: String,
+        category: Category,
+        author: User.ID,
+        options: [Option.ID],
+        additionalMembers: [User.ID]
+    ) -> Activity.ID {
+        assert(!additionalMembers.contains(author))
+        let ref = database.collection(activitiesCollection).document()
+        let activityID = ref.documentID
+        do {
+            try ref.setData(from: Activity(
+                id: activityID,
+                title: title,
+                category: category,
+                author: author,
+                members: additionalMembers + [author],
+                options: Dictionary(uniqueKeysWithValues: options.map {
+                    ($0, PollOption(optionID: $0, author: author))
+                })
+            ))
+        } catch {
+            fatalError("Activity not encodable")
         }
-        return try FirebaseDecoder().decode(Activity.self, from: data)
+        return activityID
+    }
+    
+    // Get activity specified by ID **once**.
+    static func activity(id: Activity.ID) async throws -> Activity {
+        return try await Self.database
+            .collection(Self.activitiesCollection)
+            .document(id)
+            .getDocument(as: Activity.self)
     }
     
     // TODO: add implementation for:
     //    Add UserID to Activity.members
-    //    Add an Option to Activity.options
-    //    Add member UserID to an option in Activity.options (vote)
-    //    Randomly pick the Activity.selectedOption from
-    //    All the option
+    //    Remove options?
+    //    Change vote?
+    //    Randomly pick the Activity.selectedOption from all the option
     //    The top voted option
     //    Get the list of Options with the most members
 }
