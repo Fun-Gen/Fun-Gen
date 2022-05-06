@@ -18,16 +18,16 @@ class Fun_GenTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testUserLogin() {
+    func testUserLogin() async throws {
         let expectation = XCTestExpectation(description: "User eventually logs in")
         let viewModel = UserViewModel()
-        viewModel.signOut()
+        try viewModel.signOut()
         let cancellable = viewModel.$user.sink { user in
             if user?.username == "Test123" {
                 expectation.fulfill()
             }
         }
-        viewModel.signIn(email: "test123@gmail.com", password: "123123")
+        try await viewModel.signIn(email: "test123@gmail.com", password: "123123")
         wait(for: [expectation], timeout: 10)
         cancellable.cancel()
     }

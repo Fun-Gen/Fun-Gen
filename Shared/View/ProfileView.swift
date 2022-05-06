@@ -17,7 +17,12 @@ struct ProfileView: View {
             // shoud see landing page
             TempHomeView()
             Button {
-                user.signOut()
+                do {
+                    try user.signOut()
+                } catch {
+                    // TODO: display error to user
+                    print(error)
+                }
             } label: {
                 Text("Sign out")
             }

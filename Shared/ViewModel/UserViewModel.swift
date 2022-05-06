@@ -56,36 +56,19 @@ class UserViewModel: ObservableObject {
     
     // MARK: - Firebase Auth Functions
     
-    func signIn(email: String, password: String) {
-        auth.signIn(withEmail: email, password: password) { result, error in
-            guard result != nil, error == nil else {
-                print(error?.localizedDescription ?? "Unknown error")
-                return
-            }
-        }
+    func signIn(email: String, password: String) async throws {
+        try await auth.signIn(withEmail: email, password: password)
     }
     
-    func signUp(email: String, username: String, password: String) {
-        auth.createUser(withEmail: email, password: password) { [weak self] result, error in
-            guard result != nil, error == nil else {
-                return
-            }
-            // constants for retrieving newly generated Firebase user ID
-            let getUser = Auth.auth().currentUser
-            let userID: String = getUser?.uid ?? ""
-            DispatchQueue.main.async {
-                self?.add(User(id: userID, username: username, email: email))
-            }
-        }
+    func signUp(email: String, username: String, password: String) async throws {
+        let getUser = try await auth.createUser(withEmail: email, password: password).user
+        let userID = getUser.uid
+        add(User(id: userID, username: username, email: email))
     }
     
-    func signOut() {
-        do {
-            try auth.signOut()
-            user = nil
-        } catch {
-            print("Error signing out user: \(error)")
-        }
+    func signOut() throws {
+        try auth.signOut()
+        user = nil
     }
     
     // MARK: - Firestore Functions for User Data
