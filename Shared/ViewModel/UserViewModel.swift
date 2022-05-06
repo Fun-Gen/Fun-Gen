@@ -113,25 +113,25 @@ class UserViewModel: ObservableObject {
     
     // MARK: - Operations Speecified in Requirements
     
-    /// Fetch user with ID.
-    func user(id: User.ID) -> User? {
+    /// Fetch user with ID once.
+    static func user(id: User.ID) -> User? {
         return users(ids: [id]).first?.flatMap { $0 }
     }
     
-    /// Fetch users with IDs.
-    func users(ids: [User.ID]) -> [User?] {
+    /// Fetch users with IDs once.
+    static func users(ids: [User.ID]) -> [User?] {
         // FIXME: missing implementation
         return []
     }
     
-    /// Fetch Users by username (prefix/full match, maybe fuzzy match for stretch goal).
-    func users(named name: String) -> [User] {
+    /// Fetch Users by username (prefix/full match, maybe fuzzy match for stretch goal) once.
+    static func users(named name: String) -> [User] {
         // FIXME: missing implementation
         return []
     }
     
-    /// Fetch User by email (match entire email).
-    func user(email: String) -> User? {
+    /// Fetch User by email (match entire email) once.
+    static func user(email: String) -> User? {
         // FIXME: missing implementation
         return nil
     }
