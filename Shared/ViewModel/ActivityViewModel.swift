@@ -13,15 +13,12 @@ class ActivityViewModel: ObservableObject {
     private static let database = Firestore.firestore()
     static let activitiesCollection = "activities"
     
-    let activityID: Activity.ID
     @Published private(set) var activity: Activity?
-    
-    private var activityObservation: ListenerRegistration?
+    private var listenerRegistration: ListenerRegistration?
     
     /// A publisher for getting the latest values of an activity specified by the activityID.
     init(activityID: Activity.ID) {
-        self.activityID = activityID
-        activityObservation = Self.database
+        listenerRegistration = Self.database
             .collection(Self.activitiesCollection)
             .document(activityID)
             .addSnapshotListener { [weak self] snapshot, error in
