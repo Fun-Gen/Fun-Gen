@@ -129,6 +129,4 @@ class ActivityViewModel: ObservableObject {
     // TODO: add implementation for:
     //    Add UserID to Activity.members
     //    Randomly pick the Activity.selectedOption from all the option
-    //    The top voted option
-    //    Get the list of Options with the most members
 }
