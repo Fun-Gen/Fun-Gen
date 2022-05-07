@@ -123,6 +123,39 @@ class Fun_GenTests: XCTestCase {
     }
     
     func testActivityViewModelVoteForOption() async throws {
+        enum State {
+            case withoutVote, withVote
+        }
+        var currentState = State.withoutVote, nextState = State.withoutVote
+        let viewModel = ActivityViewModel(activityID: IDs.Activity.testActivity)
+        let receiveNonNilActivity = XCTestExpectation(description: "Has no nil activity")
+        let subscription = viewModel.$activity.sink { activity in
+            guard let activity = activity,
+                  let option = activity.options[IDs.Option.testOption]
+            else { return }
+            receiveNonNilActivity.fulfill()
+            let containsUser = option.members.contains(IDs.User.testTest)
+            switch (currentState, nextState, containsUser) {
+            case (.withoutVote, .withoutVote, true):
+                XCTFail("Expect to not have user vote")
+            case (.withoutVote, .withoutVote, false):
+                break
+            case (.withoutVote, .withVote, true):
+                currentState = nextState
+            case (.withoutVote, .withVote, false):
+                break // awaiting update
+            case (.withVote, .withoutVote, true):
+                break // awaiting update
+            case (.withVote, .withoutVote, false):
+                currentState = nextState
+            case (.withVote, .withVote, true):
+                break
+            case (.withVote, .withVote, false):
+                XCTFail("Expect to have user vote")
+            }
+        }
+        
+        nextState = .withVote
         try await ActivityViewModel.changeVote(ofUser: IDs.User.testTest,
                                                addTo: IDs.Option.testOption,
                                                inActivity: IDs.Activity.testActivity)
@@ -131,6 +164,8 @@ class Fun_GenTests: XCTestCase {
             .options[IDs.Option.testOption]
         XCTAssertNotNil(optionWithVote)
         XCTAssert(optionWithVote?.members.contains(IDs.User.testTest) == true)
+        
+        nextState = .withoutVote
         try await ActivityViewModel.changeVote(ofUser: IDs.User.testTest,
                                                removeFrom: IDs.Option.testOption,
                                                inActivity: IDs.Activity.testActivity)
@@ -139,6 +174,10 @@ class Fun_GenTests: XCTestCase {
             .options[IDs.Option.testOption]
         XCTAssertNotNil(optionWithOutVote)
         XCTAssert(optionWithOutVote?.members.contains(IDs.User.testTest) == false)
+        
+        wait(for: [receiveNonNilActivity], timeout: 5)
+        XCTAssertEqual(currentState, nextState)
+        subscription.cancel()
     }
     
     func testOptionViewModel() async throws {
