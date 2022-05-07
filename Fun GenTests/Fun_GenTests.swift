@@ -16,6 +16,12 @@ class Fun_GenTests: XCTestCase {
             static let test123 = "eOUU1RDjcphzXd0VTUDhALy6ZB53"
             static let testTest = "MEXIFk2ocFZsJ6eYqab24Hj6ioQ2"
         }
+        enum Activity {
+            static let testActivity = "testActivityID"
+        }
+        enum Option {
+            static let testOption = "testOptionID"
+        }
     }
     
     override func setUpWithError() throws {
@@ -97,7 +103,21 @@ class Fun_GenTests: XCTestCase {
         }
     }
     
-    // TODO: test add option to existing activity
+    func testActivityViewModelAddOption() async throws {
+        let randomOptionTitle = "Test-\(#function)-Option-\(UUID().uuidString)"
+        let newOptionID = OptionViewModel.createOption(title: randomOptionTitle)
+        addTeardownAsync {
+            try await self.deleteOptions(ids: [newOptionID])
+        }
+        ActivityViewModel.addOption(newOptionID, byUser: IDs.User.test123,
+                                    toActivity: IDs.Activity.testActivity)
+        addTeardownAsync {
+            ActivityViewModel
+                .removeOption(newOptionID, fromActivity: IDs.Activity.testActivity)
+        }
+        let activity = try await ActivityViewModel.activity(id: IDs.Activity.testActivity)
+        XCTAssert(activity.options.keys.contains(newOptionID))
+    }
     
     // TODO: test vote for existing option in activity
     

@@ -54,26 +54,6 @@ class ActivityViewModel: ObservableObject {
             ])
     }
     
-    /// Add an ``Option`` specified by its ID to activity.options
-    /// - Precondition: the given `optionID` points to a valid option.
-    func addOption(_ optionID: Option.ID, byUser userID: User.ID) {
-        let newPollOption: [String: Any]
-        do {
-            newPollOption = try Firestore.Encoder()
-                .encode(PollOption(optionID: optionID, author: userID))
-        } catch {
-            fatalError("PollOption not encodable")
-        }
-        Self.database
-            .collection(Self.activitiesCollection)
-            .document(activityID)
-            .updateData([
-                "options": [
-                    optionID: newPollOption
-                ]
-            ])
-    }
-    
     // MARK: - Static Helpers
     
     // Create an Activity.
@@ -116,9 +96,38 @@ class ActivityViewModel: ObservableObject {
             .getDocument(as: Activity.self)
     }
     
+    /// Add an ``Option`` specified by its ID to activity.options
+    /// - Precondition: the given `optionID` points to a valid option.
+    static func addOption(_ optionID: Option.ID,
+                          byUser userID: User.ID,
+                          toActivity activityID: Activity.ID) {
+        let newPollOption: [String: Any]
+        do {
+            newPollOption = try Firestore.Encoder()
+                .encode(PollOption(optionID: optionID, author: userID))
+        } catch {
+            fatalError("PollOption not encodable")
+        }
+        database
+            .collection(activitiesCollection)
+            .document(activityID)
+            .updateData([
+                FieldPath(["options", optionID]): newPollOption
+            ])
+    }
+    
+    static func removeOption(_ optionID: Option.ID,
+                             fromActivity activityID: Activity.ID) {
+        database
+            .collection(activitiesCollection)
+            .document(activityID)
+            .updateData([
+                FieldPath(["options", optionID]): FieldValue.delete()
+            ])
+    }
+    
     // TODO: add implementation for:
     //    Add UserID to Activity.members
-    //    Remove options?
     //    Change vote?
     //    Randomly pick the Activity.selectedOption from all the option
     //    The top voted option
