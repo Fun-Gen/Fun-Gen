@@ -69,14 +69,14 @@ class Fun_GenTests: XCTestCase {
     }
     
     func testActivityViewModelCreateActivity() async throws {
-        let optionID = OptionViewModel
+        let optionID = try OptionViewModel
             .createOption(title: "Test-\(#function)-init-\(UUID().uuidString)")
         addTeardownAsync {
             try await self.deleteOptions(ids: [optionID])
         }
         // Create new activity
         let title = "Test-\(#function)-title-\(UUID().uuidString)"
-        let activityID = ActivityViewModel.createActivity(
+        let activityID = try await ActivityViewModel.createActivity(
             title: title,
             category: .destination,
             author: IDs.User.test123,
@@ -105,14 +105,14 @@ class Fun_GenTests: XCTestCase {
     
     func testActivityViewModelAddOption() async throws {
         let randomOptionTitle = "Test-\(#function)-Option-\(UUID().uuidString)"
-        let newOptionID = OptionViewModel.createOption(title: randomOptionTitle)
+        let newOptionID = try OptionViewModel.createOption(title: randomOptionTitle)
         addTeardownAsync {
             try await self.deleteOptions(ids: [newOptionID])
         }
-        ActivityViewModel.addOption(newOptionID, byUser: IDs.User.test123,
-                                    toActivity: IDs.Activity.testActivity)
+        try await ActivityViewModel.addOption(newOptionID, byUser: IDs.User.test123,
+                                              toActivity: IDs.Activity.testActivity)
         addTeardownAsync {
-            ActivityViewModel
+            try await ActivityViewModel
                 .removeOption(newOptionID, fromActivity: IDs.Activity.testActivity)
         }
         let activity = try await ActivityViewModel.activity(id: IDs.Activity.testActivity)
@@ -140,7 +140,7 @@ class Fun_GenTests: XCTestCase {
     
     func testOptionViewModel() async throws {
         let randomText = "Test-\(#function)-\(UUID().uuidString)"
-        let optionID = OptionViewModel.createOption(title: randomText)
+        let optionID = try OptionViewModel.createOption(title: randomText)
         addTeardownAsync {
             try await self.deleteOptions(ids: [optionID])
         }

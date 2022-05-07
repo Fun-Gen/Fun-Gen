@@ -46,27 +46,24 @@ class ActivityViewModel: ObservableObject {
         author: User.ID,
         options: [Option.ID],
         additionalMembers: [User.ID]
-    ) -> Activity.ID {
+    ) async throws -> Activity.ID {
         assert(!additionalMembers.contains(author))
         let allMembers = additionalMembers + [author]
         let ref = database.collection(activitiesCollection).document()
         let activityID = ref.documentID
-        do {
-            try ref.setData(from: Activity(
-                id: activityID,
-                title: title,
-                category: category,
-                author: author,
-                members: allMembers,
-                options: Dictionary(uniqueKeysWithValues: options.map {
-                    ($0, PollOption(optionID: $0, author: author))
-                })
-            ))
-        } catch {
-            fatalError("Activity not encodable")
-        }
+        try ref.setData(from: Activity(
+            id: activityID,
+            title: title,
+            category: category,
+            author: author,
+            members: allMembers,
+            options: Dictionary(uniqueKeysWithValues: options.map {
+                ($0, PollOption(optionID: $0, author: author))
+            })
+        ))
+        // TODO: batch write instead for better performance
         for member in allMembers {
-            UserViewModel._addActivity(id: activityID, toUser: member)
+            try await UserViewModel._addActivity(id: activityID, toUser: member)
         }
         return activityID
     }
@@ -104,15 +101,10 @@ class ActivityViewModel: ObservableObject {
     /// - Precondition: the given `optionID` points to a valid option.
     static func addOption(_ optionID: Option.ID,
                           byUser userID: User.ID,
-                          toActivity activityID: Activity.ID) {
-        let newPollOption: [String: Any]
-        do {
-            newPollOption = try Firestore.Encoder()
-                .encode(PollOption(optionID: optionID, author: userID))
-        } catch {
-            fatalError("PollOption not encodable")
-        }
-        database
+                          toActivity activityID: Activity.ID) async throws {
+        let newPollOption = try Firestore.Encoder()
+            .encode(PollOption(optionID: optionID, author: userID))
+        try await database
             .collection(activitiesCollection)
             .document(activityID)
             .updateData([
@@ -121,8 +113,8 @@ class ActivityViewModel: ObservableObject {
     }
     
     static func removeOption(_ optionID: Option.ID,
-                             fromActivity activityID: Activity.ID) {
-        database
+                             fromActivity activityID: Activity.ID) async throws {
+        try await database
             .collection(activitiesCollection)
             .document(activityID)
             .updateData([

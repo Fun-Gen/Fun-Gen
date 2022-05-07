@@ -34,7 +34,7 @@ class UserViewModel: ObservableObject {
         setupAutoUpdate()
     }
     
-    func setupAutoUpdate() {
+    private func setupAutoUpdate() {
         auth.addStateDidChangeListener { [weak self] _, authUser in
             guard let self = self else { return }
             if authUser?.uid != self.user?.id {
@@ -69,7 +69,7 @@ class UserViewModel: ObservableObject {
     func signUp(email: String, username: String, password: String) async throws {
         let getUser = try await auth.createUser(withEmail: email, password: password).user
         let userID = getUser.uid
-        add(User(id: userID, username: username, email: email))
+        try add(User(id: userID, username: username, email: email))
     }
     
     func signOut() throws {
@@ -79,13 +79,9 @@ class UserViewModel: ObservableObject {
     
     // MARK: - Firestore Functions for User Data
     
-    private func add(_ user: User) {
+    private func add(_ user: User) throws {
         precondition(userIsAuthenticated)
-        do {
-            try Self.database.collection(Self.usersCollection).document(user.id).setData(from: user)
-        } catch {
-            fatalError("User not encodable")
-        }
+        try Self.database.collection(Self.usersCollection).document(user.id).setData(from: user)
     }
     
     // MARK: - Operations Specified in Requirements
@@ -138,8 +134,8 @@ class UserViewModel: ObservableObject {
     /// Special internal method not for frontend.
     static func _addActivity( // swiftlint:disable:this identifier_name
         id activityID: Activity.ID, toUser userID: User.ID
-    ) {
-        database
+    ) async throws {
+        try await database
             .collection(usersCollection)
             .document(userID)
             .updateData([
