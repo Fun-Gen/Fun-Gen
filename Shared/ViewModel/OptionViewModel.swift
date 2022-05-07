@@ -9,9 +9,29 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-enum OptionViewModel {
+class OptionViewModel: ObservableObject {
     static let database = Firestore.firestore()
     static let optionsCollection = "options"
+    
+    @Published private(set) var option: Option?
+    private var listenerRegistration: ListenerRegistration?
+    
+    init(optionID: String) {
+        listenerRegistration = Self.database
+            .collection(Self.optionsCollection)
+            .document(optionID)
+            .addSnapshotListener { [weak self] snapshot, error in
+                if let error = error {
+                    print(error)
+                    return
+                }
+                do {
+                    self?.option = try snapshot?.data(as: Option.self)
+                } catch {
+                    print(error)
+                }
+            }
+    }
     
     /// Create a new ``Option`` in the database.
     /// - Parameter title: the content of the ``Option`` to create.
