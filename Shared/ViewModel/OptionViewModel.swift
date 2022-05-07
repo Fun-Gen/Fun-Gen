@@ -26,6 +26,7 @@ enum OptionViewModel {
     static func createOptions(titles: [String]) throws -> [Option.ID] {
         var ids: [Option.ID] = []
         ids.reserveCapacity(titles.count)
+        // TODO: batch write for better performance
         for title in titles {
             let ref = database.collection(optionsCollection).document()
             let optionID = ref.documentID

@@ -69,18 +69,14 @@ class Fun_GenTests: XCTestCase {
     }
     
     func testActivityViewModelCreateActivity() async throws {
-        let optionID = try OptionViewModel
-            .createOption(title: "Test-\(#function)-init-\(UUID().uuidString)")
-        addTeardownAsync {
-            try await self.deleteOptions(ids: [optionID])
-        }
+        let optionTitle = "Test-\(#function)-init-\(UUID().uuidString)"
         // Create new activity
         let title = "Test-\(#function)-title-\(UUID().uuidString)"
         let activityID = try await ActivityViewModel.createActivity(
             title: title,
             category: .destination,
             author: IDs.User.test123,
-            options: [optionID],
+            optionTitles: [optionTitle],
             additionalMembers: [IDs.User.testTest]
         )
         addTeardownAsync {
@@ -89,6 +85,9 @@ class Fun_GenTests: XCTestCase {
         }
         // Check activity has the correct info
         let activity = try await ActivityViewModel.activity(id: activityID)
+        addTeardownAsync {
+            try await self.deleteOptions(ids: activity.options.keys)
+        }
         XCTAssertEqual(activity.id, activityID)
         XCTAssertEqual(activity.title, title)
         XCTAssertEqual(activity.category, Category.destination)
@@ -101,17 +100,21 @@ class Fun_GenTests: XCTestCase {
         for user in users {
             XCTAssert(user.activities.contains(activityID))
         }
+        // Check options have correct titles
+        XCTAssertEqual(activity.options.keys.count, 1)
+        let optionID = Array(activity.options.keys)[0]
+        let option = try await OptionViewModel.option(id: optionID)
+        XCTAssertNotNil(option)
+        XCTAssertEqual(option?.title, optionTitle)
     }
     
     func testActivityViewModelAddOption() async throws {
         let randomOptionTitle = "Test-\(#function)-Option-\(UUID().uuidString)"
-        let newOptionID = try OptionViewModel.createOption(title: randomOptionTitle)
+        let newOptionID = try await ActivityViewModel
+            .addOption(title: randomOptionTitle, byUser: IDs.User.test123,
+                       toActivity: IDs.Activity.testActivity)
         addTeardownAsync {
             try await self.deleteOptions(ids: [newOptionID])
-        }
-        try await ActivityViewModel.addOption(newOptionID, byUser: IDs.User.test123,
-                                              toActivity: IDs.Activity.testActivity)
-        addTeardownAsync {
             try await ActivityViewModel
                 .removeOption(newOptionID, fromActivity: IDs.Activity.testActivity)
         }
@@ -151,7 +154,8 @@ class Fun_GenTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func deleteOptions(ids: [Option.ID]) async throws {
+    private func deleteOptions<S: Sequence>(ids: S) async throws
+    where S.Element == Option.ID {
         for id in ids {
             try await Firestore.firestore()
                 .collection(OptionViewModel.optionsCollection)

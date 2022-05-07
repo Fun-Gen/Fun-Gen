@@ -44,13 +44,14 @@ class ActivityViewModel: ObservableObject {
         title: String,
         category: Category,
         author: User.ID,
-        options: [Option.ID],
+        optionTitles: [String],
         additionalMembers: [User.ID]
     ) async throws -> Activity.ID {
         assert(!additionalMembers.contains(author))
         let allMembers = additionalMembers + [author]
         let ref = database.collection(activitiesCollection).document()
         let activityID = ref.documentID
+        let options = try OptionViewModel.createOptions(titles: optionTitles)
         try ref.setData(from: Activity(
             id: activityID,
             title: title,
@@ -99,9 +100,11 @@ class ActivityViewModel: ObservableObject {
     
     /// Add an ``Option`` specified by its ID to activity.options
     /// - Precondition: the given `optionID` points to a valid option.
-    static func addOption(_ optionID: Option.ID,
+    static func addOption(title: String,
                           byUser userID: User.ID,
-                          toActivity activityID: Activity.ID) async throws {
+                          toActivity activityID: Activity.ID
+    ) async throws -> Option.ID {
+        let optionID = try OptionViewModel.createOption(title: title)
         let newPollOption = try Firestore.Encoder()
             .encode(PollOption(optionID: optionID, author: userID))
         try await database
@@ -110,6 +113,7 @@ class ActivityViewModel: ObservableObject {
             .updateData([
                 FieldPath(["options", optionID]): newPollOption
             ])
+        return optionID
     }
     
     static func removeOption(_ optionID: Option.ID,
