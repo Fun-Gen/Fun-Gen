@@ -119,7 +119,24 @@ class Fun_GenTests: XCTestCase {
         XCTAssert(activity.options.keys.contains(newOptionID))
     }
     
-    // TODO: test vote for existing option in activity
+    func testActivityViewModelVoteForOption() async throws {
+        try await ActivityViewModel.changeVote(ofUser: IDs.User.testTest,
+                                               addTo: IDs.Option.testOption,
+                                               inActivity: IDs.Activity.testActivity)
+        let optionWithVote = try await ActivityViewModel
+            .activity(id: IDs.Activity.testActivity)
+            .options[IDs.Option.testOption]
+        XCTAssertNotNil(optionWithVote)
+        XCTAssert(optionWithVote?.members.contains(IDs.User.testTest) == true)
+        try await ActivityViewModel.changeVote(ofUser: IDs.User.testTest,
+                                               removeFrom: IDs.Option.testOption,
+                                               inActivity: IDs.Activity.testActivity)
+        let optionWithOutVote = try await ActivityViewModel
+            .activity(id: IDs.Activity.testActivity)
+            .options[IDs.Option.testOption]
+        XCTAssertNotNil(optionWithOutVote)
+        XCTAssert(optionWithOutVote?.members.contains(IDs.User.testTest) == false)
+    }
     
     func testOptionViewModel() async throws {
         let randomText = "Test-\(#function)-\(UUID().uuidString)"

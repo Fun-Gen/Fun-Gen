@@ -37,23 +37,6 @@ class ActivityViewModel: ObservableObject {
             }
     }
     
-    /// Make the user specified by the user ID vote for the option specified by the option ID.
-    func vote(for optionID: Option.ID, byUser userID: User.ID) {
-        guard let activity = activity else { return }
-        precondition(activity.options.keys.contains(optionID))
-        // Add member UserID to an option in activity.options
-        Self.database
-            .collection(Self.activitiesCollection)
-            .document(activityID)
-            .updateData([
-                "options": [
-                    optionID: [
-                        "members": FieldValue.arrayUnion([userID])
-                    ]
-                ]
-            ])
-    }
-    
     // MARK: - Static Helpers
     
     // Create an Activity.
@@ -96,6 +79,27 @@ class ActivityViewModel: ObservableObject {
             .getDocument(as: Activity.self)
     }
     
+    static func changeVote(ofUser userID: User.ID,
+                           removeFrom currentOptionID: Option.ID? = nil,
+                           addTo newOptionID: Option.ID? = nil,
+                           inActivity activityID: Activity.ID) async throws {
+        precondition(currentOptionID != nil || newOptionID != nil,
+                     "Must at least specify either an ID to remove or add vote to")
+        var optionUpdates: [FieldPath: Any] = [:]
+        if let currentOptionID = currentOptionID {
+            optionUpdates[FieldPath(["options", currentOptionID, "members"])]
+            = FieldValue.arrayRemove([userID])
+        }
+        if let newOptionID = newOptionID {
+            optionUpdates[FieldPath(["options", newOptionID, "members"])]
+            = FieldValue.arrayUnion([userID])
+        }
+        try await database
+            .collection(activitiesCollection)
+            .document(activityID)
+            .updateData(optionUpdates)
+    }
+    
     /// Add an ``Option`` specified by its ID to activity.options
     /// - Precondition: the given `optionID` points to a valid option.
     static func addOption(_ optionID: Option.ID,
@@ -128,7 +132,6 @@ class ActivityViewModel: ObservableObject {
     
     // TODO: add implementation for:
     //    Add UserID to Activity.members
-    //    Change vote?
     //    Randomly pick the Activity.selectedOption from all the option
     //    The top voted option
     //    Get the list of Options with the most members
