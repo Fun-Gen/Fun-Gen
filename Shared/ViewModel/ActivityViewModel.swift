@@ -90,8 +90,8 @@ class ActivityViewModel: ObservableObject {
     
     // Get activity specified by ID **once**.
     static func activity(id: Activity.ID) async throws -> Activity {
-        return try await Self.database
-            .collection(Self.activitiesCollection)
+        return try await database
+            .collection(activitiesCollection)
             .document(id)
             .getDocument(as: Activity.self)
     }
