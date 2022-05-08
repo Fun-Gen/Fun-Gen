@@ -13,8 +13,9 @@ struct VoteView: View {
         id: "123",
         title: "What movie should we watch tonight?",
         category: Category.movie,
-        author: "mightyDonut",
-        voteCount: 3
+        // FIXME: this is not a valid user ID
+        // TODO: request renaming by backend if this is confusing
+        author: "mightyDonut"
     )
     @State private var optionArray = ["Shrek", "Wall-E", "ET"]
     @State private var isSelected = ""
@@ -29,7 +30,6 @@ struct VoteView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     // TODO: Correctly update fields from Model files when user inputs data
-                    // TODO: Update voteCount += 1 when an option is selected
                     ForEach(optionArray, id: \.self) { item in
                         Button {
                             self.isSelected = item

@@ -30,7 +30,14 @@ struct SignInView: View {
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
             Button {
-                user.signIn(email: email, password: password)
+                Task {
+                    do {
+                        try await user.signIn(email: email, password: password)
+                    } catch {
+                        // TODO: display error to user
+                        print(error)
+                    }
+                }
             } label: {
                 Text("Sign in")
             }
@@ -54,7 +61,14 @@ struct SignUpView: View {
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
             Button {
-                user.signUp(email: email, username: username, password: password)
+                Task {
+                    do {
+                        try await user.signUp(email: email, username: username, password: password)
+                    } catch {
+                        // TODO: display error to user
+                        print(error)
+                    }
+                }
             } label: {
                 Text("Sign Up")
             }

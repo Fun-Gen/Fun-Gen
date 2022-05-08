@@ -8,5 +8,4 @@
 import Foundation
 
 enum FunGenError: Error {
-    case missingSnapshotData
 }
