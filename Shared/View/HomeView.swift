@@ -8,22 +8,20 @@
 import SwiftUI
 
 struct HomeView: View {
-    var activities: [Activity] = []
+    @ObservedObject var activityStore: ActivityStore
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(activities) { activity in
-                    NavigationLink(destination: Text(activity.title)) {
+                ForEach(activityStore.activities) { activity in
+                    NavigationLink(destination: VoteView(activity: activity)) {
                         Text(activity.title)
                     }
                 }
             }
             .navigationTitle("FunGen")
             .toolbar {
-                Button(action: {
-                    print("hi")
-                }, label: {
+                NavigationLink(destination: CreateActivityView(activityStore: activityStore), label: {
                     Image(systemName: "plus")
                 })
             }
@@ -34,7 +32,7 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HomeView(activities: testActivities)
+            HomeView(activityStore: testActivityStore)
         }
     }
 }

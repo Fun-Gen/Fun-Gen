@@ -15,7 +15,6 @@ struct ProfileView: View {
             Text("Successfully authenticated \(user.user?.username ?? "")")
             // When user successfully logins they
             // shoud see landing page
-            TempHomeView()
             Button {
                 do {
                     try user.signOut()
