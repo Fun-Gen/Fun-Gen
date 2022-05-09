@@ -13,9 +13,8 @@ struct ProfileView: View {
     var body: some View {
         VStack {
             Text("Successfully authenticated \(user.user?.username ?? "")")
-            // When user successfully logins they
-            // shoud see landing page
-            TempHomeView()
+            // When user successfully logins they shoud see landing page
+            HomeView()
             Button {
                 do {
                     try user.signOut()
@@ -32,7 +31,9 @@ struct ProfileView: View {
 
  struct ProfileView_Previews: PreviewProvider {
      static var previews: some View {
-         ProfileView()
-             .environmentObject(UserViewModel())
+         NavigationView {
+             ProfileView()
+                 .environmentObject(UserViewModel())
+         }
      }
  }

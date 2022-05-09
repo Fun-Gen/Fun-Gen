@@ -10,22 +10,19 @@ import SwiftUI
 struct HomeView: View {
     var activities: [Activity] = []
     
+    // TODO: needs to loop through the var activities: [Activity.ID] = [] from the User
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(activities) { activity in
-                    NavigationLink(destination: Text(activity.title)) {
-                        Text(activity.title)
-                    }
+        List {
+            ForEach(activities) { activity in
+                NavigationLink(destination: Text(activity.title)) {
+                    Text(activity.title)
                 }
             }
-            .navigationTitle("FunGen")
-            .toolbar {
-                Button(action: {
-                    print("hi")
-                }, label: {
-                    Image(systemName: "plus")
-                })
+        }
+        .navigationTitle("FunGen")
+        .toolbar {
+            NavigationLink(destination: CreateActivityView()) {
+                Image(systemName: "plus")
             }
         }
     }
