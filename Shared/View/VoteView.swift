@@ -8,28 +8,20 @@
 import SwiftUI
 
 struct VoteView: View {
-    // Hardcoded values to test
-    @State private var tempActivty = Activity(
-        id: "123",
-        title: "What movie should we watch tonight?",
-        category: Category.movie,
-        // FIXME: this is not a valid user ID
-        // TODO: request renaming by backend if this is confusing
-        author: "mightyDonut"
-    )
-    @State private var optionArray = ["Shrek", "Wall-E", "ET"]
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    var activity: Activity
+    @State private var optionArray = ["OP1", "OP2", "OP3"]
     @State private var isSelected = ""
     @State private var newOption = ""
     var body: some View {
         VStack(alignment: .leading) {
             Text("Activity").font(.title).padding(.bottom)
-            Text(tempActivty.title).font(.title3)
-            Text("Category: \(tempActivty.category.rawValue.capitalized)").foregroundColor(.secondary)
+            Text(activity.title).font(.title3)
+            Text("Category: Temp").foregroundColor(.secondary)
             Text("Options").font(.title).padding(.top)
             // Option selection
             ScrollView {
                 VStack(alignment: .leading) {
-                    // TODO: Correctly update fields from Model files when user inputs data
                     ForEach(optionArray, id: \.self) { item in
                         Button {
                             self.isSelected = item
@@ -50,9 +42,7 @@ struct VoteView: View {
             Spacer()
             HStack {
                 Spacer()
-                NavigationLink(destination: TempHomeView()) {
-                    Text("Done")
-                }
+                Button(action: { self.presentationMode.wrappedValue.dismiss() }, label: {Text("Done")})
             }
         }.navigationTitle("Vote").padding()
     }
@@ -60,6 +50,6 @@ struct VoteView: View {
 
 struct VoteView_Previews: PreviewProvider {
     static var previews: some View {
-        VoteView()
+        VoteView(activity: testActivities[0])
     }
 }

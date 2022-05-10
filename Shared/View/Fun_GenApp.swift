@@ -13,11 +13,11 @@ import Firebase
 struct Fun_GenApp: App {
     // firebase init
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(UserViewModel())
+                .environmentObject(ActivityStore())
         }
     }
 }
