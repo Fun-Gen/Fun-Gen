@@ -4,7 +4,6 @@
 //
 //  Created by Angkana on 5/2/22.
 //
-
 import SwiftUI
 
 struct VoteView: View {
@@ -13,6 +12,8 @@ struct VoteView: View {
     @State private var optionArray = ["Shrek", "Wall-E", "ET"]
     @State private var isSelected = ""
     @State private var newOption = ""
+    
+    
         
     // Some default values, will automatically be replaced when call to .activity() method is made
     @State private var act = Activity(id: "1", title: "Movie Night", category: Category.movie, author: "1")
@@ -20,9 +21,6 @@ struct VoteView: View {
     var body: some View {
         VStack(alignment: .leading) {
             // Get an activity to retrieve data (title, category, options)
-            
-            // Testing purposes for retrieving the corresponding activityID?
-            // Text("activityid \(activity.activity?.id ?? "")")
             
             Text("Activity").font(.title).padding(.bottom)
             Text("\(activityViewModel.activity?.title ?? "")").font(.title3)
@@ -59,7 +57,7 @@ struct VoteView: View {
                     Text("Done")
                 }
             }
-        }.navigationTitle("Vote").padding()
+        }.navigationTitle("Vote").padding().padding()
     }
 }
 

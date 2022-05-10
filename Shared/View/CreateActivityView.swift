@@ -4,7 +4,6 @@
 //
 //  Created by Elena, Angkana on 5/2/22.
 //
-
 import SwiftUI
 
 struct CreateActivityView: View {
@@ -22,13 +21,9 @@ struct CreateActivityView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            // Saves title
+            Text("Activity").font(.title).padding(.leading)
             TextField("Enter in activity title", text: $inputTitle).padding(.leading)
             
-            // Testing purposes
-            // Text("userid \(user.user?.id ?? "")")
-            
-            // Saves category
             HStack {
                 Text("Select Category:")
                 // Loop through the category enum in Category.swift using a picker
@@ -52,17 +47,6 @@ struct CreateActivityView: View {
                 }.padding()
             }
             
-            // Saves friends
-            Text("Friends Tagged")
-                .font(.system(.title2))
-                .padding()
-            ForEach(friendList, id: \.self) { item in
-                Text(item).padding(.leading).padding(.bottom, 4)
-            }
-            TextField("Name", text: $newFriend) {
-                self.friendList.append(self.newFriend)
-                self.newFriend = ""
-            }.padding()
             Spacer()
             HStack {
                 Spacer()
@@ -70,7 +54,7 @@ struct CreateActivityView: View {
                 Button {
                     Task {
                         do {
-                            _ = try await ActivityViewModel.createActivity(
+                            var activityDetails = try await ActivityViewModel.createActivity(
                                     title: inputTitle, // Ice Cream Outing
                                     category: selectedCategory, // Food
                                     author: "\(user.user?.id ?? "")", // author: "eOUU1RDjcphzXd0VTUDhALy6ZB53"
@@ -82,11 +66,15 @@ struct CreateActivityView: View {
                     }
                 } label: {
                     NavigationLink(destination: VoteView()) {
-                        Text("Create")
+                        Text("Submit").foregroundColor(Color.blue)
                     }
                 }
+//                Spacer()
+//                NavigationLink(destination: VoteView()) {
+//                    Text("Next").foregroundColor(Color.blue)
+//                }
             }
-        }.navigationTitle("Input Activity").padding().padding()
+        }.navigationTitle("Input Activity").padding()
     }
 }
 
