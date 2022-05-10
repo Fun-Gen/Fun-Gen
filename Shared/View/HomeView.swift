@@ -30,9 +30,9 @@ struct HomeView: View {
             }
             .navigationTitle("FunGen")
             .toolbar {
-                NavigationLink(destination: CreateActivityView(), label: {
+                NavigationLink(destination: CreateActivityView()) {
                     Image(systemName: "plus")
-                })
+                }
             }
         }
     }
