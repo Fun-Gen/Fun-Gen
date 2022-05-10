@@ -20,6 +20,7 @@ struct SignInView: View {
     @EnvironmentObject var user: UserViewModel
     @State private var email = ""
     @State private var password = ""
+    @State private var showingAlert = false
     
     var body: some View {
         VStack {
@@ -34,12 +35,14 @@ struct SignInView: View {
                     do {
                         try await user.signIn(email: email, password: password)
                     } catch {
-                        // TODO: display error to user
-                        print(error)
+                        self.showingAlert = true
                     }
                 }
             } label: {
                 Text("Sign in")
+            }
+            .alert("Incorrect sign in", isPresented: $showingAlert){
+                Button("OK") { }
             }
         }
     }
@@ -50,6 +53,7 @@ struct SignUpView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var username = ""
+    @State private var showingAlert = false
     
     var body: some View {
         VStack {
@@ -65,12 +69,14 @@ struct SignUpView: View {
                     do {
                         try await user.signUp(email: email, username: username, password: password)
                     } catch {
-                        // TODO: display error to user
-                        print(error)
+                        self.showingAlert = true
                     }
                 }
             } label: {
                 Text("Sign Up")
+            }
+            .alert("Account already exists", isPresented: $showingAlert){
+                Button("OK") { }
             }
         }
     }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var user: UserViewModel
+    @State private var showingAlert = false
     
     var body: some View {
         VStack {
@@ -19,11 +20,13 @@ struct ProfileView: View {
                 do {
                     try user.signOut()
                 } catch {
-                    // TODO: display error to user
-                    print(error)
+                    self.showingAlert = true
                 }
             } label: {
                 Text("Sign out")
+            }
+            .alert("Error signing out. Try again.", isPresented: $showingAlert){
+                Button("OK") { }
             }
         }
     }
