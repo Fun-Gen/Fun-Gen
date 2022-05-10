@@ -21,6 +21,7 @@ struct SignInView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var showingAlert = false
+    @State private var alertText = ""
     
     var body: some View {
         VStack {
@@ -35,14 +36,17 @@ struct SignInView: View {
                     do {
                         try await user.signIn(email: email, password: password)
                     } catch {
-                        self.showingAlert = true
+                        alertText = error.localizedDescription
+                        showingAlert = true
                     }
                 }
             } label: {
                 Text("Sign in")
             }
-            .alert("Incorrect sign in", isPresented: $showingAlert){
+            .alert("Incorrect sign in", isPresented: $showingAlert) {
                 Button("OK") { }
+            } message: {
+                Text(alertText)
             }
         }
     }
@@ -54,6 +58,7 @@ struct SignUpView: View {
     @State private var password = ""
     @State private var username = ""
     @State private var showingAlert = false
+    @State private var alertText = ""
     
     var body: some View {
         VStack {
@@ -69,14 +74,17 @@ struct SignUpView: View {
                     do {
                         try await user.signUp(email: email, username: username, password: password)
                     } catch {
-                        self.showingAlert = true
+                        alertText = error.localizedDescription
+                        showingAlert = true
                     }
                 }
             } label: {
                 Text("Sign Up")
             }
-            .alert("Account already exists", isPresented: $showingAlert){
+            .alert("Error signing up", isPresented: $showingAlert) {
                 Button("OK") { }
+            } message: {
+                Text(alertText)
             }
         }
     }
