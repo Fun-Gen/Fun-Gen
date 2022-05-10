@@ -23,32 +23,21 @@ class Fun_GenUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    // UI test for frontend, adding an option on the VoteView page
+    // UI test for activity creation
     func testAddOption() throws {
         let app = XCUIApplication()
+        let tablesQuery = app.tables
         app.launch()
-        if app.buttons["Sign out"].exists {
-            app.buttons["Sign out"].tap()
-        }
-
-        app.textFields["Email"].tap()
-        if app.buttons["continue"].exists {
-            app.buttons["continue"].tap()
-        }
-        app.textFields["Email"].typeText("test123@gmail.com\n")
-
-        app.secureTextFields["Password"].tap()
-        app.secureTextFields["Password"].typeText("123123\n")
-
-        app.buttons["Sign in"].tap()
-        
-        app.buttons["Movie Night"].tap()
-        app.scrollViews.otherElements.textFields["Suggest an option"].tap()
-        app.scrollViews.otherElements.textFields["Suggest an option"].typeText("Spider Man\n")
-        XCTAssert(app.scrollViews.otherElements.buttons["Spider Man"].exists)
-        app.scrollViews.otherElements.buttons["Spider Man"].tap()
+        app.navigationBars["FunGen"].buttons["Add"].tap()
+        app.textFields["Enter in activity title"].tap()
+        app.textFields["Enter in activity title"].typeText("Ice Cream Day\n")
+        app.textFields["Suggest an option"].tap()
+        app.textFields["Suggest an option"].typeText("Matcha\n")
+        XCTAssert(app.staticTexts["Matcha"].exists)
+        app.staticTexts["Matcha"].tap()
+        app.buttons["Create"].tap()
     }
-    
+
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
             // This measures how long it takes to launch your application.
