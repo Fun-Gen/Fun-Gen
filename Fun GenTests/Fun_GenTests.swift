@@ -63,8 +63,8 @@ class Fun_GenTests: XCTestCase {
         XCTAssertNotNil(userByEmail)
         XCTAssertNotNil(userByName)
         XCTAssertNotNil(userByID)
-        XCTAssertEqual(userByEmail, userByName)
-        XCTAssertEqual(userByName, userByID)
+        XCTAssertEqual(userByEmail?.id, userByName?.id)
+        XCTAssertEqual(userByName?.id, userByID?.id)
         // All equal by transitivity
     }
     
