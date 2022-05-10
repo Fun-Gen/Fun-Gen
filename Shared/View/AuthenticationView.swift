@@ -13,6 +13,7 @@ struct AuthenticationView: View {
             SignInView()
             NavigationLink("Sign up!", destination: SignUpView())
         }
+        .padding()
     }
 }
 
