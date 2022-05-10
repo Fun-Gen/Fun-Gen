@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CreateActivityView: View {
-    @ObservedObject var activityStore: ActivityStore
+    @EnvironmentObject var activityStore: ActivityStore
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var selectedCategory: Category = .outdoor
     @State var optionList: [String] = []
@@ -68,6 +68,6 @@ struct CreateActivityView: View {
 
 struct CreateActivityView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateActivityView(activityStore: testActivityStore)
+        CreateActivityView().environmentObject(ActivityStore(activities: testActivities))
     }
 }

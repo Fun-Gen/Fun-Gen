@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject var activityStore: ActivityStore
+    @EnvironmentObject var activityStore: ActivityStore
     
     var body: some View {
         NavigationView {
@@ -21,7 +21,7 @@ struct HomeView: View {
             }
             .navigationTitle("FunGen")
             .toolbar {
-                NavigationLink(destination: CreateActivityView(activityStore: activityStore), label: {
+                NavigationLink(destination: CreateActivityView(), label: {
                     Image(systemName: "plus")
                 })
             }
@@ -32,7 +32,7 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HomeView(activityStore: testActivityStore)
+            HomeView().environmentObject(ActivityStore(activities: testActivities))
         }
     }
 }

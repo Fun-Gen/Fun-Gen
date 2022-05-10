@@ -9,15 +9,30 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var user: UserViewModel
-    @ObservedObject var activityStore: ActivityStore
     var body: some View {
-        HomeView(activityStore: activityStore)
+         if user.userIsAuthenticated {
+             TabView {
+                 HomeView().tabItem {
+                     Image(systemName: "house")
+                     Text("Home")
+                 }
+                 ProfileView().tabItem {
+                     Image(systemName: "person")
+                     Text("Profile")
+                 }
+             }
+         } else {
+             NavigationView {
+                 AuthenticationView()
+             }
+         }
     }
 }
 
  struct ContentView_Previews: PreviewProvider {
      static var previews: some View {
-         ContentView(activityStore: testActivityStore)
+         ContentView()
              .environmentObject(UserViewModel())
+             .environmentObject(ActivityStore(activities: testActivities))
      }
  }
