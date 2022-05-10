@@ -17,7 +17,6 @@ struct Fun_GenApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(UserViewModel())
-                .environmentObject(ActivityStore())
         }
     }
 }

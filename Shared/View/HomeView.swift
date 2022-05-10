@@ -8,15 +8,25 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var activityStore: ActivityStore
+//    @EnvironmentObject var activityStore: ActivityStore
+    @EnvironmentObject var userViewModel: UserViewModel
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(activityStore.activities) { activity in
-                    NavigationLink(destination: VoteView(activity: activity)) {
-                        Text(activity.title)
+            Group {
+                if let user = userViewModel.user {
+                    List {
+                        ForEach(user.activities, id: \.self) { activityID in
+                            NavigationLink {
+                                VoteView()
+                                    .environmentObject(ActivityViewModel(activityID: activityID))
+                            } label: {
+                                HomeActivityCard(activityViewModel: ActivityViewModel(activityID: activityID))
+                            }
+                        }
                     }
+                } else {
+                    Text("Loading...")
                 }
             }
             .navigationTitle("FunGen")
@@ -32,7 +42,7 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HomeView().environmentObject(ActivityStore(activities: testActivities))
+            HomeView()
         }
     }
 }

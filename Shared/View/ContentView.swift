@@ -33,6 +33,5 @@ struct ContentView: View {
      static var previews: some View {
          ContentView()
              .environmentObject(UserViewModel())
-             .environmentObject(ActivityStore(activities: testActivities))
      }
  }
