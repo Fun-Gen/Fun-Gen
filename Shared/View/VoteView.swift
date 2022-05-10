@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct VoteView: View {
-    @EnvironmentObject var user: UserViewModel
-    @EnvironmentObject var activity: ActivityViewModel
-    @EnvironmentObject var option: OptionViewModel
+    @ObservedObject var activityViewModel = ActivityViewModel(activityID: "AhdjSLOlTJqb68aXBAWn")
 
     @State private var optionArray = ["Shrek", "Wall-E", "ET"]
     @State private var isSelected = ""
@@ -22,32 +20,17 @@ struct VoteView: View {
     var body: some View {
         VStack(alignment: .leading) {
             // Get an activity to retrieve data (title, category, options)
-            // Not sure how to resolve Static method 'buildBlock' requires
-            // that 'Task<(), Never>' conform to 'View' without using Button...
-            Button {
-                Task {
-                    do {
-                        act = try await ActivityViewModel.activity(id: "AhdjSLOlTJqb68aXBAWn")
-                    } catch {
-                        print(error)
-                    }
-                }
-            } label: {
-                NavigationLink(destination: VoteView()) {
-                    Text("Get Activity")
-                }
-            }
-            
-            // Testing purposes
-            // Text("Activity \(act.title)")
-            // Text("Activity").font(.title).padding(.bottom)
             
             // Testing purposes for retrieving the corresponding activityID?
             // Text("activityid \(activity.activity?.id ?? "")")
             
-            Text("Activity \(act.title)").font(.title3)
-            Text("Category: \(act.category.rawValue.capitalized)").foregroundColor(.secondary)
+            Text("Activity").font(.title).padding(.bottom)
+            Text("\(activityViewModel.activity?.title ?? "")").font(.title3)
+            
+            Text("Category: \(activityViewModel.activity?.category.rawValue.capitalized ?? "")").foregroundColor(.secondary)
+            
             Text("Options").font(.title).padding(.top)
+            
             // Option selection
             ScrollView {
                 VStack(alignment: .leading) {
@@ -80,9 +63,10 @@ struct VoteView: View {
     }
 }
 
+
 struct VoteView_Previews: PreviewProvider {
     static var previews: some View {
         // TODO: Need to create ActicityID and OptionID, store in variable, and pass it in here
-        VoteView().environmentObject(UserViewModel()).environmentObject(ActivityViewModel(activityID: "AhdjSLOlTJqb68aXBAWn")).environmentObject(OptionViewModel(optionID: "B5uYuFf31aEqH5sGHFA4"))
+        VoteView()
     }
 }
