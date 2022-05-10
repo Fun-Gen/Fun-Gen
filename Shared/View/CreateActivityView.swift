@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CreateActivityView: View {
     @EnvironmentObject var activityStore: ActivityStore
+    @EnvironmentObject var user: UserViewModel
+
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var selectedCategory: Category = .outdoor
     @State var optionList: [String] = []
@@ -53,12 +55,18 @@ struct CreateActivityView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    activityStore.activities.append(Activity(
-                        id: "\(activityStore.activities.count + 1)",
-                        title: title,
-                        category: selectedCategory,
-                        author: "1")
-                    )
+                    Task {
+                        do {
+                            var activityDetails = try await ActivityViewModel.createActivity(
+                                    title: title, // Ice Cream Outing
+                                    category: selectedCategory, // Food
+                                    author: "\(user.user?.id ?? "")", // author: "eOUU1RDjcphzXd0VTUDhALy6ZB53"
+                                    optionTitles: optionList, // Mint, Choco, Straw
+                                    additionalMembers: []) // Might leave off friends tagging for beta?
+                        } catch {
+                            print(error)
+                        }
+                    }
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: { Text("Create") })
             }
