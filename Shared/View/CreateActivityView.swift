@@ -64,6 +64,7 @@ struct CreateActivityView: View {
                                 additionalMembers: []
                             ) // Might leave off friends tagging for beta?
                         } catch {
+                            // TODO: handle error
                             print(error)
                         }
                     }

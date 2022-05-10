@@ -56,8 +56,8 @@ struct VoteOptionView: View {
     }
 }
 
-//struct VoteOptionView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        VoteOptionView(optionID: <#Option.ID#>, activity: <#Activity#>, optionViewModel: <#OptionViewModel#>)
-//    }
-//}
+// struct VoteOptionView_Previews: PreviewProvider {
+//     static var previews: some View {
+//         VoteOptionView(optionID: <#Option.ID#>, activity: <#Activity#>, optionViewModel: <#OptionViewModel#>)
+//     }
+// }

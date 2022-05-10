@@ -46,12 +46,14 @@ class UserViewModel: ObservableObject {
                         .document(newID)
                         .addSnapshotListener { [weak self] snapshot, error in
                             if let error = error {
+                                // TODO: surface error
                                 print(error)
                                 return
                             }
                             do {
                                 self?.user = try snapshot?.data(as: User.self)
                             } catch {
+                                // TODO: surface error
                                 print(error)
                             }
                         }

@@ -23,12 +23,14 @@ class ActivityViewModel: ObservableObject {
             .document(activityID)
             .addSnapshotListener { [weak self] snapshot, error in
                 if let error = error {
+                    // TODO: surface error
                     print(error)
                     return
                 }
                 do {
                     self?.activity = try snapshot?.data(as: Activity.self)
                 } catch {
+                    // TODO: surface error
                     print(error)
                 }
             }
