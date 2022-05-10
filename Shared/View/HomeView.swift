@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-//    @EnvironmentObject var activityStore: ActivityStore
     @EnvironmentObject var userViewModel: UserViewModel
     
     var body: some View {

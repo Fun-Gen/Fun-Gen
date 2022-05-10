@@ -16,7 +16,7 @@ struct ProfileView: View {
         VStack {
             Text("Successfully authenticated \(user.user?.username ?? "")")
             // When user successfully logins they
-            // shoud see landing page
+            // should see landing page
             Button {
                 do {
                     try user.signOut()
