@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct VoteView: View {
+    @ObservedObject var activityViewModel = ActivityViewModel(activityID: "AhdjSLOlTJqb68aXBAWn")
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    var activity: Activity
     @State private var optionArray = ["OP1", "OP2", "OP3"]
     @State private var isSelected = ""
     @State private var newOption = ""
     var body: some View {
         VStack(alignment: .leading) {
             Text("Activity").font(.title).padding(.bottom)
-            Text(activity.title).font(.title3)
-            Text("Category: Temp").foregroundColor(.secondary)
+            Text("activityid \(activityViewModel.activity?.id ?? "")")
+            Text("Category: \(activityViewModel.activity?.category.rawValue.capitalized ?? "")").foregroundColor(.secondary)
             Text("Options").font(.title).padding(.top)
             // Option selection
             ScrollView {
