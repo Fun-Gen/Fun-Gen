@@ -29,9 +29,12 @@ struct Activity: Codable, Identifiable {
     /// Contains all ``PollOption``s suggested by ``members``, index by ``Option.ID``
     var options: [Option.ID: PollOption] = [:]
     
-    /// Sum of votes for this ``Activity``
+    /// Sum of unique members who have voted for this ``Activity``
     var voteCount: Int {
-        options.reduce(0) { $0 + $1.value.members.count }
+        options.reduce(into: Set<User.ID>()) {
+            $0.formUnion($1.value.members)
+        }
+        .count
     }
 }
 
