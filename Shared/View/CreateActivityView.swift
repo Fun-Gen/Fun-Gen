@@ -19,8 +19,7 @@ struct CreateActivityView: View {
     @State private var title: String = ""
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Create Activity View")
-            Text("Input Activity").font(.title)
+            Text("Create Activity").font(.title)
             TextField("Enter in activity title", text: $title)
             HStack {
                 Text("Select Category:")
