@@ -22,8 +22,6 @@ struct VoteView: View {
         VStack(alignment: .leading) {
             if let activity = activityViewModel.activity {
                 Text("Activity").font(.title).padding(.bottom)
-                
-                Text("activityid \(activity.id)")
                 Text("Title: \(activity.title)").foregroundColor(.secondary)
                 Text("Category: \(activity.category.rawValue.capitalized)").foregroundColor(.secondary)
                 Text("Options").font(.title).padding(.top)
@@ -48,7 +46,12 @@ struct VoteView: View {
             Spacer()
             HStack {
                 Spacer()
-                Button(action: { self.presentationMode.wrappedValue.dismiss() }, label: {Text("Done")})
+                Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    },
+                    label: {
+                        Text("Done")
+                    })
             }
         }.navigationTitle("Vote").padding()
     }
