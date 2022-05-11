@@ -23,7 +23,6 @@ Stretch Features
 
 ## Get Started
 
-Follow the [setup guide](https://github.com/Fun-Gen/Fun-Gen/wiki/Setup) to build the project.
 If you are new to SwiftUI, you can follow UWAppDev's guide on
 [getting started with SwiftUI](https://uwdev.app/resources/getting-started/swiftui).
 
@@ -46,6 +45,45 @@ If you are new to SwiftUI, you can follow UWAppDev's guide on
 - `reports`: weekly reports for communicating with our TA/project manager.
 - `Configuration`: to support building the project using different Apple IDs.
 - `.github`: configuration files for GitHub related settings.
+
+### Build
+
+Follow the [setup guide](https://github.com/Fun-Gen/Fun-Gen/wiki/Setup) to build the project.
+
+Each pull request against `main` branch as well as each commit on the `main` branch will also be automatically build by Xcode Cloud,
+and built artifact for the `main` branch commits will be automatically submitted to App Store Connect for release on TestFlight for external installation.
+
+### Run
+
+After building the project by following the build instructions,
+make sure to [select the scheme](https://developer.apple.com/documentation/xcode/running-your-app-in-the-simulator-or-on-a-device#Choose-a-Scheme) "Fun Gen (iOS)"
+and [select a simulated device](https://developer.apple.com/documentation/xcode/running-your-app-in-the-simulator-or-on-a-device#Choose-a-Scheme#Select-a-Simulated-Device) as the run destination.
+
+You can also download and run the latest beta release version by 
+following the [installation instructions](https://github.com/Fun-Gen/Fun-Gen/wiki#installation),
+and tap open the app on your own iPhone or iPad running iOS/iPadOS 15.
+
+### Test
+
+After building the project by following the build instructions,
+you can run all the tests by pressing the shortcut <kbd>command</kbd> + <kbd>u</kbd> or
+through menu options **Product > Test**.
+
+You can see [Running Tests and Viewing Results](https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/05-running_tests.html) for more details,
+or view the results of tests in the checks section of each open pull request against the `main` branch.
+
+## Use Cases & Implementation Status
+
+- [x] Elena's Use Case: Sign up
+- [ ] Angkana’s Use Case: Add/remove Options for an Activity
+    - [x] Add options during activity creation
+    - [ ] Remove options during activity creation
+    - [ ] Add options during voting
+    - [ ] Remove options during voting
+- [ ] Joon’s Use Case: Randomly pick an Option for an Activity
+- [ ] Apollo’s Use Case: Top voted Option becomes selected Option for an Activity
+- [ ] Finnigan’s Use Case: Tie breaking for top voted Options through random selection
+- [ ] Julian’s Use Case: Anonymous voting
 
 ## Academic Integrity
 
