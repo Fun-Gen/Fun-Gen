@@ -8,51 +8,47 @@
 import SwiftUI
 
 struct VoteView: View {
-    // Hardcoded values to test
-    @State private var tempActivty = Activity(
-        id: "123",
-        title: "What movie should we watch tonight?",
-        category: Category.movie,
-        // FIXME: this is not a valid user ID
-        // TODO: request renaming by backend if this is confusing
-        author: "mightyDonut"
-    )
-    @State private var optionArray = ["Shrek", "Wall-E", "ET"]
+    @EnvironmentObject var activityViewModel: ActivityViewModel
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State private var optionArray = ["OP1", "OP2", "OP3"]
     @State private var isSelected = ""
     @State private var newOption = ""
+    
+    var sortedOptionIDs: [Option.ID] {
+        activityViewModel.activity?.options.keys.sorted() ?? []
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Activity").font(.title).padding(.bottom)
-            Text(tempActivty.title).font(.title3)
-            Text("Category: \(tempActivty.category.rawValue.capitalized)").foregroundColor(.secondary)
-            Text("Options").font(.title).padding(.top)
-            // Option selection
-            ScrollView {
-                VStack(alignment: .leading) {
-                    // TODO: Correctly update fields from Model files when user inputs data
-                    ForEach(optionArray, id: \.self) { item in
-                        Button {
-                            self.isSelected = item
-                        } label: {
-                            Text(item)
-                        }.font(.body)
-                            .padding(4)
-                            .padding(.trailing, 200)
-                            .background(self.isSelected == item ? Color.yellow : Color.white)
-                            .cornerRadius(16)
+            if let activity = activityViewModel.activity {
+                Text("Activity").font(.title).padding(.bottom)
+                
+                Text("activityid \(activity.id)")
+                Text("Title: \(activity.title)").foregroundColor(.secondary)
+                Text("Category: \(activity.category.rawValue.capitalized)").foregroundColor(.secondary)
+                Text("Options").font(.title).padding(.top)
+                // Option selection
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        ForEach(sortedOptionIDs, id: \.self) { optionID in
+                            VoteOptionView(optionID: optionID,
+                                           activity: activity,
+                                           optionViewModel: OptionViewModel(optionID: optionID))
+                        }
+                        TextField("Suggest an option", text: $newOption) {
+                                optionArray.append(self.newOption)
+                                self.newOption = ""
+                        }.padding(4)
                     }
-                    TextField("Suggest an option", text: $newOption) {
-                            optionArray.append(self.newOption)
-                            self.newOption = ""
-                    }.padding(4)
                 }
+            } else {
+                Text("Loading...")
             }
+            
             Spacer()
             HStack {
                 Spacer()
-                NavigationLink(destination: TempHomeView()) {
-                    Text("Done")
-                }
+                Button(action: { self.presentationMode.wrappedValue.dismiss() }, label: {Text("Done")})
             }
         }.navigationTitle("Vote").padding()
     }
@@ -61,5 +57,6 @@ struct VoteView: View {
 struct VoteView_Previews: PreviewProvider {
     static var previews: some View {
         VoteView()
+            .environmentObject(ActivityViewModel(activityID: "AhdjSLOlTJqb68aXBAWn"))
     }
 }

@@ -9,22 +9,28 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var user: UserViewModel
+    @State private var showingAlert = false
+    @State private var alertText = ""
     
     var body: some View {
         VStack {
             Text("Successfully authenticated \(user.user?.username ?? "")")
             // When user successfully logins they
-            // shoud see landing page
-            TempHomeView()
+            // should see landing page
             Button {
                 do {
                     try user.signOut()
                 } catch {
-                    // TODO: display error to user
-                    print(error)
+                    alertText = error.localizedDescription
+                    showingAlert = true
                 }
             } label: {
                 Text("Sign out")
+            }
+            .alert("Error signing out. Try again.", isPresented: $showingAlert) {
+                Button("OK") { }
+            } message: {
+                Text(alertText)
             }
         }
     }

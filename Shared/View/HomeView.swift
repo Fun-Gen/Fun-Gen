@@ -8,24 +8,31 @@
 import SwiftUI
 
 struct HomeView: View {
-    var activities: [Activity] = []
+    @EnvironmentObject var userViewModel: UserViewModel
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(activities) { activity in
-                    NavigationLink(destination: Text(activity.title)) {
-                        Text(activity.title)
+            Group {
+                if let user = userViewModel.user {
+                    List {
+                        ForEach(user.activities, id: \.self) { activityID in
+                            NavigationLink {
+                                VoteView()
+                                    .environmentObject(ActivityViewModel(activityID: activityID))
+                            } label: {
+                                HomeActivityCard(activityViewModel: ActivityViewModel(activityID: activityID))
+                            }
+                        }
                     }
+                } else {
+                    Text("Loading...")
                 }
             }
             .navigationTitle("FunGen")
             .toolbar {
-                Button(action: {
-                    print("hi")
-                }, label: {
+                NavigationLink(destination: CreateActivityView()) {
                     Image(systemName: "plus")
-                })
+                }
             }
         }
     }
@@ -34,7 +41,7 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HomeView(activities: testActivities)
+            HomeView()
         }
     }
 }

@@ -22,12 +22,14 @@ class OptionViewModel: ObservableObject {
             .document(optionID)
             .addSnapshotListener { [weak self] snapshot, error in
                 if let error = error {
+                    // TODO: surface error
                     print(error)
                     return
                 }
                 do {
                     self?.option = try snapshot?.data(as: Option.self)
                 } catch {
+                    // TODO: surface error
                     print(error)
                 }
             }

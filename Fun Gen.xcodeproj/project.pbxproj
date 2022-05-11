@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3E68DBDE2820B4640083F221 /* TempHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E68DBDD2820B4640083F221 /* TempHomeView.swift */; };
-		3E68DBDF2820B4640083F221 /* TempHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E68DBDD2820B4640083F221 /* TempHomeView.swift */; };
 		3E68DBE12820B46D0083F221 /* VoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E68DBE02820B46D0083F221 /* VoteView.swift */; };
 		3E68DBE22820B46D0083F221 /* VoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E68DBE02820B46D0083F221 /* VoteView.swift */; };
 		3E68DBE42820B4770083F221 /* CreateActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E68DBE32820B4770083F221 /* CreateActivityView.swift */; };
@@ -37,6 +35,10 @@
 		D22251B22821D2DD007B0A00 /* FunGenError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22251B02821D2DD007B0A00 /* FunGenError.swift */; };
 		D258123B28246B8E00A6C9F8 /* OptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D258123A28246B8E00A6C9F8 /* OptionViewModel.swift */; };
 		D258123C28246B8E00A6C9F8 /* OptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D258123A28246B8E00A6C9F8 /* OptionViewModel.swift */; };
+		D2E6FD6C282A2C6800CFD870 /* HomeActivityCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6FD6B282A2C6800CFD870 /* HomeActivityCard.swift */; };
+		D2E6FD6D282A2C6800CFD870 /* HomeActivityCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6FD6B282A2C6800CFD870 /* HomeActivityCard.swift */; };
+		D2E6FD6F282A2EC700CFD870 /* VoteOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6FD6E282A2EC700CFD870 /* VoteOptionView.swift */; };
+		D2E6FD70282A2EC700CFD870 /* VoteOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E6FD6E282A2EC700CFD870 /* VoteOptionView.swift */; };
 		D2EA2F4E281B97E6001E5871 /* PollOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EA2F4D281B97E6001E5871 /* PollOption.swift */; };
 		D2EA2F4F281B97E6001E5871 /* PollOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EA2F4D281B97E6001E5871 /* PollOption.swift */; };
 		DB3CA9602808BD4E004094F4 /* Fun_GenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3CA9502808BD4C004094F4 /* Fun_GenApp.swift */; };
@@ -71,7 +73,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3E68DBDD2820B4640083F221 /* TempHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempHomeView.swift; sourceTree = "<group>"; };
 		3E68DBE02820B46D0083F221 /* VoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteView.swift; sourceTree = "<group>"; };
 		3E68DBE32820B4770083F221 /* CreateActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityView.swift; sourceTree = "<group>"; };
 		843ADA63280E303C00ABE3DB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -90,6 +91,8 @@
 		D22251A52821CC39007B0A00 /* ActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
 		D22251B02821D2DD007B0A00 /* FunGenError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunGenError.swift; sourceTree = "<group>"; };
 		D258123A28246B8E00A6C9F8 /* OptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionViewModel.swift; sourceTree = "<group>"; };
+		D2E6FD6B282A2C6800CFD870 /* HomeActivityCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeActivityCard.swift; sourceTree = "<group>"; };
+		D2E6FD6E282A2EC700CFD870 /* VoteOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteOptionView.swift; sourceTree = "<group>"; };
 		D2EA2F4D281B97E6001E5871 /* PollOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollOption.swift; sourceTree = "<group>"; };
 		DB3CA9502808BD4C004094F4 /* Fun_GenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fun_GenApp.swift; sourceTree = "<group>"; };
 		DB3CA9512808BD4C004094F4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -226,8 +229,9 @@
 				843ADA8C280E3E3400ABE3DB /* ProfileView.swift */,
 				843ADA8F280E3E9D00ABE3DB /* AuthenticationView.swift */,
 				946F3F08281CD9680098E348 /* HomeView.swift */,
-				3E68DBDD2820B4640083F221 /* TempHomeView.swift */,
+				D2E6FD6B282A2C6800CFD870 /* HomeActivityCard.swift */,
 				3E68DBE02820B46D0083F221 /* VoteView.swift */,
+				D2E6FD6E282A2EC700CFD870 /* VoteOptionView.swift */,
 				3E68DBE32820B4770083F221 /* CreateActivityView.swift */,
 			);
 			path = View;
@@ -485,12 +489,13 @@
 				E376A3072814E5ED0071825F /* Option.swift in Sources */,
 				DB3CA9622808BD4E004094F4 /* ContentView.swift in Sources */,
 				D22251B12821D2DD007B0A00 /* FunGenError.swift in Sources */,
+				D2E6FD6C282A2C6800CFD870 /* HomeActivityCard.swift in Sources */,
 				3E68DBE12820B46D0083F221 /* VoteView.swift in Sources */,
 				843ADA84280E32B100ABE3DB /* UserViewModel.swift in Sources */,
 				E376A3042814E5D00071825F /* Activity.swift in Sources */,
+				D2E6FD6F282A2EC700CFD870 /* VoteOptionView.swift in Sources */,
 				843ADA90280E3E9D00ABE3DB /* AuthenticationView.swift in Sources */,
 				946F3F09281CD9680098E348 /* HomeView.swift in Sources */,
-				3E68DBDE2820B4640083F221 /* TempHomeView.swift in Sources */,
 				E376A30A2814E6140071825F /* Category.swift in Sources */,
 				843ADA8D280E3E3400ABE3DB /* ProfileView.swift in Sources */,
 				D22251A62821CC39007B0A00 /* ActivityViewModel.swift in Sources */,
@@ -509,12 +514,13 @@
 				E376A3082814E5ED0071825F /* Option.swift in Sources */,
 				DB3CA9632808BD4E004094F4 /* ContentView.swift in Sources */,
 				D22251B22821D2DD007B0A00 /* FunGenError.swift in Sources */,
+				D2E6FD6D282A2C6800CFD870 /* HomeActivityCard.swift in Sources */,
 				3E68DBE22820B46D0083F221 /* VoteView.swift in Sources */,
 				843ADA85280E32B100ABE3DB /* UserViewModel.swift in Sources */,
 				E376A3052814E5D00071825F /* Activity.swift in Sources */,
+				D2E6FD70282A2EC700CFD870 /* VoteOptionView.swift in Sources */,
 				843ADA91280E3E9D00ABE3DB /* AuthenticationView.swift in Sources */,
 				946F3F0A281CD9680098E348 /* HomeView.swift in Sources */,
-				3E68DBDF2820B4640083F221 /* TempHomeView.swift in Sources */,
 				E376A30B2814E6140071825F /* Category.swift in Sources */,
 				843ADA8E280E3E3400ABE3DB /* ProfileView.swift in Sources */,
 				D22251A72821CC39007B0A00 /* ActivityViewModel.swift in Sources */,
