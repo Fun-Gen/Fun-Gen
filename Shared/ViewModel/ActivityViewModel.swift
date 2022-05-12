@@ -8,50 +8,124 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-import FirebaseFirestoreCombineSwift
-import CodableFirebase
-import Combine
 
 class ActivityViewModel: ObservableObject {
-    private let firestore = Firestore.firestore()
-    private let activitiesCollection = "activities"
+    private static let database = Firestore.firestore()
+    static let activitiesCollection = "activities"
     
-    // Create an Activity.
-    // TODO: confirm parameters
-    func createActivity() -> Activity.ID {
-        // FIXME: missing implementation
-        return ""
-    }
+    @Published private(set) var activity: Activity?
+    private var listenerRegistration: ListenerRegistration?
     
     /// A publisher for getting the latest values of an activity specified by the activityID.
-    func activityPublisher(actvityID: Activity.ID) -> AnyPublisher<Activity, Error> {
-        firestore
-            .collection(activitiesCollection)
-            .document(actvityID)
-            .snapshotPublisher()
-            .compactMap { $0.data() }
-            .tryMap { try FirebaseDecoder().decode(Activity.self, from: $0) }
-            .eraseToAnyPublisher()
+    init(activityID: Activity.ID) {
+        listenerRegistration = Self.database
+            .collection(Self.activitiesCollection)
+            .document(activityID)
+            .addSnapshotListener { [weak self] snapshot, error in
+                if let error = error {
+                    // TODO: surface error
+                    print(error)
+                    return
+                }
+                do {
+                    self?.activity = try snapshot?.data(as: Activity.self)
+                } catch {
+                    // TODO: surface error
+                    print(error)
+                }
+            }
     }
     
-    // Get activity specified by ID once.
-    func activity(id: Activity.ID) async throws -> Activity {
-        let snapshot = try await firestore
+    // MARK: - Static Helpers
+    
+    // Create an Activity.
+    static func createActivity(
+        title: String,
+        category: Category,
+        author: User.ID,
+        optionTitles: [String],
+        additionalMembers: [User.ID]
+    ) async throws -> Activity.ID {
+        assert(!additionalMembers.contains(author))
+        let allMembers = additionalMembers + [author]
+        let ref = database.collection(activitiesCollection).document()
+        let activityID = ref.documentID
+        let options = try OptionViewModel.createOptions(titles: optionTitles)
+        try ref.setData(from: Activity(
+            id: activityID,
+            title: title,
+            category: category,
+            author: author,
+            members: allMembers,
+            options: Dictionary(uniqueKeysWithValues: options.map {
+                ($0, PollOption(optionID: $0, author: author))
+            })
+        ))
+        // TODO: batch write instead for better performance
+        for member in allMembers {
+            try await UserViewModel._addActivity(id: activityID, toUser: member)
+        }
+        return activityID
+    }
+    
+    // Get activity specified by ID **once**.
+    static func activity(id: Activity.ID) async throws -> Activity {
+        return try await database
             .collection(activitiesCollection)
             .document(id)
-            .getDocument()
-        guard let data = snapshot.data() else {
-            throw FunGenError.missingSnapshotData
+            .getDocument(as: Activity.self)
+    }
+    
+    static func changeVote(ofUser userID: User.ID,
+                           removeFrom currentOptionID: Option.ID? = nil,
+                           addTo newOptionID: Option.ID? = nil,
+                           inActivity activityID: Activity.ID) async throws {
+        precondition(currentOptionID != nil || newOptionID != nil,
+                     "Must at least specify either an ID to remove or add vote to")
+        var optionUpdates: [FieldPath: Any] = [:]
+        if let currentOptionID = currentOptionID {
+            optionUpdates[FieldPath(["options", currentOptionID, "members"])]
+            = FieldValue.arrayRemove([userID])
         }
-        return try FirebaseDecoder().decode(Activity.self, from: data)
+        if let newOptionID = newOptionID {
+            optionUpdates[FieldPath(["options", newOptionID, "members"])]
+            = FieldValue.arrayUnion([userID])
+        }
+        try await database
+            .collection(activitiesCollection)
+            .document(activityID)
+            .updateData(optionUpdates)
+    }
+    
+    /// Add an ``Option`` specified by its ID to activity.options
+    /// - Precondition: the given `optionID` points to a valid option.
+    static func addOption(title: String,
+                          byUser userID: User.ID,
+                          toActivity activityID: Activity.ID
+    ) async throws -> Option.ID {
+        let optionID = try OptionViewModel.createOption(title: title)
+        let newPollOption = try Firestore.Encoder()
+            .encode(PollOption(optionID: optionID, author: userID))
+        try await database
+            .collection(activitiesCollection)
+            .document(activityID)
+            .updateData([
+                FieldPath(["options", optionID]): newPollOption
+            ])
+        return optionID
+    }
+    
+    static func removeOption(_ optionID: Option.ID,
+                             fromActivity activityID: Activity.ID) async throws {
+        try await database
+            .collection(activitiesCollection)
+            .document(activityID)
+            .updateData([
+                FieldPath(["options", optionID]): FieldValue.delete()
+            ])
     }
     
     // TODO: add implementation for:
     //    Add UserID to Activity.members
-    //    Add an Option to Activity.options
-    //    Add member UserID to an option in Activity.options (vote)
-    //    Randomly pick the Activity.selectedOption from
-    //    All the option
-    //    The top voted option
-    //    Get the list of Options with the most members
+    //    Randomly pick the Activity.selectedOption from all the option
 }

@@ -7,18 +7,17 @@
 
 import Foundation
 import FirebaseAuth
-import FirebaseAuthCombineSwift
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-import Combine
-import CodableFirebase
 
 class UserViewModel: ObservableObject {
     /// The current user logged in, if any
-    @Published var user: User?
+    @Published private(set) var user: User?
     
     private let auth = Auth.auth()
-    private let database = Firestore.firestore()
+    private static let database = Firestore.firestore()
+    static let usersCollection = "users"
+    
     var uuid: String? {
         auth.currentUser?.uid
     }
@@ -29,110 +28,120 @@ class UserViewModel: ObservableObject {
         user != nil && userIsAuthenticated
     }
     
-    private var userObserverHandler: AnyCancellable?
+    private var userObserverHandler: ListenerRegistration?
     
     init() {
         setupAutoUpdate()
     }
     
-    func setupAutoUpdate() {
+    private func setupAutoUpdate() {
         auth.addStateDidChangeListener { [weak self] _, authUser in
             guard let self = self else { return }
             if authUser?.uid != self.user?.id {
-                self.userObserverHandler?.cancel()
+                self.userObserverHandler?.remove()
                 self.userObserverHandler = nil
                 if let newID = authUser?.uid {
-                    self.userObserverHandler = self.database
-                        .collection("users")
+                    self.userObserverHandler = Self.database
+                        .collection(Self.usersCollection)
                         .document(newID)
-                        .snapshotPublisher()
-                        .compactMap { $0.data() }
-                        .tryMap { try FirebaseDecoder().decode(User.self, from: $0) }
-                        .sink { _ in
-                            // ignore completion
-                        } receiveValue: { user in
-                            self.user = user
+                        .addSnapshotListener { [weak self] snapshot, error in
+                            if let error = error {
+                                // TODO: surface error
+                                print(error)
+                                return
+                            }
+                            do {
+                                self?.user = try snapshot?.data(as: User.self)
+                            } catch {
+                                // TODO: surface error
+                                print(error)
+                            }
                         }
                 }
             }
         }
     }
     
-    // Firebase Auth Functions
-    func signIn(email: String, password: String) {
-        auth.signIn(withEmail: email, password: password) { result, error in
-            guard result != nil, error == nil else {
-                print(error?.localizedDescription ?? "Unknown error")
-                return
-            }
-        }
+    // MARK: - Firebase Auth Functions
+    
+    func signIn(email: String, password: String) async throws {
+        try await auth.signIn(withEmail: email, password: password)
     }
     
-    func signUp(email: String, username: String, password: String) {
-        auth.createUser(withEmail: email, password: password) { [weak self] result, error in
-            guard result != nil, error == nil else {
-                return
-            }
-            // constants for retrieving newly generated Firebase user ID
-            let getUser = Auth.auth().currentUser
-            let userID: String = getUser?.uid ?? ""
-            DispatchQueue.main.async {
-                self?.add(User(id: userID, username: username, email: email))
-            }
-        }
+    func signUp(email: String, username: String, password: String) async throws {
+        let getUser = try await auth.createUser(withEmail: email, password: password).user
+        let userID = getUser.uid
+        try add(User(id: userID, username: username, email: email))
     }
     
-    func signOut() {
-        do {
-            try auth.signOut()
-            user = nil
-        } catch {
-            print("Error signing out user: \(error)")
-        }
+    func signOut() throws {
+        try auth.signOut()
+        user = nil
     }
     
-    // Firestore Functions for User Data
+    // MARK: - Firestore Functions for User Data
     
-    private func add(_ user: User) {
-        guard userIsAuthenticated, let uuid = uuid else { return }
-        do {
-            let _: Void = try database.collection("users").document(uuid).setData(from: user)
-        } catch {
-            print("Error adding: \(error)")
-        }
+    private func add(_ user: User) throws {
+        precondition(userIsAuthenticated)
+        try Self.database.collection(Self.usersCollection).document(user.id).setData(from: user)
     }
     
-    private func update() {
-        guard userIsAuthenticatedAndSynced, let uuid = uuid else { return }
-        do {
-            let _: Void = try database.collection("users").document(uuid).setData(from: user)
-        } catch {
-            print("Error updating: \(error)")
-        }
+    // MARK: - Operations Specified in Requirements
+    
+    /// Fetch user with ID once.
+    /// - Parameter id: the ID of ``User`` to fetch.
+    /// - Returns: the ``User`` with given id if found, or nil otherwise.
+    static func user(id: User.ID) async throws -> User? {
+        return try await users(ids: [id]).first
     }
     
-    // MARK: - Operations Speecified in Requirements
-    
-    /// Fetch user with ID.
-    func user(id: User.ID) -> User? {
-        return users(ids: [id]).first?.flatMap { $0 }
+    /// Fetch users with IDs once.
+    /// - Parameter ids: the IDs of users to fetch.
+    /// - Returns: the ``User``s matching the given ids in no specific order, and
+    /// may contain fewer users than the specified ids if some of the ids cannot be found in the database.
+    static func users(ids: [User.ID]) async throws -> [User] {
+        return try await database
+            .collection(usersCollection)
+            .whereField("id", in: ids)
+            .getDocuments()
+            .documents
+            .map { try $0.data(as: User.self) }
     }
     
-    /// Fetch users with IDs.
-    func users(ids: [User.ID]) -> [User?] {
-        // FIXME: missing implementation
-        return []
+    /// Fetch Users by username (prefix/full match, maybe fuzzy match for stretch goal) once.
+    /// - Note: anything other than full username match (such as prefix or fuzzy match)
+    /// requires additional 3rd party dependencies. See Firestore's documentation for more details:
+    /// https://firebase.google.com/docs/firestore/solutions/search
+    static func user(named name: String) async throws -> User? {
+        return try await database
+            .collection(usersCollection)
+            .whereField("username", isEqualTo: name)
+            .getDocuments()
+            .documents
+            .first
+            .map { try $0.data(as: User.self) }
     }
     
-    /// Fetch Users by username (prefix/full match, maybe fuzzy match for stretch goal).
-    func users(named name: String) -> [User] {
-        // FIXME: missing implementation
-        return []
+    /// Fetch User by email (match entire email) once.
+    static func user(email: String) async throws -> User? {
+        return try await database
+            .collection(usersCollection)
+            .whereField("email", isEqualTo: email)
+            .getDocuments()
+            .documents
+            .first
+            .map { try $0.data(as: User.self) }
     }
     
-    /// Fetch User by email (match entire email).
-    func user(email: String) -> User? {
-        // FIXME: missing implementation
-        return nil
+    /// Special internal method not for frontend.
+    static func _addActivity( // swiftlint:disable:this identifier_name
+        id activityID: Activity.ID, toUser userID: User.ID
+    ) async throws {
+        try await database
+            .collection(usersCollection)
+            .document(userID)
+            .updateData([
+                "activities": FieldValue.arrayUnion([activityID])
+            ])
     }
 }
