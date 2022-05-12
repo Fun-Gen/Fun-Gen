@@ -183,6 +183,18 @@ class Fun_GenTests: XCTestCase {
         XCTAssert(optionWithOutVote?.members.contains(IDs.User.testTest) == false)
     }
     
+    func testActivityViewModelRandomSelection() async throws {
+        let beforeSelection = try await ActivityViewModel.activity(id: IDs.Activity.testActivity).selectedOption
+        XCTAssertNil(beforeSelection)
+        let selected = try await ActivityViewModel.selectRandomOption(forActivity: IDs.Activity.testActivity)
+        let afterSelection = try await ActivityViewModel.activity(id: IDs.Activity.testActivity).selectedOption
+        XCTAssertEqual(selected, IDs.Option.testOption)
+        XCTAssertEqual(afterSelection, IDs.Option.testOption)
+        try await ActivityViewModel._vetoSelectedOption(forActivity: IDs.Activity.testActivity)
+        let afterVeto = try await ActivityViewModel.activity(id: IDs.Activity.testActivity).selectedOption
+        XCTAssertNil(afterVeto)
+    }
+    
     func testOptionViewModel() async throws {
         let randomText = "Test-\(#function)-\(UUID().uuidString)"
         let optionID = try OptionViewModel.createOption(title: randomText)
