@@ -84,6 +84,13 @@ through menu options **Product > Test**.
 You can see [Running Tests and Viewing Results](https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/05-running_tests.html) for more details,
 or view the results of tests in the checks section of each open pull request against the `main` branch.
 
+### Add New Test for Codebase
+
+Tests for codebase 
+There are two folders for Unit testing and UI testing. For each test case, add a new function starting with the word test, such as testExample.
+For unit tests, one can directly construct instances of classes/structs and call methods inside the new test function, and use XCTAssert to assert the actual values match expected values.
+For UITests, on Xcode, users can click the record button to record a series of actions and it will be turned to testing code automatically, and one can adjust the code if needed.
+
 ### User Sign In Test Account
 
 |Email|Password|
