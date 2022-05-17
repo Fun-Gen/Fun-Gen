@@ -66,7 +66,7 @@ If you are new to SwiftUI, you can follow UWAppDev's guide on
 
 ### Build
 
-Follow the [setup guide](https://github.com/Fun-Gen/Fun-Gen/wiki/Setup) to build the project.
+Follow the [setup guide on the wiki](https://github.com/Fun-Gen/Fun-Gen/wiki) to build the project.
 
 Each pull request against `main` branch as well as each commit on the `main` branch will also be automatically build by Xcode Cloud,
 and built artifact for the `main` branch commits will be automatically submitted to App Store Connect for release on TestFlight for external installation.
