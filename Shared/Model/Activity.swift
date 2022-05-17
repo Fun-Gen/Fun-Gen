@@ -29,6 +29,10 @@ struct Activity: Codable, Identifiable {
     /// Contains all ``PollOption``s suggested by ``members``, index by ``Option.ID``
     var options: [Option.ID: PollOption] = [:]
     
+    /// The ``Option.ID`` that won the vote by the members for this activity,
+    /// or nil if the voting hasn't concluded.
+    var selectedOption: Option.ID?
+    
     /// Sum of unique members who have voted for this ``Activity``
     var voteCount: Int {
         options.reduce(into: Set<User.ID>()) {
