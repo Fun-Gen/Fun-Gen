@@ -2,6 +2,8 @@
 
 UW CSE 403 Spring 2022 Group Project
 
+**Please check out our user manual to get started! [Wiki](https://github.com/Fun-Gen/Fun-Gen/wiki)**
+
 ### What is Fun Gen?
 
 Fun Gen is an iOS app with a user created list of activities in a friend, coworker, or family group. Users propose an activity in a user defined category (vacation, road trip, movie night, etc.) and the options can be voted on or just randomly selected if the group does not want to vote. Example activities include a family trip with family members submitting and/or voting on a destination, a couple having trouble deciding on what to watch on Netflix, or coworkers picking a restaurant for a company outing.
