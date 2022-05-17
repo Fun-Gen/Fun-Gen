@@ -53,6 +53,8 @@ If you are new to SwiftUI, you can follow UWAppDev's guide on
 
 ### Build
 
+All our tasks are automated there are no sanity checkcs that the developer has to perform. 
+
 Select build destination and run the app by following Apple's documentation on [Running Your App in the Simulator or on a Device
 ](https://developer.apple.com/documentation/xcode/running-your-app-in-the-simulator-or-on-a-device)
 
