@@ -4,26 +4,6 @@ UW CSE 403 Spring 2022 Group Project
 
 **Please check out our user manual on our [Wiki](https://github.com/Fun-Gen/Fun-Gen/wiki) to get started!**
 
-## Development Setup
-
-See [Setup](./Setup) page for more details.
-
-## Common Issues
-
-To resolve common compile time errors that happen after pulling a new branch:
-
-1. Make sure you have an iPhone simulator selected as the run destination
-2. If you are getting multiple errors, click on menu item File > Packages > Resolve Package Versions
-
-## User Sign In Test Account
-
-|Email|Password|
-|--|--|
-|test123@gmail.com|123123|
-|test@test.test|testtest|
-
-
-
 ### Goals
 
 Major Features for MVP (Minimum Viable Product)
@@ -44,7 +24,8 @@ Stretch Features
 If you are new to SwiftUI, you can follow UWAppDev's guide on
 [getting started with SwiftUI](https://uwdev.app/resources/getting-started/swiftui).
 
-## Setup
+### Setup
+
 1. You should have a Mac computer
 2. Install Xcode from the Mac [App Store](https://apps.apple.com/app/id497799835) if you don't have it installed already
 3. Install SwiftLint by following the [official documentation](https://github.com/realm/SwiftLint#installation)
@@ -77,6 +58,13 @@ If you are new to SwiftUI, you can follow UWAppDev's guide on
 Each pull request against `main` branch as well as each commit on the `main` branch will also be automatically build by Xcode Cloud,
 and built artifact for the `main` branch commits will be automatically submitted to App Store Connect for release on TestFlight for external installation.
 
+#### Common Issue
+
+To resolve common compile time errors that happen after pulling a new branch:
+
+1. Make sure you have an iPhone simulator selected as the run destination
+2. If you are getting multiple errors, click on menu item File > Packages > Resolve Package Versions
+
 ### Run
 
 After building the project by following the build instructions,
@@ -95,6 +83,13 @@ through menu options **Product > Test**.
 
 You can see [Running Tests and Viewing Results](https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/05-running_tests.html) for more details,
 or view the results of tests in the checks section of each open pull request against the `main` branch.
+
+### User Sign In Test Account
+
+|Email|Password|
+|--|--|
+|test123@gmail.com|123123|
+|test@test.test|testtest|
 
 ## Use Cases & Implementation Status
 
