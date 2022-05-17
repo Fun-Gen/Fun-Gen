@@ -2,7 +2,7 @@
 
 UW CSE 403 Spring 2022 Group Project
 
-**Please check out our user manual to get started! [Wiki](https://github.com/Fun-Gen/Fun-Gen/wiki)**
+**Please check out our user manual on our [Wiki](https://github.com/Fun-Gen/Fun-Gen/wiki) to get started!**
 
 ## Development Setup
 
