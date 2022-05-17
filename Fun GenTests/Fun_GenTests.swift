@@ -184,8 +184,6 @@ class Fun_GenTests: XCTestCase {
     }
     
     func testActivityViewModelRandomSelection() async throws {
-        let beforeSelection = try await ActivityViewModel.activity(id: IDs.Activity.testActivity).selectedOption
-        XCTAssertNil(beforeSelection)
         let selected = try await ActivityViewModel.selectRandomOption(forActivity: IDs.Activity.testActivity)
         let afterSelection = try await ActivityViewModel.activity(id: IDs.Activity.testActivity).selectedOption
         XCTAssertEqual(selected, IDs.Option.testOption)
