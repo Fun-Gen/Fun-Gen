@@ -30,8 +30,6 @@ If you are new to SwiftUI, you can follow UWAppDev's guide on
 2. Install Xcode from the Mac [App Store](https://apps.apple.com/app/id497799835) if you don't have it installed already
 3. Install SwiftLint by following the [official documentation](https://github.com/realm/SwiftLint#installation)
 4. Double click to open `Fun Gen.xcodeproj` in Xcode
-5. Select build destination and run the app by following Apple's documentation on [Running Your App in the Simulator or on a Device
-](https://developer.apple.com/documentation/xcode/running-your-app-in-the-simulator-or-on-a-device)
 
 ### Project Structure
 
@@ -54,6 +52,11 @@ If you are new to SwiftUI, you can follow UWAppDev's guide on
 - `.github`: configuration files for GitHub related settings.
 
 ### Build
+
+Select build destination and run the app by following Apple's documentation on [Running Your App in the Simulator or on a Device
+](https://developer.apple.com/documentation/xcode/running-your-app-in-the-simulator-or-on-a-device)
+
+#### Build Release
 
 Each pull request against `main` branch as well as each commit on the `main` branch will also be automatically build by Xcode Cloud,
 and built artifact for the `main` branch commits will be automatically submitted to App Store Connect for release on TestFlight for external installation.
