@@ -4,9 +4,25 @@ UW CSE 403 Spring 2022 Group Project
 
 **Please check out our user manual to get started! [Wiki](https://github.com/Fun-Gen/Fun-Gen/wiki)**
 
-### What is Fun Gen?
+## Development Setup
 
-Fun Gen is an iOS app with a user created list of activities in a friend, coworker, or family group. Users propose an activity in a user defined category (vacation, road trip, movie night, etc.) and the options can be voted on or just randomly selected if the group does not want to vote. Example activities include a family trip with family members submitting and/or voting on a destination, a couple having trouble deciding on what to watch on Netflix, or coworkers picking a restaurant for a company outing.
+See [Setup](./Setup) page for more details.
+
+## Common Issues
+
+To resolve common compile time errors that happen after pulling a new branch:
+
+1. Make sure you have an iPhone simulator selected as the run destination
+2. If you are getting multiple errors, click on menu item File > Packages > Resolve Package Versions
+
+## User Sign In Test Account
+
+|Email|Password|
+|--|--|
+|test123@gmail.com|123123|
+|test@test.test|testtest|
+
+
 
 ### Goals
 
