@@ -125,7 +125,41 @@ class ActivityViewModel: ObservableObject {
             ])
     }
     
-    // TODO: add implementation for:
-    //    Add UserID to Activity.members
-    //    Randomly pick the Activity.selectedOption from all the option
+    // TODO: add implementation for Add UserID to Activity.members for stretch goal
+    
+    /// Randomly pick the Activity.selectedOption from all the option
+    static func selectRandomOption(
+        forActivity activityID: Activity.ID
+    ) async throws -> Option.ID {
+        let activityRef = database.collection(activitiesCollection).document(activityID)
+        return try await database.runTransaction { transaction, errorPointer -> Option.ID? in
+            do {
+                let snapshot = try transaction.getDocument(activityRef)
+                let activity = try snapshot.data(as: Activity.self)
+                guard let optionID = activity.options.keys.randomElement() else {
+                    throw FunGenError.activityHasNoOptionForRandomSelection
+                }
+                transaction.updateData([
+                    "selectedOption": optionID
+                ], forDocument: activityRef)
+                return optionID
+            } catch {
+                errorPointer?.pointee = error as NSError
+                return nil
+            }
+        } as! Option.ID // swiftlint:disable:this force_cast
+        // we know this can only return Option.ID
+    }
+    
+    /// This is undemocratic and should not be called by client code
+    static func _vetoSelectedOption( // swiftlint:disable:this identifier_name
+        forActivity activityID: Activity.ID
+    ) async throws {
+        let activityRef = database.collection(activitiesCollection).document(activityID)
+        try await database.runTransaction { transaction, _ in
+            transaction.updateData([
+                "selectedOption": FieldValue.delete()
+            ], forDocument: activityRef)
+        }
+    }
 }
