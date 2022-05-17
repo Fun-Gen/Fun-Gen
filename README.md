@@ -44,6 +44,14 @@ Stretch Features
 If you are new to SwiftUI, you can follow UWAppDev's guide on
 [getting started with SwiftUI](https://uwdev.app/resources/getting-started/swiftui).
 
+## Setup
+1. You should have a Mac computer
+2. Install Xcode from the Mac [App Store](https://apps.apple.com/app/id497799835) if you don't have it installed already
+3. Install SwiftLint by following the [official documentation](https://github.com/realm/SwiftLint#installation)
+4. Double click to open `Fun Gen.xcodeproj` in Xcode
+5. Select build destination and run the app by following Apple's documentation on [Running Your App in the Simulator or on a Device
+](https://developer.apple.com/documentation/xcode/running-your-app-in-the-simulator-or-on-a-device)
+
 ### Project Structure
 
 - `Fun Gen.xcodeproj`: Xcode project file.
