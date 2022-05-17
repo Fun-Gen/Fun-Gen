@@ -184,13 +184,15 @@ class Fun_GenTests: XCTestCase {
     }
     
     func testActivityViewModelRandomSelection() async throws {
+        addTeardownAsync {
+            try await ActivityViewModel._vetoSelectedOption(forActivity: IDs.Activity.testActivity)
+        }
+        let beforeSelection = try await ActivityViewModel
+            .activity(id: IDs.Activity.testActivity)
+            .selectedOption
+        XCTAssertNil(beforeSelection)
         let selected = try await ActivityViewModel.selectRandomOption(forActivity: IDs.Activity.testActivity)
-        let afterSelection = try await ActivityViewModel.activity(id: IDs.Activity.testActivity).selectedOption
         XCTAssertEqual(selected, IDs.Option.testOption)
-        XCTAssertEqual(afterSelection, IDs.Option.testOption)
-        try await ActivityViewModel._vetoSelectedOption(forActivity: IDs.Activity.testActivity)
-        let afterVeto = try await ActivityViewModel.activity(id: IDs.Activity.testActivity).selectedOption
-        XCTAssertNil(afterVeto)
     }
     
     func testOptionViewModel() async throws {
