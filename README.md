@@ -2,9 +2,7 @@
 
 UW CSE 403 Spring 2022 Group Project
 
-### What is Fun Gen?
-
-Fun Gen is an iOS app with a user created list of activities in a friend, coworker, or family group. Users propose an activity in a user defined category (vacation, road trip, movie night, etc.) and the options can be voted on or just randomly selected if the group does not want to vote. Example activities include a family trip with family members submitting and/or voting on a destination, a couple having trouble deciding on what to watch on Netflix, or coworkers picking a restaurant for a company outing.
+**Please check out our user manual on our [Wiki](https://github.com/Fun-Gen/Fun-Gen/wiki) to get started!**
 
 ### Goals
 
@@ -25,6 +23,13 @@ Stretch Features
 
 If you are new to SwiftUI, you can follow UWAppDev's guide on
 [getting started with SwiftUI](https://uwdev.app/resources/getting-started/swiftui).
+
+### Setup
+
+1. You should have a Mac computer
+2. Install Xcode from the Mac [App Store](https://apps.apple.com/app/id497799835) if you don't have it installed already
+3. Install SwiftLint by following the [official documentation](https://github.com/realm/SwiftLint#installation)
+4. Double click to open `Fun Gen.xcodeproj` in Xcode
 
 ### Project Structure
 
@@ -48,10 +53,22 @@ If you are new to SwiftUI, you can follow UWAppDev's guide on
 
 ### Build
 
-Follow the [setup guide](https://github.com/Fun-Gen/Fun-Gen/wiki/Setup) to build the project.
+All our tasks are automated there are no sanity checkcs that the developer has to perform. 
+
+Select build destination and run the app by following Apple's documentation on [Running Your App in the Simulator or on a Device
+](https://developer.apple.com/documentation/xcode/running-your-app-in-the-simulator-or-on-a-device)
+
+#### Build Release
 
 Each pull request against `main` branch as well as each commit on the `main` branch will also be automatically build by Xcode Cloud,
 and built artifact for the `main` branch commits will be automatically submitted to App Store Connect for release on TestFlight for external installation.
+
+#### Common Issue
+
+To resolve common compile time errors that happen after pulling a new branch:
+
+1. Make sure you have an iPhone simulator selected as the run destination
+2. If you are getting multiple errors, click on menu item File > Packages > Resolve Package Versions
 
 ### Run
 
@@ -71,6 +88,20 @@ through menu options **Product > Test**.
 
 You can see [Running Tests and Viewing Results](https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/05-running_tests.html) for more details,
 or view the results of tests in the checks section of each open pull request against the `main` branch.
+
+#### Add New Test for Codebase
+ 
+There are two folders for Unit testing and UI testing. For each test case, add a new function starting with the word test, such as testExample.
+For unit tests, one can directly construct instances of classes/structs and call methods inside the new test function, and use XCTAssert to assert the actual values match expected values.
+
+For UITests, on Xcode, users can click the record button to record a series of actions and it will be turned to testing code automatically, and one can adjust the code if needed.
+
+### User Sign In Test Account
+
+|Email|Password|
+|--|--|
+|test123@gmail.com|123123|
+|test@test.test|testtest|
 
 ## Use Cases & Implementation Status
 
