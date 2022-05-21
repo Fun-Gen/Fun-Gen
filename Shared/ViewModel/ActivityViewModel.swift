@@ -62,6 +62,13 @@ class ActivityViewModel: ObservableObject {
                 ($0, PollOption(optionID: $0, author: author))
             })
         ), forDocument: ref)
+        batch.commit { error in
+            if let error = error {
+                print("Error writing batch \(error)")
+            } else {
+                print("Batch write succeeded.")
+            }
+        }
         for member in allMembers {
             try await UserViewModel._addActivity(id: activityID, toUser: member)
         }
