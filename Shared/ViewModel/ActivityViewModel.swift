@@ -51,7 +51,8 @@ class ActivityViewModel: ObservableObject {
         let ref = database.collection(activitiesCollection).document()
         let activityID = ref.documentID
         let options = try OptionViewModel.createOptions(titles: optionTitles)
-        try ref.setData(from: Activity(
+        let batch = database.batch()
+        try batch.setData(from: Activity(
             id: activityID,
             title: title,
             category: category,
@@ -60,8 +61,7 @@ class ActivityViewModel: ObservableObject {
             options: Dictionary(uniqueKeysWithValues: options.map {
                 ($0, PollOption(optionID: $0, author: author))
             })
-        ))
-        // TODO: batch write instead for better performance
+        ), forDocument: ref)
         for member in allMembers {
             try await UserViewModel._addActivity(id: activityID, toUser: member)
         }

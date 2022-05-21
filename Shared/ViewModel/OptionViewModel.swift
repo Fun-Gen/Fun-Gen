@@ -48,12 +48,12 @@ class OptionViewModel: ObservableObject {
     static func createOptions(titles: [String]) throws -> [Option.ID] {
         var ids: [Option.ID] = []
         ids.reserveCapacity(titles.count)
-        // TODO: batch write for better performance
+        let batch = database.batch()
         for title in titles {
             let ref = database.collection(optionsCollection).document()
             let optionID = ref.documentID
             ids.append(optionID)
-            try ref.setData(from: Option(id: optionID, title: title))
+            try batch.setData(from: Option(id: optionID, title: title), forDocument: ref)
         }
         return ids
     }
