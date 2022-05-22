@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct VoteOptionView: View {
+    var select: (Option.ID) async -> Void
     @EnvironmentObject var userViewModel: UserViewModel
     let optionID: Option.ID
     let activity: Activity
@@ -27,19 +28,10 @@ struct VoteOptionView: View {
         Button {
             Task {
                 guard let userID = userViewModel.user?.id else {
-                    // TODO: handle error
                     print("Missing user id")
                     return
                 }
-                do {
-                    try await ActivityViewModel
-                        .changeVote(ofUser: userID,
-                                    addTo: optionID,
-                                    inActivity: activity.id)
-                } catch {
-                    // TODO: handle error
-                    print(error)
-                }
+                await select(optionID)
             }
         } label: {
             if let option = optionViewModel.option {

@@ -19,6 +19,7 @@ struct HomeView: View {
                             NavigationLink {
                                 VoteView()
                                     .environmentObject(ActivityViewModel(activityID: activityID))
+                                    .environmentObject(UserViewModel())
                             } label: {
                                 HomeActivityCard(activityViewModel: ActivityViewModel(activityID: activityID))
                             }
@@ -41,7 +42,7 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HomeView()
+            HomeView().environmentObject(UserViewModel())
         }
     }
 }
