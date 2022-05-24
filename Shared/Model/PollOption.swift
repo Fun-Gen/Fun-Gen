@@ -8,7 +8,7 @@
 import Foundation
 
 /// Keeps tracks of members of an activity who voted on an ``Option`` for a specific ``Activity``.
-struct PollOption: Codable {
+struct PollOption: Codable, Equatable {
     /// The database id of the ``Option`` been voted on.
     var optionID: Option.ID
     
