@@ -48,8 +48,8 @@ class ActivityViewModel: ObservableObject {
     ) async throws -> Activity.ID {
         assert(!additionalMembers.contains(author))
         let allMembers = additionalMembers + [author]
-        let ref = database.collection(activitiesCollection).document()
-        let activityID = ref.documentID
+        let activityRef = database.collection(activitiesCollection).document()
+        let activityID = activityRef.documentID
         let options = try await OptionViewModel.createOptions(titles: optionTitles)
         let batch = database.batch()
         try batch.setData(from: Activity(
@@ -61,11 +61,19 @@ class ActivityViewModel: ObservableObject {
             options: Dictionary(uniqueKeysWithValues: options.map {
                 ($0, PollOption(optionID: $0, author: author))
             })
-        ), forDocument: ref)
-        try await batch.commit()
+        ), forDocument: activityRef)
+        
         for member in allMembers {
-            try await UserViewModel._addActivity(id: activityID, toUser: member)
+            let userRef = database
+                .collection(UserViewModel.usersCollection)
+                .document(member)
+            batch.updateData([
+                "activities": FieldValue.arrayUnion([activityID])
+            ], forDocument: userRef)
         }
+        
+        try await batch.commit()
+        
         return activityID
     }
     
