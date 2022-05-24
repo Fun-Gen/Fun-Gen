@@ -80,14 +80,10 @@ class Fun_GenTests: XCTestCase {
             additionalMembers: [IDs.User.testTest]
         )
         addTeardownAsync {
-            try await self.deleteActivity(id: activityID,
-                                          andFromUsers: [IDs.User.test123, IDs.User.testTest])
+            try await ActivityViewModel.deleteActivity(activityID)
         }
         // Check activity has the correct info
         let activity = try await ActivityViewModel.activity(id: activityID)
-        addTeardownAsync {
-            try await self.deleteOptions(ids: activity.options.keys)
-        }
         XCTAssertEqual(activity.id, activityID)
         XCTAssertEqual(activity.title, title)
         XCTAssertEqual(activity.category, Category.destination)
@@ -215,24 +211,6 @@ class Fun_GenTests: XCTestCase {
                 .collection(OptionViewModel.optionsCollection)
                 .document(id)
                 .delete()
-        }
-    }
-    
-    private func deleteActivity(id activityID: Activity.ID,
-                                andFromUsers userIDs: [User.ID]) async throws {
-        // Remove activity from activities
-        try await Firestore.firestore()
-            .collection(ActivityViewModel.activitiesCollection)
-            .document(activityID)
-            .delete()
-        // Remove activity from each of its member's records
-        for userID in userIDs {
-            try await Firestore.firestore()
-                .collection(UserViewModel.usersCollection)
-                .document(userID)
-                .updateData([
-                    "activities": FieldValue.arrayRemove([activityID])
-                ])
         }
     }
     
