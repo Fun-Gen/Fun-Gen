@@ -38,14 +38,14 @@ class OptionViewModel: ObservableObject {
     /// Create a new ``Option`` in the database.
     /// - Parameter title: the content of the ``Option`` to create.
     /// - Returns: the ID of the newly created ``Option``.
-    static func createOption(title: String) throws -> Option.ID {
-        return try createOptions(titles: [title])[0]
+    static func createOption(title: String) async throws -> Option.ID {
+        return try await createOptions(titles: [title])[0]
     }
     
     /// Create new ``Option``s in the database.
     /// - Parameter titles: the contents of the ``Option``s to create.
     /// - Returns: the IDs of the newly created ``Option``s in the original order.
-    static func createOptions(titles: [String]) throws -> [Option.ID] {
+    static func createOptions(titles: [String]) async throws -> [Option.ID] {
         var ids: [Option.ID] = []
         ids.reserveCapacity(titles.count)
         
@@ -59,13 +59,7 @@ class OptionViewModel: ObservableObject {
             try batch.setData(from: Option(id: optionID, title: title), forDocument: ref)
         }
         
-        batch.commit { error in
-            if let error = error {
-                print("Error writing batch \(error)")
-            } else {
-                print("Batch write succeeded.")
-            }
-        }
+        try await batch.commit()
         
         return ids
     }

@@ -50,7 +50,7 @@ class ActivityViewModel: ObservableObject {
         let allMembers = additionalMembers + [author]
         let ref = database.collection(activitiesCollection).document()
         let activityID = ref.documentID
-        let options = try OptionViewModel.createOptions(titles: optionTitles)
+        let options = try await OptionViewModel.createOptions(titles: optionTitles)
         let batch = database.batch()
         try batch.setData(from: Activity(
             id: activityID,
@@ -62,13 +62,7 @@ class ActivityViewModel: ObservableObject {
                 ($0, PollOption(optionID: $0, author: author))
             })
         ), forDocument: ref)
-        batch.commit { error in
-            if let error = error {
-                print("Error writing batch \(error)")
-            } else {
-                print("Batch write succeeded.")
-            }
-        }
+        try await batch.commit()
         for member in allMembers {
             try await UserViewModel._addActivity(id: activityID, toUser: member)
         }
@@ -110,7 +104,7 @@ class ActivityViewModel: ObservableObject {
                           byUser userID: User.ID,
                           toActivity activityID: Activity.ID
     ) async throws -> Option.ID {
-        let optionID = try OptionViewModel.createOption(title: title)
+        let optionID = try await OptionViewModel.createOption(title: title)
         let newPollOption = try Firestore.Encoder()
             .encode(PollOption(optionID: optionID, author: userID))
         try await database
