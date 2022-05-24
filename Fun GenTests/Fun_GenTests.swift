@@ -197,7 +197,7 @@ class Fun_GenTests: XCTestCase {
     
     func testOptionViewModel() async throws {
         let randomText = "Test-\(#function)-\(UUID().uuidString)"
-        let optionID = try OptionViewModel.createOption(title: randomText)
+        let optionID = try await OptionViewModel.createOption(title: randomText)
         addTeardownAsync {
             try await self.deleteOptions(ids: [optionID])
         }

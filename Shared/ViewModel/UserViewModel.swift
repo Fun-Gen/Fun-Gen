@@ -132,16 +132,4 @@ class UserViewModel: ObservableObject {
             .first
             .map { try $0.data(as: User.self) }
     }
-    
-    /// Special internal method not for frontend.
-    static func _addActivity( // swiftlint:disable:this identifier_name
-        id activityID: Activity.ID, toUser userID: User.ID
-    ) async throws {
-        try await database
-            .collection(usersCollection)
-            .document(userID)
-            .updateData([
-                "activities": FieldValue.arrayUnion([activityID])
-            ])
-    }
 }
