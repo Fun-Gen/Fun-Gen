@@ -61,7 +61,8 @@ struct CreateActivityView: View {
                             category: selectedCategory, // Food
                             author: "\(user.user?.id ?? "")", // author: "eOUU1RDjcphzXd0VTUDhALy6ZB53"
                             optionTitles: optionList, // Mint, Choco, Straw
-                            additionalMembers: []
+                            // FIXME: need to pass [User.ID] instead:
+                            additionalMembers: friendList
                         ) // Might leave off friends tagging for beta?
                     } catch {
                         // TODO: handle error
