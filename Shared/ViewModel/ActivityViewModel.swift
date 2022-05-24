@@ -48,10 +48,11 @@ class ActivityViewModel: ObservableObject {
     ) async throws -> Activity.ID {
         assert(!additionalMembers.contains(author))
         let allMembers = additionalMembers + [author]
-        let ref = database.collection(activitiesCollection).document()
-        let activityID = ref.documentID
-        let options = try OptionViewModel.createOptions(titles: optionTitles)
-        try ref.setData(from: Activity(
+        let activityRef = database.collection(activitiesCollection).document()
+        let activityID = activityRef.documentID
+        let options = try await OptionViewModel.createOptions(titles: optionTitles)
+        let batch = database.batch()
+        try batch.setData(from: Activity(
             id: activityID,
             title: title,
             category: category,
@@ -60,11 +61,19 @@ class ActivityViewModel: ObservableObject {
             options: Dictionary(uniqueKeysWithValues: options.map {
                 ($0, PollOption(optionID: $0, author: author))
             })
-        ))
-        // TODO: batch write instead for better performance
+        ), forDocument: activityRef)
+        
         for member in allMembers {
-            try await UserViewModel._addActivity(id: activityID, toUser: member)
+            let userRef = database
+                .collection(UserViewModel.usersCollection)
+                .document(member)
+            batch.updateData([
+                "activities": FieldValue.arrayUnion([activityID])
+            ], forDocument: userRef)
         }
+        
+        try await batch.commit()
+        
         return activityID
     }
     
@@ -103,7 +112,7 @@ class ActivityViewModel: ObservableObject {
                           byUser userID: User.ID,
                           toActivity activityID: Activity.ID
     ) async throws -> Option.ID {
-        let optionID = try OptionViewModel.createOption(title: title)
+        let optionID = try await OptionViewModel.createOption(title: title)
         let newPollOption = try Firestore.Encoder()
             .encode(PollOption(optionID: optionID, author: userID))
         try await database

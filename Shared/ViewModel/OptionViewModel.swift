@@ -38,23 +38,29 @@ class OptionViewModel: ObservableObject {
     /// Create a new ``Option`` in the database.
     /// - Parameter title: the content of the ``Option`` to create.
     /// - Returns: the ID of the newly created ``Option``.
-    static func createOption(title: String) throws -> Option.ID {
-        return try createOptions(titles: [title])[0]
+    static func createOption(title: String) async throws -> Option.ID {
+        return try await createOptions(titles: [title])[0]
     }
     
     /// Create new ``Option``s in the database.
     /// - Parameter titles: the contents of the ``Option``s to create.
     /// - Returns: the IDs of the newly created ``Option``s in the original order.
-    static func createOptions(titles: [String]) throws -> [Option.ID] {
+    static func createOptions(titles: [String]) async throws -> [Option.ID] {
         var ids: [Option.ID] = []
         ids.reserveCapacity(titles.count)
-        // TODO: batch write for better performance
+        
+        let batch = database.batch()
+        
         for title in titles {
             let ref = database.collection(optionsCollection).document()
             let optionID = ref.documentID
             ids.append(optionID)
-            try ref.setData(from: Option(id: optionID, title: title))
+            
+            try batch.setData(from: Option(id: optionID, title: title), forDocument: ref)
         }
+        
+        try await batch.commit()
+        
         return ids
     }
     
