@@ -12,7 +12,6 @@ struct VoteView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var optionArray = ["OP1", "OP2", "OP3"]
-    @State private var isSelected = ""
     @State private var selectedOption = ""
     @State private var newOption = ""
     
@@ -22,7 +21,8 @@ struct VoteView: View {
         
     var body: some View {
         VStack(alignment: .leading) {
-            if let activity = activityViewModel.activity {
+            if let activity = activityViewModel.activity,
+               let user = userViewModel.user {
                 Text("Activity").font(.title).padding(.bottom)
                 Text("Title: \(activity.title)").foregroundColor(.secondary)
                 Text("Category: \(activity.category.rawValue.capitalized)").foregroundColor(.secondary)
@@ -32,17 +32,23 @@ struct VoteView: View {
                     VStack(alignment: .leading) {
                         ForEach(sortedOptionIDs, id: \.self) { optionID in
                             VoteOptionView(
-                                select: changeSelected,
+                                select: { id in
+                                    await changeSelected(newID: id, userID: user.id, activity: activity)
+                                },
                                 optionID: optionID,
-                                activity: activity,
-                                optionViewModel: OptionViewModel(optionID: optionID)
+                                optionViewModel: OptionViewModel(optionID: optionID),
+                                isSelected: selectedOption == optionID
                             )
                         }
                         TextField("Suggest an option", text: $newOption) {
+                            // FIXME: add to database
                                 optionArray.append(self.newOption)
                                 self.newOption = ""
                         }.padding(4)
                     }
+                }
+                .onAppear {
+                    setUserSelectedOptionOnLoad(userID: user.id, in: activity)
                 }
             } else {
                 Text("Loading...")
@@ -61,14 +67,13 @@ struct VoteView: View {
         }.navigationTitle("Vote").padding()
     }
     
-    func changeSelected(newID: Option.ID) async {
+    func setUserSelectedOptionOnLoad(userID: User.ID, in activity: Activity) {
+        // FIXME: look for selected activity for user if any
+        // TODO: selectedOption = ...
+    }
+    
+    func changeSelected(newID: Option.ID, userID: User.ID, activity: Activity) async {
         do {
-            guard let userID = userViewModel.user?.id else {
-                return
-            }
-            guard let activity = activityViewModel.activity else {
-                return
-            }
             if selectedOption.isEmpty {
                     try await ActivityViewModel
                         .changeVote(ofUser: userID,
