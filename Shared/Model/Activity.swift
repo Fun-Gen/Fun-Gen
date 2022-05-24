@@ -10,7 +10,7 @@ import Foundation
 /// An ``Activity`` is the overall event that a ``User`` can suggest an ``Option`` for.
 ///
 /// Stores references to all ``Option``s and ``User``s for this ``Activity``
-struct Activity: Codable, Identifiable {
+struct Activity: Codable, Identifiable, Equatable {
     typealias ID = String
     
     /// Unique database ID

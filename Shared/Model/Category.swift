@@ -8,7 +8,7 @@
 import Foundation
 
 /// Broadly categorizes an ``Activity`` for future Fun Gen features (e.g. recently used ``Option``s)
-enum Category: String, Codable, CaseIterable {
+enum Category: String, Codable, CaseIterable, Equatable {
     case outdoor
     case game
     case destination
