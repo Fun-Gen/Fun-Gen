@@ -51,6 +51,8 @@ class Fun_GenUITests: XCTestCase {
         XCTAssert(app.staticTexts["Matcha"].exists)
         app.staticTexts["Matcha"].tap()
         app.buttons["Create"].tap()
+        app.tables.cells["Ice Cream Day"].swipeLeft()
+        app.buttons["Delete"].tap()
     }
     
     func testLaunchPerformance() throws {
