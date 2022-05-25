@@ -9,14 +9,16 @@ import SwiftUI
 
 struct CreateActivityView: View {
     @EnvironmentObject var user: UserViewModel
-    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var selectedCategory: Category = .outdoor
     @State var optionList: [String] = []
     @State var newOption = ""
     @State var friendList: [String] = []
+    @State var friendID: [User.ID] = []
+
     @State var newFriend = ""
     @State private var title: String = ""
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -24,7 +26,6 @@ struct CreateActivityView: View {
                 TextField("Enter in activity title", text: $title)
                 HStack {
                     Text("Select Category:")
-                    // Loop through the category enum in Category.swift using a picker
                     Picker("Category", selection: $selectedCategory) {
                         ForEach(Category.allCases, id: \.self) { category in
                             Text(category.rawValue.capitalized)
@@ -49,21 +50,33 @@ struct CreateActivityView: View {
                 }
                 TextField("Name", text: $newFriend) {
                     self.friendList.append(self.newFriend)
+                    Task {
+                        do {
+                            _ = try await friendID.append(UserViewModel.user(named: self.newFriend)?.id ?? "no id")
+                        } catch {
+                            print(error)
+                        }
+                    }
+                    
                     self.newFriend = ""
                 }
             }.padding()
         }.toolbar {
             Button(action: {
                 Task {
+//                    for username in friendList {
+//                        friendList[username] = UserViewModel.user(named: username)
+//                     }
                     do {
                         _ = try await ActivityViewModel.createActivity(
                             title: title, // Ice Cream Outing
                             category: selectedCategory, // Food
                             author: "\(user.user?.id ?? "")", // author: "eOUU1RDjcphzXd0VTUDhALy6ZB53"
                             optionTitles: optionList, // Mint, Choco, Straw
+                            
                             // FIXME: need to pass [User.ID] instead:
-                            additionalMembers: friendList
-                        ) // Might leave off friends tagging for beta?
+                            additionalMembers: friendID
+                        )
                     } catch {
                         // TODO: handle error
                         print(error)
@@ -74,6 +87,8 @@ struct CreateActivityView: View {
         }
     }
 }
+
+// function? returns a list
 
 struct CreateActivityView_Previews: PreviewProvider {
     static var previews: some View {
