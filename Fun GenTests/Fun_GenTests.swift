@@ -16,12 +16,6 @@ class Fun_GenTests: XCTestCase {
             static let test123 = "eOUU1RDjcphzXd0VTUDhALy6ZB53"
             static let testTest = "MEXIFk2ocFZsJ6eYqab24Hj6ioQ2"
         }
-        enum Activity {
-            static let testActivity = "testActivityID"
-        }
-        enum Option {
-            static let testOption = "testOptionID"
-        }
     }
     
     override func setUpWithError() throws {
@@ -105,29 +99,38 @@ class Fun_GenTests: XCTestCase {
     }
     
     func testActivityViewModelAddOption() async throws {
+        let activityID = try await createTestActivity()
+        addTeardownAsync {
+            try await ActivityViewModel.deleteActivity(activityID)
+        }
         let randomOptionTitle = "Test-\(#function)-Option-\(UUID().uuidString)"
         let newOptionID = try await ActivityViewModel
             .addOption(title: randomOptionTitle, byUser: IDs.User.test123,
-                       toActivity: IDs.Activity.testActivity)
-        addTeardownAsync {
-            try await self.deleteOptions(ids: [newOptionID])
-            try await ActivityViewModel
-                .removeOption(newOptionID, fromActivity: IDs.Activity.testActivity)
-        }
-        let activity = try await ActivityViewModel.activity(id: IDs.Activity.testActivity)
+                       toActivity: activityID)
+        let activity = try await ActivityViewModel.activity(id: activityID)
         XCTAssert(activity.options.keys.contains(newOptionID))
     }
     
     func testActivityViewModelVoteForOption() async throws {
+        let activityID = try await createTestActivity()
+        addTeardownAsync {
+            try await ActivityViewModel.deleteActivity(activityID)
+        }
+        let initialActivity = try await ActivityViewModel.activity(id: activityID)
+        let maybeOptionID = initialActivity.options.keys.first
+        XCTAssertNotNil(maybeOptionID)
+        // already checked not nil, okay to force unwrap
+        let optionID = maybeOptionID! // swiftlint:disable:this force_unwrapping
+        
         enum State {
             case withoutVote, withVote
         }
         var currentState = State.withoutVote, nextState = State.withVote
-        let viewModel = ActivityViewModel(activityID: IDs.Activity.testActivity)
+        let viewModel = ActivityViewModel(activityID: activityID)
         let receiveNonNilActivity = XCTestExpectation(description: "Has no nil activity")
         let subscription = viewModel.$activity.sink { activity in
             guard let activity = activity,
-                  let option = activity.options[IDs.Option.testOption]
+                  let option = activity.options[optionID]
             else { return }
             receiveNonNilActivity.fulfill()
             let containsUser = option.members.contains(IDs.User.testTest)
@@ -152,43 +155,45 @@ class Fun_GenTests: XCTestCase {
             }
         }
         
-        try await userVoteThenUndoVoteForOptionInTestActivity()
+        try await userVoteThenUndoVote(for: optionID, inActivity: activityID)
         
         wait(for: [receiveNonNilActivity], timeout: 5)
         XCTAssertEqual(currentState, nextState)
         subscription.cancel()
     }
     
-    private func userVoteThenUndoVoteForOptionInTestActivity() async throws {
+    private func userVoteThenUndoVote(for optionID: Option.ID, inActivity activityID: Activity.ID) async throws {
         try await ActivityViewModel.changeVote(ofUser: IDs.User.testTest,
-                                               addTo: IDs.Option.testOption,
-                                               inActivity: IDs.Activity.testActivity)
+                                               addTo: optionID,
+                                               inActivity: activityID)
         let optionWithVote = try await ActivityViewModel
-            .activity(id: IDs.Activity.testActivity)
-            .options[IDs.Option.testOption]
+            .activity(id: activityID)
+            .options[optionID]
         XCTAssertNotNil(optionWithVote)
         XCTAssert(optionWithVote?.members.contains(IDs.User.testTest) == true)
         
         try await ActivityViewModel.changeVote(ofUser: IDs.User.testTest,
-                                               removeFrom: IDs.Option.testOption,
-                                               inActivity: IDs.Activity.testActivity)
+                                               removeFrom: optionID,
+                                               inActivity: activityID)
         let optionWithOutVote = try await ActivityViewModel
-            .activity(id: IDs.Activity.testActivity)
-            .options[IDs.Option.testOption]
+            .activity(id: activityID)
+            .options[optionID]
         XCTAssertNotNil(optionWithOutVote)
         XCTAssert(optionWithOutVote?.members.contains(IDs.User.testTest) == false)
     }
     
     func testActivityViewModelRandomSelection() async throws {
+        let activityID = try await createTestActivity()
         addTeardownAsync {
-            try await ActivityViewModel._vetoSelectedOption(forActivity: IDs.Activity.testActivity)
+            try await ActivityViewModel.deleteActivity(activityID)
         }
-        let beforeSelection = try await ActivityViewModel
-            .activity(id: IDs.Activity.testActivity)
-            .selectedOption
+        let activityBefore = try await ActivityViewModel.activity(id: activityID)
+        let beforeSelection = activityBefore.selectedOption
         XCTAssertNil(beforeSelection)
-        let selected = try await ActivityViewModel.selectRandomOption(forActivity: IDs.Activity.testActivity)
-        XCTAssertEqual(selected, IDs.Option.testOption)
+        let selected = try await ActivityViewModel.selectRandomOption(forActivity: activityID)
+        XCTAssertEqual(selected, activityBefore.options.keys.first)
+        let activityAfter = try await ActivityViewModel.activity(id: activityID)
+        XCTAssertEqual(selected, activityAfter.selectedOption)
     }
     
     func testOptionViewModel() async throws {
@@ -203,6 +208,18 @@ class Fun_GenTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    private func createTestActivity(function: String = #function) async throws -> Activity.ID {
+        return try await ActivityViewModel.createActivity(
+            title: "Test-\(function)-title-\(UUID().uuidString)",
+            // Category should have more than one case, random should pick something
+            // swiftlint:disable:next force_unwrapping
+            category: Category.allCases.randomElement()!,
+            author: IDs.User.testTest,
+            optionTitles: ["Test-\(function)-init-\(UUID().uuidString)"],
+            additionalMembers: [IDs.User.test123]
+        )
+    }
     
     private func deleteOptions<S: Sequence>(ids: S) async throws
     where S.Element == Option.ID {
