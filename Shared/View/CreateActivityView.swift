@@ -16,7 +16,7 @@ struct CreateActivityView: View {
     @State var friendList: [String] = []
     @State var friendID: [User.ID] = []
 
-    @State var newFriend = ""
+    @State var newFriend: String = ""
     @State private var title: String = ""
     
     var body: some View {
@@ -47,26 +47,24 @@ struct CreateActivityView: View {
                     .font(.system(.title2))
                 ForEach(friendList, id: \.self) { item in
                     Text(item)
+                    
                 }
                 TextField("Name", text: $newFriend) {
                     self.friendList.append(self.newFriend)
                     Task {
                         do {
-                            _ = try await friendID.append(UserViewModel.user(named: self.newFriend)?.id ?? "no id")
+                            // ERROR: a hard coded "username" works but when a user inputs an username saved through the self.newFriend variable, no id shows up
+                            try await self.friendID.append(UserViewModel.user(named: self.newFriend)?.id ?? "no id")
                         } catch {
                             print(error)
                         }
                     }
-                    
                     self.newFriend = ""
                 }
             }.padding()
         }.toolbar {
             Button(action: {
                 Task {
-//                    for username in friendList {
-//                        friendList[username] = UserViewModel.user(named: username)
-//                     }
                     do {
                         _ = try await ActivityViewModel.createActivity(
                             title: title, // Ice Cream Outing
