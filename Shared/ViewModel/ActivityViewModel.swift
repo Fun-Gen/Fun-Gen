@@ -82,6 +82,9 @@ class ActivityViewModel: ObservableObject {
         try await database.runTransaction { transaction, errorPointer -> Void in
             do {
                 let snapshot = try transaction.getDocument(activityRef)
+                guard snapshot.exists else {
+                    throw FunGenError.activityNotFound
+                }
                 let activity = try snapshot.data(as: Activity.self)
                 // Remove all options
                 for optionID in activity.options.keys {

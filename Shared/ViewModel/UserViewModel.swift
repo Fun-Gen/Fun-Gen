@@ -132,4 +132,17 @@ class UserViewModel: ObservableObject {
             .first
             .map { try $0.data(as: User.self) }
     }
+    
+    /// This is for internal use only, do not call this normally unless
+    /// delete activity failed because the activity is already gone.
+    // swiftlint:disable:next identifier_name
+    static func _removeNonExistentActivity(_ activityID: Activity.ID,
+                                           fromUser userID: User.ID) async throws {
+        try await database
+            .collection(usersCollection)
+            .document(userID)
+            .updateData([
+                "activities": FieldValue.arrayRemove([activityID])
+            ])
+    }
 }

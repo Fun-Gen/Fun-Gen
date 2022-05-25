@@ -24,6 +24,22 @@ struct HomeView: View {
                                 HomeActivityCard(activityViewModel: ActivityViewModel(activityID: activityID))
                             }
                         }
+                        .onDelete { indexSet in
+                            let activityIDs = indexSet.map { user.activities[$0] }
+                            for activityID in activityIDs {
+                                Task {
+                                    do {
+                                        try await ActivityViewModel.deleteActivity(activityID)
+                                    } catch FunGenError.activityNotFound {
+                                        try await UserViewModel
+                                            ._removeNonExistentActivity(activityID, fromUser: user.id)
+                                    } catch {
+                                        // TODO: handle (potentially sequence of) error
+                                        print(error)
+                                    }
+                                }
+                            }
+                        }
                     }
                 } else {
                     Text("Loading...")
