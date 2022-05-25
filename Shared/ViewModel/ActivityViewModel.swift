@@ -77,6 +77,36 @@ class ActivityViewModel: ObservableObject {
         return activityID
     }
     
+    static func deleteActivity(_ activityID: Activity.ID) async throws {
+        let activityRef = database.collection(activitiesCollection).document(activityID)
+        try await database.runTransaction { transaction, errorPointer -> Void in
+            do {
+                let snapshot = try transaction.getDocument(activityRef)
+                let activity = try snapshot.data(as: Activity.self)
+                // Remove all options
+                for optionID in activity.options.keys {
+                    let optionRef = database
+                        .collection(OptionViewModel.optionsCollection)
+                        .document(optionID)
+                    transaction.deleteDocument(optionRef)
+                }
+                // Remove activity from user
+                for member in activity.members {
+                    let userRef = database
+                        .collection(UserViewModel.usersCollection)
+                        .document(member)
+                    transaction.updateData([
+                        "activities": FieldValue.arrayRemove([activityID])
+                    ], forDocument: userRef)
+                }
+                // Remove activity
+                transaction.deleteDocument(activityRef)
+            } catch {
+                errorPointer?.pointee = error as NSError
+            }
+        }
+    }
+    
     // Get activity specified by ID **once**.
     static func activity(id: Activity.ID) async throws -> Activity {
         return try await database
