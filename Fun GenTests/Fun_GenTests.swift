@@ -26,14 +26,6 @@ class Fun_GenTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    // Workaround for FB10009783
-    private var tearDownBlocks: [() async throws -> Void] = []
-    override func tearDown() async throws {
-        for tearDownBlock in tearDownBlocks.reversed() {
-            try await tearDownBlock()
-        }
-    }
-
     func testUserLogin() async throws {
         let expectation = XCTestExpectation(description: "User eventually logs in")
         let viewModel = UserViewModel()
@@ -73,7 +65,7 @@ class Fun_GenTests: XCTestCase {
             optionTitles: [optionTitle],
             additionalMembers: [IDs.User.testTest]
         )
-        addTeardownAsync {
+        addTeardownBlock {
             try await ActivityViewModel.deleteActivity(activityID)
         }
         // Check activity has the correct info
@@ -100,7 +92,7 @@ class Fun_GenTests: XCTestCase {
     
     func testActivityViewModelAddOption() async throws {
         let activityID = try await createTestActivity()
-        addTeardownAsync {
+        addTeardownBlock {
             try await ActivityViewModel.deleteActivity(activityID)
         }
         let randomOptionTitle = "Test-\(#function)-Option-\(UUID().uuidString)"
@@ -113,7 +105,7 @@ class Fun_GenTests: XCTestCase {
     
     func testActivityViewModelVoteForOption() async throws {
         let activityID = try await createTestActivity()
-        addTeardownAsync {
+        addTeardownBlock {
             try await ActivityViewModel.deleteActivity(activityID)
         }
         let initialActivity = try await ActivityViewModel.activity(id: activityID)
@@ -184,7 +176,7 @@ class Fun_GenTests: XCTestCase {
     
     func testActivityViewModelRandomSelection() async throws {
         let activityID = try await createTestActivity()
-        addTeardownAsync {
+        addTeardownBlock {
             try await ActivityViewModel.deleteActivity(activityID)
         }
         let activityBefore = try await ActivityViewModel.activity(id: activityID)
@@ -199,7 +191,7 @@ class Fun_GenTests: XCTestCase {
     func testOptionViewModel() async throws {
         let randomText = "Test-\(#function)-\(UUID().uuidString)"
         let optionID = try await OptionViewModel.createOption(title: randomText)
-        addTeardownAsync {
+        addTeardownBlock {
             try await self.deleteOptions(ids: [optionID])
         }
         let option = try await OptionViewModel.option(id: optionID)
@@ -229,12 +221,5 @@ class Fun_GenTests: XCTestCase {
                 .document(id)
                 .delete()
         }
-    }
-    
-    // Normally you'd use addTeardownBlock, but there's a bug (FB10009783):
-    // Undefined symbol: (extension in XCTest):__C.XCTestCase.
-    // addTeardownBlock(() async throws -> ()) -> ()
-    func addTeardownAsync(_ block: @escaping () async throws -> Void) {
-        tearDownBlocks.append(block)
     }
 }
