@@ -11,7 +11,7 @@ struct VoteView: View {
     @EnvironmentObject var activityViewModel: ActivityViewModel
     @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State private var optionArray = ["OP1", "OP2", "OP3"]
+    // @State private var optionArray = ["OP1", "OP2", "OP3"]
     @State private var selectedOption = ""
     @State private var newOption = ""
     
@@ -39,11 +39,31 @@ struct VoteView: View {
                                 optionViewModel: OptionViewModel(optionID: optionID),
                                 isSelected: selectedOption == optionID
                             )
+                        }.onDelete { indexset in
+                            for index in indexset {
+                                sortedOptionIDs.remove(at: index)
+                                Task {
+                                    do {
+                                        try await ActivityViewModel.removeOption(sortedOptionIDs[index], fromActivity: activity.id)
+                                    } catch {
+                                        // TODO: handle error
+                                        print(error)
+                                    }
+                                }
+                            }
                         }
                         TextField("Suggest an option", text: $newOption) {
                             // FIXME: add to database
-                                optionArray.append(self.newOption)
-                                self.newOption = ""
+                               // optionArray.append(self.newOption)
+                            let nOption = self.newOption
+                            Task {
+                                do {
+                                    try await ActivityViewModel.addOption(title: nOption, byUser: user.id, toActivity: activity.id)
+                                } catch {
+                                    print(error)
+                                }
+                            }
+                            self.newOption = ""
                         }.padding(4)
                     }
                 }
@@ -71,7 +91,7 @@ struct VoteView: View {
         // FIXME: look for selected activity for user if any
         // TODO: selectedOption = ...
     }
-    
+
     func changeSelected(newID: Option.ID, userID: User.ID, activity: Activity) async {
         do {
             if selectedOption.isEmpty {
@@ -105,7 +125,8 @@ struct VoteView: View {
 struct VoteView_Previews: PreviewProvider {
     static var previews: some View {
         VoteView()
-            .environmentObject(ActivityViewModel(activityID: "AhdjSLOlTJqb68aXBAWn"))
+            .environmentObject(ActivityViewModel(activityID: "tsvmX4uowJbd2yioyWIp"))
             .environmentObject(UserViewModel())
     }
 }
+
