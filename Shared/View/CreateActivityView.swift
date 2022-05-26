@@ -15,9 +15,11 @@ struct CreateActivityView: View {
     @State var newOption = ""
     @State var friendList: [String] = []
     @State var friendID: [User.ID] = []
-
     @State var newFriend: String = ""
+    @State var newFriendID: String = ""
     @State private var title: String = ""
+    @State private var showingAlert = false
+    @State private var alertText = ""
     
     var body: some View {
         ScrollView {
@@ -47,14 +49,16 @@ struct CreateActivityView: View {
                     .font(.system(.title2))
                 ForEach(friendList, id: \.self) { item in
                     Text(item)
-                    
                 }
                 TextField("Name", text: $newFriend) {
                     self.friendList.append(self.newFriend)
                     Task {
                         do {
-                            // ERROR: a hard coded "username" works but when a user inputs an username saved through the self.newFriend variable, no id shows up
-                            try await self.friendID.append(UserViewModel.user(named: self.newFriend)?.id ?? "no id")
+                            newFriendID = try await UserViewModel.user(named: self.newFriend)?.id ?? ""
+                            if !newFriendID.isEmpty {
+                                self.friendID.append(newFriendID)
+                            }
+                            // try await self.friendID.append(newFriendID)
                         } catch {
                             print(error)
                         }
@@ -71,13 +75,12 @@ struct CreateActivityView: View {
                             category: selectedCategory, // Food
                             author: "\(user.user?.id ?? "")", // author: "eOUU1RDjcphzXd0VTUDhALy6ZB53"
                             optionTitles: optionList, // Mint, Choco, Straw
-                            
-                            // FIXME: need to pass [User.ID] instead:
                             additionalMembers: friendID
                         )
                     } catch {
-                        // TODO: handle error
-                        print(error)
+                        // TODO: handle error whenever you just print it out
+                        alertText = error.localizedDescription
+                        showingAlert = true
                     }
                 }
                 self.presentationMode.wrappedValue.dismiss()
@@ -85,8 +88,6 @@ struct CreateActivityView: View {
         }
     }
 }
-
-// function? returns a list
 
 struct CreateActivityView_Previews: PreviewProvider {
     static var previews: some View {
