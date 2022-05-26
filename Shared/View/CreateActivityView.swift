@@ -9,14 +9,17 @@ import SwiftUI
 
 struct CreateActivityView: View {
     @EnvironmentObject var user: UserViewModel
-    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var selectedCategory: Category = .outdoor
     @State var optionList: [String] = []
     @State var newOption = ""
     @State var friendList: [String] = []
-    @State var newFriend = ""
+    @State var newFriend: String = ""
     @State private var title: String = ""
+    @State var friendID: [User.ID] = []
+    @State private var showingAlert = false
+    @State private var alertText = ""
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -24,7 +27,6 @@ struct CreateActivityView: View {
                 TextField("Enter in activity title", text: $title)
                 HStack {
                     Text("Select Category:")
-                    // Loop through the category enum in Category.swift using a picker
                     Picker("Category", selection: $selectedCategory) {
                         ForEach(Category.allCases, id: \.self) { category in
                             Text(category.rawValue.capitalized)
@@ -48,8 +50,26 @@ struct CreateActivityView: View {
                     Text(item)
                 }
                 TextField("Name", text: $newFriend) {
-                    self.friendList.append(self.newFriend)
+                    let saveFriend = self.newFriend
+                    Task {
+                        do {
+                            let newFriendID = try await UserViewModel.user(named: saveFriend)?.id ?? nil
+                            if newFriendID != nil {
+                                self.friendID.append(newFriendID ?? "")
+                                self.friendList.append(saveFriend)
+                            }
+                        } catch {
+                            // TODO: handle error
+                            alertText = error.localizedDescription
+                            showingAlert = true
+                        }
+                    }
                     self.newFriend = ""
+                }
+                .alert("Unable to tag friend", isPresented: $showingAlert) {
+                    Button("OK") { }
+                } message: {
+                    Text(alertText)
                 }
             }.padding()
         }.toolbar {
@@ -61,16 +81,21 @@ struct CreateActivityView: View {
                             category: selectedCategory, // Food
                             author: "\(user.user?.id ?? "")", // author: "eOUU1RDjcphzXd0VTUDhALy6ZB53"
                             optionTitles: optionList, // Mint, Choco, Straw
-                            // FIXME: need to pass [User.ID] instead:
-                            additionalMembers: friendList
-                        ) // Might leave off friends tagging for beta?
+                            additionalMembers: friendID
+                        )
                     } catch {
                         // TODO: handle error
-                        print(error)
+                        alertText = error.localizedDescription
+                        showingAlert = true
                     }
                 }
                 self.presentationMode.wrappedValue.dismiss()
             }, label: { Text("Create") })
+            .alert("Unable to create activity", isPresented: $showingAlert) {
+                Button("OK") { }
+            } message: {
+                Text(alertText)
+            }
         }
     }
 }
