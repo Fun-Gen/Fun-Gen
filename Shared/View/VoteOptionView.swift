@@ -22,18 +22,14 @@ struct VoteOptionView: View {
         } label: {
             if let option = optionViewModel.option {
                 Text(option.title)
-                    .lineLimit(1)
-                    .font(.body)
-                    .buttonBorderShape(.roundedRectangle(radius: 10))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(4)
-                    .padding(.trailing, 200)
-                    .background(isSelected ? Color.yellow : Color.white)
-                    .cornerRadius(16)
             } else {
                 Text("Loading...")
             }
         }
+        .padding(4)
+        .background(isSelected ? Color.yellow : Color.white)
+        .cornerRadius(16)
     }
 }
 
