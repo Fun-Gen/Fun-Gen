@@ -60,10 +60,16 @@ struct CreateActivityView: View {
                             }
                         } catch {
                             // TODO: handle error
-                            print(error)
+                            alertText = error.localizedDescription
+                            showingAlert = true
                         }
                     }
                     self.newFriend = ""
+                }
+                .alert("Unable to tag friend", isPresented: $showingAlert) {
+                    Button("OK") { }
+                } message: {
+                    Text(alertText)
                 }
             }.padding()
         }.toolbar {
@@ -79,11 +85,17 @@ struct CreateActivityView: View {
                         )
                     } catch {
                         // TODO: handle error
-                        print(error)
+                        alertText = error.localizedDescription
+                        showingAlert = true
                     }
                 }
                 self.presentationMode.wrappedValue.dismiss()
             }, label: { Text("Create") })
+            .alert("Unable to create activity", isPresented: $showingAlert) {
+                Button("OK") { }
+            } message: {
+                Text(alertText)
+            }
         }
     }
 }
