@@ -15,7 +15,6 @@ struct VoteOptionView: View {
     let isSelected: Bool
     
     var body: some View {
-        // FIXME: seems that not the entire button is clickable
         Button {
             Task {
                 await select(optionID)
@@ -23,13 +22,12 @@ struct VoteOptionView: View {
         } label: {
             if let option = optionViewModel.option {
                 Text(option.title)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             } else {
                 Text("Loading...")
             }
         }
-        .font(.body)
         .padding(4)
-        .padding(.trailing, 200)
         .background(isSelected ? Color.yellow : Color.white)
         .cornerRadius(16)
     }
