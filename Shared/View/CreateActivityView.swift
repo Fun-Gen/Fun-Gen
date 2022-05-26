@@ -14,10 +14,9 @@ struct CreateActivityView: View {
     @State var optionList: [String] = []
     @State var newOption = ""
     @State var friendList: [String] = []
-    @State var friendID: [User.ID] = []
     @State var newFriend: String = ""
-    @State var newFriendID: String = ""
     @State private var title: String = ""
+    @State var friendID: [User.ID] = []
     @State private var showingAlert = false
     @State private var alertText = ""
     
@@ -51,15 +50,16 @@ struct CreateActivityView: View {
                     Text(item)
                 }
                 TextField("Name", text: $newFriend) {
-                    self.friendList.append(self.newFriend)
+                    let saveFriend = self.newFriend
                     Task {
                         do {
-                            newFriendID = try await UserViewModel.user(named: self.newFriend)?.id ?? ""
-                            if !newFriendID.isEmpty {
-                                self.friendID.append(newFriendID)
+                            let newFriendID = try await UserViewModel.user(named: saveFriend)?.id ?? nil
+                            if newFriendID != nil {
+                                self.friendID.append(newFriendID ?? "")
+                                self.friendList.append(saveFriend)
                             }
-                            // try await self.friendID.append(newFriendID)
                         } catch {
+                            // TODO: handle error
                             print(error)
                         }
                     }
@@ -78,9 +78,8 @@ struct CreateActivityView: View {
                             additionalMembers: friendID
                         )
                     } catch {
-                        // TODO: handle error whenever you just print it out
-                        alertText = error.localizedDescription
-                        showingAlert = true
+                        // TODO: handle error
+                        print(error)
                     }
                 }
                 self.presentationMode.wrappedValue.dismiss()
