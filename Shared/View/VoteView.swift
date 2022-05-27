@@ -11,7 +11,6 @@ struct VoteView: View {
     @EnvironmentObject var activityViewModel: ActivityViewModel
     @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    // @State private var optionArray = ["OP1", "OP2", "OP3"]
     @State private var selectedOption = ""
     @State private var newOption = ""
     
@@ -41,7 +40,6 @@ struct VoteView: View {
                             )
                         }.onDelete { indexset in
                             for index in indexset {
-                                sortedOptionIDs.remove(at: index)
                                 Task {
                                     do {
                                         try await ActivityViewModel.removeOption(sortedOptionIDs[index], fromActivity: activity.id)
@@ -53,8 +51,6 @@ struct VoteView: View {
                             }
                         }
                         TextField("Suggest an option", text: $newOption) {
-                            // FIXME: add to database
-                               // optionArray.append(self.newOption)
                             let nOption = self.newOption
                             Task {
                                 do {
@@ -129,4 +125,3 @@ struct VoteView_Previews: PreviewProvider {
             .environmentObject(UserViewModel())
     }
 }
-
