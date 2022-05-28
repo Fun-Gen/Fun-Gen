@@ -68,8 +68,15 @@ struct VoteView: View {
     }
     
     func setUserSelectedOptionOnLoad(userID: User.ID, in activity: Activity) {
-        // FIXME: look for selected activity for user if any
-        // TODO: selectedOption = ...
+        if activity.members.contains(userID) {
+            for optionID in activity.options.keys {
+                if let votedOption = activity.options[optionID] {
+                    if votedOption.members.contains(userID) {
+                        selectedOption = optionID
+                    }
+                }
+            }
+        }
     }
     
     func changeSelected(newID: Option.ID, userID: User.ID, activity: Activity) async {
