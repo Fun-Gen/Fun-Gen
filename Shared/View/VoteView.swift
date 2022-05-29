@@ -33,19 +33,42 @@ struct VoteView: View {
                 ScrollView {
                     VStack(alignment: .leading) {
                         ForEach(sortedOptionIDs, id: \.self) { optionID in
-                            VoteOptionView(
-                                select: { id in
-                                    await changeSelected(newID: id, userID: user.id, activity: activity)
-                                },
-                                optionID: optionID,
-                                optionViewModel: OptionViewModel(optionID: optionID),
-                                isSelected: selectedOption == optionID
-                            )
+                            HStack {
+                                Button {
+                                    Task {
+                                        do {
+                                            try await ActivityViewModel.removeOption(optionID, fromActivity: activity.id)
+                                        } catch {
+                                            // TODO: handle error
+                                            print(error)
+                                        }
+                                    }
+                                    
+                                    print(optionID)
+                                } label: {
+                                    Image(systemName: "x.circle")
+                                }
+                                VoteOptionView(
+                                    select: { id in
+                                        await changeSelected(newID: id, userID: user.id, activity: activity)
+                                    },
+                                    optionID: optionID,
+                                    optionViewModel: OptionViewModel(optionID: optionID),
+                                    isSelected: selectedOption == optionID
+                                )
+                            }
                         }
                         TextField("Suggest an option", text: $newOption) {
-                            // FIXME: add to database
-                                optionArray.append(self.newOption)
-                                self.newOption = ""
+                            let nOption = self.newOption
+                            Task {
+                                do {
+                                    try await ActivityViewModel.addOption(title: nOption, byUser: user.id, toActivity: activity.id)
+                                } catch {
+                                    // TODO: handle error
+                                    print(error)
+                                }
+                            }
+                            self.newOption = ""
                         }.padding(4)
                     }
                 }
