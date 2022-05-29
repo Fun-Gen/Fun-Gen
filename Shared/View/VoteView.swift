@@ -14,6 +14,8 @@ struct VoteView: View {
     @State private var optionArray = ["OP1", "OP2", "OP3"]
     @State private var selectedOption = ""
     @State private var newOption = ""
+    @State private var showingAlert = false
+    @State private var alertText = ""
     
     var sortedOptionIDs: [Option.ID] {
         activityViewModel.activity?.options.keys.sorted() ?? []
@@ -50,10 +52,42 @@ struct VoteView: View {
                 .onAppear {
                     setUserSelectedOptionOnLoad(userID: user.id, in: activity)
                 }
+                Spacer()
+                HStack {
+                    Button(
+                        action: {
+                            Task {
+                                if let activity = activityViewModel.activity {
+                                    do {
+                                        _ = try await ActivityViewModel.selectRandomOption(forActivity: activity.id)
+                                    } catch {
+                                        alertText = error.localizedDescription
+                                        showingAlert = true
+                                    }
+                                }
+                            }
+                            self.presentationMode.wrappedValue.dismiss()
+                        },
+                        label: {
+                            Text("Random")
+                        }
+                    )
+                    .alert("Unable to randomly end", isPresented: $showingAlert) {
+                        Button("OK") { }
+                    } message: {
+                        Text(alertText)
+                    }
+                    Spacer()
+                    Button(action: {
+                            self.presentationMode.wrappedValue.dismiss()
+                        },
+                        label: {
+                            Text("Done")
+                        })
+                }
             } else {
                 Text("Loading...")
             }
-            
             Spacer()
             HStack {
                 Spacer()
