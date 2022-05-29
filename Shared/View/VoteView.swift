@@ -88,7 +88,34 @@ struct VoteView: View {
             } else {
                 Text("Loading...")
             }
-        }.navigationTitle("Vote").padding()
+            Spacer()
+            HStack {
+                Spacer()
+                Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    },
+                    label: {
+                        Text("Done")
+                    })
+            }
+        }
+        .navigationTitle("Vote")
+        .padding()
+        .toolbar {
+            Button(action: {
+                Task {
+                    do {
+                        if let activityID = activityViewModel.activity?.id {
+                            _ = try await ActivityViewModel.deleteActivity(activityID)
+                        }
+                    } catch {
+                        // TODO: handle error
+                        print(error)
+                    }
+                }
+                self.presentationMode.wrappedValue.dismiss()
+            }, label: { Text("Delete") })
+        }
     }
     
     func setUserSelectedOptionOnLoad(userID: User.ID, in activity: Activity) {
