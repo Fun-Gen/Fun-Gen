@@ -124,41 +124,31 @@ class ActivityViewModel: ObservableObject {
         precondition(currentOptionID != nil || newOptionID != nil,
                      "Must at least specify either an ID to remove or add vote to")
         var optionUpdates: [FieldPath: Any] = [:]
+        var activityUpdates: [FieldPath: Any] = [:]
         if let currentOptionID = currentOptionID {
             optionUpdates[FieldPath(["options", currentOptionID, "members"])]
             = FieldValue.arrayRemove([userID])
+            
+            optionUpdates[FieldPath(["options", currentOptionID, "voteCount"])]
+            = FieldValue.increment(Int64(-1))
+            
+            activityUpdates[FieldPath(["voteCount"])]
+            = FieldValue.increment(Int64(-1))
         }
         if let newOptionID = newOptionID {
             optionUpdates[FieldPath(["options", newOptionID, "members"])]
             = FieldValue.arrayUnion([userID])
-        }
-        try await database
-            .collection(activitiesCollection)
-            .document(activityID)
-            .updateData(optionUpdates)
-        
-        optionUpdates = [:]
-        if let currentOptionID = currentOptionID {
-            optionUpdates[FieldPath(["options", currentOptionID, "voteCount"])]
-            = FieldValue.increment(Int64(-1))
-        }
-        if let newOptionID = newOptionID {
+            
             optionUpdates[FieldPath(["options", newOptionID, "voteCount"])]
             = FieldValue.increment(Int64(1))
+            
+            activityUpdates[FieldPath(["voteCount"])]
+            = FieldValue.increment(Int64(1))
         }
         try await database
             .collection(activitiesCollection)
             .document(activityID)
             .updateData(optionUpdates)
-        var activityUpdates: [FieldPath: Any] = [:]
-        if currentOptionID != nil {
-            activityUpdates[FieldPath(["voteCount"])]
-            = FieldValue.increment(Int64(-1))
-        }
-        if newOptionID != nil {
-            activityUpdates[FieldPath(["voteCount"])]
-            = FieldValue.increment(Int64(1))
-        }
         try await database
             .collection(activitiesCollection)
             .document(activityID)
