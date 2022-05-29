@@ -51,6 +51,7 @@ class ActivityViewModel: ObservableObject {
         let activityRef = database.collection(activitiesCollection).document()
         let activityID = activityRef.documentID
         let options = try await OptionViewModel.createOptions(titles: optionTitles)
+        let voteCount = 0
         let batch = database.batch()
         try batch.setData(from: Activity(
             id: activityID,
@@ -59,8 +60,9 @@ class ActivityViewModel: ObservableObject {
             author: author,
             members: allMembers,
             options: Dictionary(uniqueKeysWithValues: options.map {
-                ($0, PollOption(optionID: $0, author: author))
-            })
+                ($0, PollOption(optionID: $0, author: author, voteCount: voteCount))
+            }),
+            voteCount: voteCount
         ), forDocument: activityRef)
         
         for member in allMembers {
@@ -134,6 +136,33 @@ class ActivityViewModel: ObservableObject {
             .collection(activitiesCollection)
             .document(activityID)
             .updateData(optionUpdates)
+        
+        optionUpdates = [:]
+        if let currentOptionID = currentOptionID {
+            optionUpdates[FieldPath(["options", currentOptionID, "voteCount"])]
+            = FieldValue.increment(Int64(-1))
+        }
+        if let newOptionID = newOptionID {
+            optionUpdates[FieldPath(["options", newOptionID, "voteCount"])]
+            = FieldValue.increment(Int64(1))
+        }
+        try await database
+            .collection(activitiesCollection)
+            .document(activityID)
+            .updateData(optionUpdates)
+        var activityUpdates: [FieldPath: Any] = [:]
+        if currentOptionID != nil {
+            activityUpdates[FieldPath(["voteCount"])]
+            = FieldValue.increment(Int64(-1))
+        }
+        if newOptionID != nil {
+            activityUpdates[FieldPath(["voteCount"])]
+            = FieldValue.increment(Int64(1))
+        }
+        try await database
+            .collection(activitiesCollection)
+            .document(activityID)
+            .updateData(activityUpdates)
     }
     
     /// Add an ``Option`` specified by its ID to activity.options
@@ -143,8 +172,9 @@ class ActivityViewModel: ObservableObject {
                           toActivity activityID: Activity.ID
     ) async throws -> Option.ID {
         let optionID = try await OptionViewModel.createOption(title: title)
+        let voteCount = 0
         let newPollOption = try Firestore.Encoder()
-            .encode(PollOption(optionID: optionID, author: userID))
+            .encode(PollOption(optionID: optionID, author: userID, voteCount: voteCount))
         try await database
             .collection(activitiesCollection)
             .document(activityID)
