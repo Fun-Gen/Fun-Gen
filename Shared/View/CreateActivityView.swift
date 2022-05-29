@@ -59,7 +59,6 @@ struct CreateActivityView: View {
                                 self.friendList.append(saveFriend)
                             }
                         } catch {
-                            // TODO: handle error
                             alertText = error.localizedDescription
                             showingAlert = true
                         }
@@ -84,7 +83,6 @@ struct CreateActivityView: View {
                             additionalMembers: friendID
                         )
                     } catch {
-                        // TODO: handle error
                         alertText = error.localizedDescription
                         showingAlert = true
                     }

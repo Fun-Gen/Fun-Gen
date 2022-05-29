@@ -163,7 +163,7 @@ class ActivityViewModel: ObservableObject {
                 FieldPath(["options", optionID]): FieldValue.delete()
             ])
     }
-    
+        
     // TODO: add implementation for Add UserID to Activity.members for stretch goal
     
     /// Randomly pick the Activity.selectedOption from all the option
