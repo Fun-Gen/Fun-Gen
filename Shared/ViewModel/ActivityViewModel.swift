@@ -51,6 +51,7 @@ class ActivityViewModel: ObservableObject {
         let activityRef = database.collection(activitiesCollection).document()
         let activityID = activityRef.documentID
         let options = try await OptionViewModel.createOptions(titles: optionTitles)
+        let voteCount = 0
         let batch = database.batch()
         try batch.setData(from: Activity(
             id: activityID,
@@ -59,8 +60,9 @@ class ActivityViewModel: ObservableObject {
             author: author,
             members: allMembers,
             options: Dictionary(uniqueKeysWithValues: options.map {
-                ($0, PollOption(optionID: $0, author: author))
-            })
+                ($0, PollOption(optionID: $0, author: author, voteCount: voteCount))
+            }),
+            voteCount: voteCount
         ), forDocument: activityRef)
         
         for member in allMembers {
@@ -122,18 +124,80 @@ class ActivityViewModel: ObservableObject {
         precondition(currentOptionID != nil || newOptionID != nil,
                      "Must at least specify either an ID to remove or add vote to")
         var optionUpdates: [FieldPath: Any] = [:]
+        var activityUpdates: [FieldPath: Any] = [:]
         if let currentOptionID = currentOptionID {
             optionUpdates[FieldPath(["options", currentOptionID, "members"])]
             = FieldValue.arrayRemove([userID])
+            
+            optionUpdates[FieldPath(["options", currentOptionID, "voteCount"])]
+            = FieldValue.increment(Int64(-1))
+            
+            activityUpdates[FieldPath(["voteCount"])]
+            = FieldValue.increment(Int64(-1))
         }
+        try await database
+            .collection(activitiesCollection)
+            .document(activityID)
+            .updateData(activityUpdates)
         if let newOptionID = newOptionID {
             optionUpdates[FieldPath(["options", newOptionID, "members"])]
             = FieldValue.arrayUnion([userID])
+            
+            optionUpdates[FieldPath(["options", newOptionID, "voteCount"])]
+            = FieldValue.increment(Int64(1))
+            
+            activityUpdates[FieldPath(["voteCount"])]
+            = FieldValue.increment(Int64(1))
         }
         try await database
             .collection(activitiesCollection)
             .document(activityID)
             .updateData(optionUpdates)
+        try await database
+            .collection(activitiesCollection)
+            .document(activityID)
+            .updateData(activityUpdates)
+    }
+    
+    /// Triggers the end of an Activity vote if all members in an Activity have voted
+    /// If all members in an activity have not voted, then return an empty string
+    /// Ties are broken by randomly selecting an Option from a list of Options that are tied with the highest vote count
+    static func endVote(forActivity activityID: Activity.ID) async throws -> Option.ID {
+        var max: Int = 0
+        var tie: [PollOption] = []
+        var winner: Option.ID = ""
+
+        // get snapshot of current activity
+        let snapshot = try await activity(id: activityID)
+        let activityVoteCount = snapshot.voteCount
+        let activityMembers = snapshot.members.count
+
+        // if voting is not complete, return winner = ""
+        if activityVoteCount < activityMembers {
+            return winner
+        }
+
+        // find option with highest vote
+        // track all options that are tied
+        for option in snapshot.options.values {
+            if option.members.count > max {
+                max = option.members.count
+                winner = option.optionID
+                tie.removeAll()
+                tie.append(option)
+            } else if option.members.count == max {
+                winner = ""
+                tie.append(option)
+            }
+        }
+
+        // tie breaker to select random option among ties
+        if tie.count > 1 {
+            guard let tieBreaker = tie.randomElement()?.optionID else { return "" }
+            return tieBreaker
+        }
+
+        return winner
     }
     
     /// Add an ``Option`` specified by its ID to activity.options
@@ -143,8 +207,9 @@ class ActivityViewModel: ObservableObject {
                           toActivity activityID: Activity.ID
     ) async throws -> Option.ID {
         let optionID = try await OptionViewModel.createOption(title: title)
+        let voteCount = 0
         let newPollOption = try Firestore.Encoder()
-            .encode(PollOption(optionID: optionID, author: userID))
+            .encode(PollOption(optionID: optionID, author: userID, voteCount: voteCount))
         try await database
             .collection(activitiesCollection)
             .document(activityID)

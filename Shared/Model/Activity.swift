@@ -34,16 +34,11 @@ struct Activity: Codable, Identifiable, Equatable {
     var selectedOption: Option.ID?
     
     /// Sum of unique members who have voted for this ``Activity``
-    var voteCount: Int {
-        options.reduce(into: Set<User.ID>()) {
-            $0.formUnion($1.value.members)
-        }
-        .count
-    }
+    var voteCount: Int
 }
 
 let testActivities = [
-    Activity(id: "1", title: "Movie", category: Category.movie, author: "1"),
-    Activity(id: "2", title: "Outdoors", category: Category.outdoor, author: "1"),
-    Activity(id: "3", title: "Food", category: Category.food, author: "1")
+    Activity(id: "1", title: "Movie", category: Category.movie, author: "1", voteCount: 0),
+    Activity(id: "2", title: "Outdoors", category: Category.outdoor, author: "1", voteCount: 0),
+    Activity(id: "3", title: "Food", category: Category.food, author: "1", voteCount: 0)
 ]
