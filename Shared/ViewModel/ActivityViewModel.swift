@@ -159,26 +159,27 @@ class ActivityViewModel: ObservableObject {
             .updateData(activityUpdates)
     }
     
-    /// Triggers the end of an Activity vote if all members in an Activity have voted
-    /// If all members in an activity have not voted, then return an empty string
-    /// Ties are broken by randomly selecting an Option from a list of Options that are tied with the highest vote count
+    /// Triggers the end of an ``Activity`` vote if all members in an ``Activity`` have voted
+    /// If all members in an ``Activity`` have not voted, then return an empty string
+    /// Ties are broken by randomly selecting from a list of ``Option``s that are tied with the highest vote count
+    /// Winning ``Option`` is stored in ``selectedOption`` in the ``Activity``
     static func endVote(forActivity activityID: Activity.ID) async throws -> Option.ID {
         var max: Int = 0
         var tie: [PollOption] = []
         var winner: Option.ID = ""
-
-        // get snapshot of current activity
+        
+        // Get the snapshot of current activity
         let snapshot = try await activity(id: activityID)
         let activityVoteCount = snapshot.voteCount
         let activityMembers = snapshot.members.count
-
-        // if voting is not complete, return winner = ""
+        
+        // Handle an incomplete voting round
         if activityVoteCount < activityMembers {
             return winner
         }
-
-        // find option with highest vote
-        // track all options that are tied
+        
+        // Find Option with highest vote
+        // Track all Options that are tied
         for option in snapshot.options.values {
             if option.members.count > max {
                 max = option.members.count
@@ -190,13 +191,19 @@ class ActivityViewModel: ObservableObject {
                 tie.append(option)
             }
         }
-
-        // tie breaker to select random option among ties
+        
+        // Tie breaker to select random Option among ties
         if tie.count > 1 {
-            guard let tieBreaker = tie.randomElement()?.optionID else { return "" }
-            return tieBreaker
+            winner = tie.randomElement()?.optionID ?? ""
         }
-
+        
+        // Update selectedOption field in database with the winner
+        try await database
+            .collection(activitiesCollection)
+            .document(activityID)
+            .updateData([
+                FieldPath(["selectedOption"]): winner
+            ])
         return winner
     }
     
