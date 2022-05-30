@@ -167,7 +167,7 @@ class ActivityViewModel: ObservableObject {
         var max: Int = 0
         var tie: [PollOption] = []
         var winner: Option.ID = ""
-        
+
         // Get the snapshot of current activity
         let snapshot = try await activity(id: activityID)
         let activityVoteCount = snapshot.voteCount
@@ -191,7 +191,7 @@ class ActivityViewModel: ObservableObject {
                 tie.append(option)
             }
         }
-        
+
         // Tie breaker to select random Option among ties
         if tie.count > 1 {
             winner = tie.randomElement()?.optionID ?? ""
