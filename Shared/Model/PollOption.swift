@@ -19,7 +19,5 @@ struct PollOption: Codable, Equatable {
     var members: [User.ID] = []
     
     /// Sum of votes for this ``Option`` referenced by ``optionID``.
-    var voteCount: Int {
-        members.count
-    }
+    var voteCount: Int
 }
