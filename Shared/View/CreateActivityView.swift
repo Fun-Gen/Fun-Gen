@@ -39,9 +39,7 @@ struct CreateActivityView: View {
                     ForEach(optionList, id: \.self) { item in
                         HStack {
                             Button {
-                                if let index = optionList.firstIndex(of: item) {
-                                    optionList.remove(at: index)
-                                }
+                                optionList.removeAll(where: { $0 == item })
                             } label: {
                                 Image(systemName: "x.circle")
                             }
