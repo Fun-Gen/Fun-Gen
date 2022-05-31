@@ -26,6 +26,8 @@
 		843ADA91280E3E9D00ABE3DB /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843ADA8F280E3E9D00ABE3DB /* AuthenticationView.swift */; };
 		946F3F09281CD9680098E348 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946F3F08281CD9680098E348 /* HomeView.swift */; };
 		946F3F0A281CD9680098E348 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946F3F08281CD9680098E348 /* HomeView.swift */; };
+		94B1D26628441DB70000DD08 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B1D26528441DB70000DD08 /* ResultView.swift */; };
+		94B1D26728441DB70000DD08 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B1D26528441DB70000DD08 /* ResultView.swift */; };
 		D22251902821C764007B0A00 /* Fun_GenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D222518F2821C764007B0A00 /* Fun_GenTests.swift */; };
 		D222519D2821C770007B0A00 /* Fun_GenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D222519C2821C770007B0A00 /* Fun_GenUITests.swift */; };
 		D222519F2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D222519E2821C770007B0A00 /* Fun_GenUITestsLaunchTests.swift */; };
@@ -83,6 +85,7 @@
 		843ADA92280E46D100ABE3DB /* Fun-Gen--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Fun-Gen--iOS--Info.plist"; sourceTree = "<group>"; };
 		843ADA93280E58C400ABE3DB /* Fun-Gen--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Fun-Gen--macOS--Info.plist"; sourceTree = "<group>"; };
 		946F3F08281CD9680098E348 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		94B1D26528441DB70000DD08 /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 		D222518D2821C764007B0A00 /* Fun GenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fun GenTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D222518F2821C764007B0A00 /* Fun_GenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fun_GenTests.swift; sourceTree = "<group>"; };
 		D222519A2821C770007B0A00 /* Fun GenUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fun GenUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -233,6 +236,7 @@
 				3E68DBE02820B46D0083F221 /* VoteView.swift */,
 				D2E6FD6E282A2EC700CFD870 /* VoteOptionView.swift */,
 				3E68DBE32820B4770083F221 /* CreateActivityView.swift */,
+				94B1D26528441DB70000DD08 /* ResultView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -489,6 +493,7 @@
 				E376A3072814E5ED0071825F /* Option.swift in Sources */,
 				DB3CA9622808BD4E004094F4 /* ContentView.swift in Sources */,
 				D22251B12821D2DD007B0A00 /* FunGenError.swift in Sources */,
+				94B1D26628441DB70000DD08 /* ResultView.swift in Sources */,
 				D2E6FD6C282A2C6800CFD870 /* HomeActivityCard.swift in Sources */,
 				3E68DBE12820B46D0083F221 /* VoteView.swift in Sources */,
 				843ADA84280E32B100ABE3DB /* UserViewModel.swift in Sources */,
@@ -514,6 +519,7 @@
 				E376A3082814E5ED0071825F /* Option.swift in Sources */,
 				DB3CA9632808BD4E004094F4 /* ContentView.swift in Sources */,
 				D22251B22821D2DD007B0A00 /* FunGenError.swift in Sources */,
+				94B1D26728441DB70000DD08 /* ResultView.swift in Sources */,
 				D2E6FD6D282A2C6800CFD870 /* HomeActivityCard.swift in Sources */,
 				3E68DBE22820B46D0083F221 /* VoteView.swift in Sources */,
 				843ADA85280E32B100ABE3DB /* UserViewModel.swift in Sources */,

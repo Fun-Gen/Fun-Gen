@@ -16,6 +16,7 @@ struct VoteView: View {
     @State private var newOption = ""
     @State private var showingAlert = false
     @State private var alertText = ""
+    @State private var isDone = false
     
     var sortedOptionIDs: [Option.ID] {
         activityViewModel.activity?.options.keys.sorted() ?? []
@@ -25,119 +26,140 @@ struct VoteView: View {
         VStack(alignment: .leading) {
             if let activity = activityViewModel.activity,
                let user = userViewModel.user {
-                Text("Activity").font(.title).padding(.bottom)
-                Text("Title: \(activity.title)").foregroundColor(.secondary)
-                Text("Category: \(activity.category.rawValue.capitalized)").foregroundColor(.secondary)
-                Text("Options").font(.title).padding(.top)
-                // Option selection
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        ForEach(sortedOptionIDs, id: \.self) { optionID in
-                            HStack {
-                                Button {
-                                    Task {
-                                        do {
-                                            try await ActivityViewModel.removeOption(optionID, fromActivity: activity.id)
-                                        } catch {
-                                            // TODO: handle error
-                                            print(error)
-                                        }
-                                    }
-                                    
-                                    print(optionID)
-                                } label: {
-                                    Image(systemName: "x.circle")
-                                }
-                                VoteOptionView(
-                                    select: { id in
-                                        await changeSelected(newID: id, userID: user.id, activity: activity)
-                                    },
-                                    optionID: optionID,
-                                    optionViewModel: OptionViewModel(optionID: optionID),
-                                    isSelected: selectedOption == optionID
-                                )
-                            }
-                        }
-                        TextField("Suggest an option", text: $newOption) {
-                            let nOption = self.newOption
-                            Task {
-                                do {
-                                    try await ActivityViewModel.addOption(title: nOption, byUser: user.id, toActivity: activity.id)
-                                } catch {
-                                    // TODO: handle error
-                                    print(error)
-                                }
-                            }
-                            self.newOption = ""
-                        }.padding(4)
-                    }
-                }
-                .onAppear {
-                    setUserSelectedOptionOnLoad(userID: user.id, in: activity)
-                }
-                Spacer()
-                HStack {
-                    Button(
-                        action: {
-                            Task {
-                                if let activity = activityViewModel.activity {
-                                    do {
-                                        _ = try await ActivityViewModel.selectRandomOption(forActivity: activity.id)
-                                    } catch {
-                                        alertText = error.localizedDescription
-                                        showingAlert = true
-                                    }
-                                }
-                            }
-                            self.presentationMode.wrappedValue.dismiss()
-                        },
-                        label: {
-                            Text("Random")
-                        }
+                if let winner = activity.selectedOption {
+                    ResultView(
+                        activityViewModel: activityViewModel,
+                        optionViewModel: OptionViewModel(optionID: winner)
                     )
-                    .alert("Unable to randomly end", isPresented: $showingAlert) {
-                        Button("OK") { }
-                    } message: {
-                        Text(alertText)
+                } else {
+                    Text("Activity").font(.title).padding(.bottom)
+                    Text("Title: \(activity.title)").foregroundColor(.secondary)
+                    Text("Category: \(activity.category.rawValue.capitalized)").foregroundColor(.secondary)
+                    Text("Options").font(.title).padding(.top)
+                    // Option selection
+                    ScrollView {
+                        VStack(alignment: .leading) {
+                            ForEach(sortedOptionIDs, id: \.self) { optionID in
+                                HStack {
+                                    Button {
+                                        Task {
+                                            do {
+                                                try await ActivityViewModel.removeOption(optionID, fromActivity: activity.id)
+                                            } catch {
+                                                // TODO: handle error
+                                                print(error)
+                                            }
+                                        }
+                                        
+                                        print(optionID)
+                                    } label: {
+                                        Image(systemName: "x.circle")
+                                    }
+                                    VoteOptionView(
+                                        select: { id in
+                                            await changeSelected(newID: id, userID: user.id, activity: activity)
+                                        },
+                                        optionID: optionID,
+                                        optionViewModel: OptionViewModel(optionID: optionID),
+                                        isSelected: selectedOption == optionID
+                                    )
+                                }
+                            }
+                            TextField("Suggest an option", text: $newOption) {
+                                let nOption = self.newOption
+                                Task {
+                                    do {
+                                        try await ActivityViewModel.addOption(title: nOption, byUser: user.id, toActivity: activity.id)
+                                    } catch {
+                                        // TODO: handle error
+                                        print(error)
+                                    }
+                                }
+                                self.newOption = ""
+                            }.padding(4)
+                        }
+                    }
+                    .onAppear {
+                        setUserSelectedOptionOnLoad(userID: user.id, in: activity)
                     }
                     Spacer()
-                    Button(action: {
-                            self.presentationMode.wrappedValue.dismiss()
-                        },
-                        label: {
-                            Text("Done")
-                        })
+                    HStack {
+                        Button(
+                            action: {
+                                Task {
+                                    if let activity = activityViewModel.activity {
+                                        do {
+                                            _ = try await ActivityViewModel.selectRandomOption(forActivity: activity.id)
+                                        } catch {
+                                            alertText = error.localizedDescription
+                                            showingAlert = true
+                                        }
+                                    }
+                                    isDone = true
+                                }
+                            },
+                            label: {
+                                Text("Random")
+                            }
+                        )
+                        .alert("Unable to randomly end", isPresented: $showingAlert) {
+                            Button("OK") { }
+                        } message: {
+                            Text(alertText)
+                        }
+                        Spacer()
+                        // TODO: REPLACE THIS METHOD WITH DONE METHOD
+                        Button(
+                            action: {
+                                Task {
+                                    if let activity = activityViewModel.activity {
+                                        do {
+                                            _ = try await ActivityViewModel.selectRandomOption(forActivity: activity.id)
+                                            isDone = true
+                                        } catch {
+                                            alertText = error.localizedDescription
+                                            showingAlert = true
+                                        }
+                                    }
+                                }
+                            }, label: {
+                                Text("Done")
+                            }
+                        )
+                        .alert("Unable to end", isPresented: $showingAlert) {
+                            Button("OK") { }
+                        } message: {
+                            Text(alertText)
+                        }
+                    }
                 }
             } else {
                 Text("Loading...")
             }
-            Spacer()
-            HStack {
-                Spacer()
-                Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    },
-                    label: {
-                        Text("Done")
-                    })
-            }
         }
-        .navigationTitle("Vote")
+        .navigationTitle(isDone ? "Results" : "Vote")
         .padding()
         .toolbar {
-            Button(action: {
-                Task {
-                    do {
-                        if let activityID = activityViewModel.activity?.id {
-                            _ = try await ActivityViewModel.deleteActivity(activityID)
+            Button(
+                action: {
+                    Task {
+                        do {
+                            if let activityID = activityViewModel.activity?.id {
+                                _ = try await ActivityViewModel.deleteActivity(activityID)
+                                self.presentationMode.wrappedValue.dismiss()
+                            }
+                        } catch {
+                            alertText = error.localizedDescription
+                            showingAlert = true
                         }
-                    } catch {
-                        // TODO: handle error
-                        print(error)
                     }
-                }
-                self.presentationMode.wrappedValue.dismiss()
-            }, label: { Text("Delete") })
+                }, label: { Text("Delete") }
+            )
+            .alert("Unable to delete", isPresented: $showingAlert) {
+                Button("OK") { }
+            } message: {
+                Text(alertText)
+            }
         }
     }
     
