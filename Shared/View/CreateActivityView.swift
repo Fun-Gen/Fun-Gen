@@ -37,16 +37,7 @@ struct CreateActivityView: View {
                     Text("Options")
                         .font(.title)
                     ForEach(optionList, id: \.self) { item in
-                        HStack {
-                            Button {
-                                if let index = optionList.firstIndex(of: item) {
-                                    optionList.remove(at: index)
-                                }
-                            } label: {
-                                Image(systemName: "x.circle")
-                            }
-                            Text(item)
-                        }
+                        Text(item)
                     }
                     TextField("Suggest an option", text: $newOption) {
                         self.optionList.append(self.newOption)
@@ -68,6 +59,7 @@ struct CreateActivityView: View {
                                 self.friendList.append(saveFriend)
                             }
                         } catch {
+                            // TODO: handle error
                             alertText = error.localizedDescription
                             showingAlert = true
                         }
@@ -92,6 +84,7 @@ struct CreateActivityView: View {
                             additionalMembers: friendID
                         )
                     } catch {
+                        // TODO: handle error
                         alertText = error.localizedDescription
                         showingAlert = true
                     }
