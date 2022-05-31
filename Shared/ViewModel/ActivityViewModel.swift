@@ -159,10 +159,10 @@ class ActivityViewModel: ObservableObject {
             .updateData(activityUpdates)
     }
     
-    /// Triggers the end of an ``Activity`` vote if all members in an ``Activity`` have voted
-    /// If all members in an ``Activity`` have not voted, then return an empty string
-    /// Ties are broken by randomly selecting from a list of ``Option``s that are tied with the highest vote count
-    /// Winning ``Option`` is stored in ``selectedOption`` in the ``Activity``
+    /// A function that determines the winning ``Option`` in an ``Activity``.
+    /// If all members in an ``Activity`` have not voted, an error will be thrown.
+    /// Ties are broken by randomly selecting from a list of ``Option``s that are tied with the highest vote count.
+    /// Winning ``Option`` is stored in ``selectedOption`` in the ``Activity`` and returned.
     static func endVote(forActivity activityID: Activity.ID) async throws -> Option.ID {
         var max: Int = 0
         var tie: [PollOption] = []
@@ -175,7 +175,7 @@ class ActivityViewModel: ObservableObject {
         
         // Handle an incomplete voting round
         if activityVoteCount < activityMembers {
-            return winner
+            throw FunGenError.activityDoesNotHaveAllVotesIn
         }
         
         // Find Option with highest vote
@@ -194,7 +194,10 @@ class ActivityViewModel: ObservableObject {
 
         // Tie breaker to select random Option among ties
         if tie.count > 1 {
-            winner = tie.randomElement()?.optionID ?? ""
+            guard let tie = tie.randomElement()?.optionID else {
+                throw FunGenError.activityNoLongerContainsThisOption
+            }
+            winner = tie
         }
         
         // Update selectedOption field in database with the winner
