@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CreateActivityView: View {
     @EnvironmentObject var user: UserViewModel
+    @EnvironmentObject var activityViewModel: ActivityViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var selectedCategory: Category = .outdoor
     @State var optionList: [String] = []
@@ -37,7 +38,14 @@ struct CreateActivityView: View {
                     Text("Options")
                         .font(.title)
                     ForEach(optionList, id: \.self) { item in
-                        Text(item)
+                        HStack {
+                            Button {
+                                optionList.removeAll(where: { $0 == item })
+                            } label: {
+                                Image(systemName: "x.circle")
+                            }
+                            Text(item)
+                        }
                     }
                     TextField("Suggest an option", text: $newOption) {
                         self.optionList.append(self.newOption)
@@ -102,6 +110,6 @@ struct CreateActivityView: View {
 
 struct CreateActivityView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateActivityView()
+        CreateActivityView().environmentObject(ActivityViewModel(activityID: "AhdjSLOlTJqb68aXBAWn"))
     }
 }

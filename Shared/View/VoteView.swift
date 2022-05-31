@@ -50,8 +50,6 @@ struct VoteView: View {
                                                 print(error)
                                             }
                                         }
-                                        
-                                        print(optionID)
                                     } label: {
                                         Image(systemName: "x.circle")
                                     }
