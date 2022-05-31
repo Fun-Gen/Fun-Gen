@@ -41,19 +41,25 @@ struct VoteView: View {
                         VStack(alignment: .leading) {
                             ForEach(sortedOptionIDs, id: \.self) { optionID in
                                 HStack {
-                                    Button {
-                                        Task {
-                                            do {
-                                                try await ActivityViewModel.removeOption(optionID, fromActivity: activity.id)
-                                            } catch {
-                                                // TODO: handle error
-                                                print(error)
+                                    Button(
+                                        action: {
+                                            Task {
+                                                do {
+                                                    _ = try await ActivityViewModel.removeOption(
+                                                        optionID, fromActivity: activity.id)
+                                                } catch {
+                                                    alertText = error.localizedDescription
+                                                    showingAlert = true
+                                                }
                                             }
+                                        }, label: {
+                                            Image(systemName: "x.circle")
                                         }
-                                        
-                                        print(optionID)
-                                    } label: {
-                                        Image(systemName: "x.circle")
+                                    )
+                                    .alert("Unable to remove option", isPresented: $showingAlert) {
+                                        Button("OK") { }
+                                    } message: {
+                                        Text(alertText)
                                     }
                                     VoteOptionView(
                                         select: { id in
@@ -69,14 +75,21 @@ struct VoteView: View {
                                 let nOption = self.newOption
                                 Task {
                                     do {
-                                        try await ActivityViewModel.addOption(title: nOption, byUser: user.id, toActivity: activity.id)
+                                        _ = try await ActivityViewModel.addOption(
+                                            title: nOption, byUser: user.id, toActivity: activity.id)
                                     } catch {
-                                        // TODO: handle error
-                                        print(error)
+                                        alertText = error.localizedDescription
+                                        showingAlert = true
                                     }
                                 }
                                 self.newOption = ""
-                            }.padding(4)
+                            }
+                            .alert("Unable to add new option", isPresented: $showingAlert) {
+                                Button("OK") { }
+                            } message: {
+                                Text(alertText)
+                            }
+                            .padding(4)
                         }
                     }
                     .onAppear {
@@ -90,12 +103,12 @@ struct VoteView: View {
                                     if let activity = activityViewModel.activity {
                                         do {
                                             _ = try await ActivityViewModel.selectRandomOption(forActivity: activity.id)
+                                            isDone = true
                                         } catch {
                                             alertText = error.localizedDescription
                                             showingAlert = true
                                         }
                                     }
-                                    isDone = true
                                 }
                             },
                             label: {
@@ -108,13 +121,12 @@ struct VoteView: View {
                             Text(alertText)
                         }
                         Spacer()
-                        // TODO: REPLACE THIS METHOD WITH DONE METHOD
                         Button(
                             action: {
                                 Task {
                                     if let activity = activityViewModel.activity {
                                         do {
-                                            _ = try await ActivityViewModel.selectRandomOption(forActivity: activity.id)
+                                            _ = try await ActivityViewModel.endVote(forActivity: activity.id)
                                             isDone = true
                                         } catch {
                                             alertText = error.localizedDescription
