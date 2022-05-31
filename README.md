@@ -106,15 +106,15 @@ For UITests, on Xcode, users can click the record button to record a series of a
 ## Use Cases & Implementation Status
 
 - [x] Elena's Use Case: Sign up
-- [ ] Angkana’s Use Case: Add/remove Options for an Activity
+- [X] Angkana’s Use Case: Add/remove Options for an Activity
     - [x] Add options during activity creation
-    - [ ] Remove options during activity creation
-    - [ ] Add options during voting
-    - [ ] Remove options during voting
-- [ ] Joon’s Use Case: Randomly pick an Option for an Activity
-- [ ] Apollo’s Use Case: Top voted Option becomes selected Option for an Activity
-- [ ] Finnigan’s Use Case: Tie breaking for top voted Options through random selection
-- [ ] Julian’s Use Case: Anonymous voting
+    - [X] Remove options during activity creation
+    - [X] Add options during voting
+    - [X] Remove options during voting
+- [X] Joon’s Use Case: Randomly pick an Option for an Activity
+- [X] Apollo’s Use Case: Top voted Option becomes selected Option for an Activity
+- [X] Finnigan’s Use Case: Tie breaking for top voted Options through random selection
+- [X] Julian’s Use Case: Anonymous voting
 
 ## Academic Integrity
 
