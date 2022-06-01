@@ -98,6 +98,7 @@ struct CreateActivityView: View {
                 }
                 self.presentationMode.wrappedValue.dismiss()
             }, label: { Text("Create") })
+            .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             .alert("Unable to create activity", isPresented: $showingAlert) {
                 Button("OK") { }
             } message: {
